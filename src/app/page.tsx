@@ -1,42 +1,75 @@
-import { connection } from "next/server";
+import Link from "next/link";
+import { Button } from "@/components/Button";
+import { CategoryBadge } from "@/components/CategoryBadge";
+import { categories, t } from "@/content/ta-LK";
+import { categoryColor } from "@/lib/category-colors";
 
-async function loadCategoryNames(): Promise<string[] | null> {
-  try {
-    const { db } = await import("@/db");
-    const { categories } = await import("@/db/schema");
-    const { asc } = await import("drizzle-orm");
-    const rows = await db.select().from(categories).orderBy(asc(categories.sortOrder));
-    return rows.map((r) => r.name);
-  } catch (err) {
-    console.error("Database check failed:", err);
-    return null;
-  }
-}
-
-export default async function Home() {
-  await connection();
-  const names = await loadCategoryNames();
+export default function Home() {
+  const { home } = t;
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16">
-      <h1 className="text-3xl font-bold">
-        அன்பின்பாதை எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம் – திருகோணமலை
-      </h1>
-      <p className="mt-2 text-lg">மண்ணும் மனிதமும் காப்போம்</p>
+    <main>
+      <section className="bg-sand">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+          <p className="font-semibold text-brand">{t.tagline}</p>
+          <h1 className="mt-3 max-w-3xl text-3xl text-ink sm:text-5xl">{home.headline}</h1>
+          <p className="mt-5 max-w-2xl text-lg text-muted">{home.welcome}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button href={home.buttons.about.href}>{home.buttons.about.label}</Button>
+            <Button href={home.buttons.activities.href} variant="outline">
+              {home.buttons.activities.label}
+            </Button>
+            <Button href={home.buttons.join.href} variant="donate">
+              {home.buttons.join.label}
+            </Button>
+          </div>
+        </div>
+      </section>
 
-      <section className="mt-10">
-        <h2 className="text-xl font-semibold">தரவுத்தளச் சோதனை</h2>
-        {names === null ? (
-          <p className="mt-3 text-red-700">தரவுத்தளத்துடன் இணைக்க முடியவில்லை.</p>
-        ) : names.length === 0 ? (
-          <p className="mt-3">தரவுத்தளம் இணைந்தது, ஆனால் பிரிவுகள் இன்னும் சேர்க்கப்படவில்லை.</p>
-        ) : (
-          <ul className="mt-3 list-disc pl-6">
-            {names.map((n) => (
-              <li key={n}>{n}</li>
-            ))}
-          </ul>
-        )}
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <h2 className="text-2xl text-brand sm:text-3xl">{home.sample.categoriesTitle}</h2>
+        <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((c) => (
+            <li key={c.slug}>
+              <Link
+                href={c.href}
+                className="flex h-full flex-col items-center gap-4 rounded-2xl border border-line bg-white p-6 text-center transition-shadow hover:shadow-lg"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`grid h-20 w-20 place-items-center rounded-full font-heading text-3xl ${categoryColor[c.colorKey].solid}`}
+                >
+                  {c.name.charAt(0)}
+                </span>
+                <span className={`font-heading text-lg font-bold ${categoryColor[c.colorKey].text}`}>
+                  {c.name}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+        <h2 className="text-2xl text-brand sm:text-3xl">{home.sample.title}</h2>
+        <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((c) => (
+            <li
+              key={c.slug}
+              className={`overflow-hidden rounded-2xl border border-line border-t-4 bg-white ${categoryColor[c.colorKey].topBorder}`}
+            >
+              <div className="aspect-[4/3] bg-sand" aria-hidden="true" />
+              <div className="p-5">
+                <CategoryBadge name={c.name} colorKey={c.colorKey} />
+                <h3 className="mt-3 text-lg text-ink">{home.sample.postTitle}</h3>
+                <p className="mt-2 text-sm text-muted">{home.sample.postExcerpt}</p>
+                <p className={`mt-3 text-sm font-semibold ${categoryColor[c.colorKey].text}`}>
+                  {home.sample.readMore} →
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   );

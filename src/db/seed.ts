@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
+import { categories as categoryDefs } from "../content/ta-LK";
 import { categories, siteSettings, teamMembers } from "./schema";
 
 config({ path: ".env.local" });
@@ -12,12 +13,12 @@ if (!url) {
 
 const db = drizzle(neon(url));
 
-const categoryRows = [
-  { slug: "social", name: "அன்பின்பாதை – சமூகப் பணிகள்", colorKey: "red", sortOrder: 1 },
-  { slug: "green", name: "பசுமைத் தாயகம்", colorKey: "green", sortOrder: 2 },
-  { slug: "arts", name: "கலை & இலக்கியம்", colorKey: "purple", sortOrder: 3 },
-  { slug: "reading", name: "வாசிப்போம் சுவாசிப்போம்", colorKey: "blue", sortOrder: 4 },
-];
+const categoryRows = categoryDefs.map((c, i) => ({
+  slug: c.slug,
+  name: c.name,
+  colorKey: c.colorKey,
+  sortOrder: i + 1,
+}));
 
 const teamRows = [
   { roleGroup: "director", roleTitle: "பணிப்பாளர்", name: "திருமதி றொசில்டா அன்ரன்" },
