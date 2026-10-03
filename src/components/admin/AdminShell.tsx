@@ -25,6 +25,7 @@ const navGroups: { heading?: string; items: NavItem[] }[] = [
       { href: "/admin/settings/home", label: admin.nav.homePage, icon: "layout" },
       { href: "/admin/settings/donation", label: admin.nav.donation, icon: "heart" },
       { href: "/admin/settings/contact", label: admin.nav.contact, icon: "phone" },
+      { href: "/admin/settings/radio", label: admin.nav.radio, icon: "radio" },
     ],
   },
 ];

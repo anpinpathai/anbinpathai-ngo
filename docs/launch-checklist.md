@@ -36,12 +36,18 @@ Create these under the NGO's own email, with a password manager entry for each:
 - Actions → "Weekly database backup" → **Run workflow** once and check a file appears in the bucket under `backups/`. The last 12 are kept.
 - Photo clean-up (every few months): `npm run cleanup:photos` shows unused photos, add `--delete` to remove them.
 
-## 7. Before announcing
-- Fill in Settings (banner, bank details, contact, social links), add committee photos, add the first posts.
+## 7. Radio (only if the NGO runs Pothigai Internet Radio)
+- AzuraCast needs its own always-on Linux server (a small VPS, about 2 GB RAM). It cannot run on Netlify.
+- Give the radio a subdomain with HTTPS (for example `radio.yourwebsite.org`). The website only plays `https://` streams.
+- In the admin area: **Radio** → paste the Stream URL (and the optional song-name address) → Save.
+- If the NGO plays commercial songs, check whether a music licence is needed in Sri Lanka.
+
+## 8. Before announcing
+- Fill in Settings (banner, bank details, contact, social links, radio), add committee photos, add the first posts.
 - The client reads through `docs/glossary-ta-LK.md` and corrects any Tamil wording (all wording lives in `src/content/ta-LK.ts`).
 - Open every menu page on a phone. Share one post link on Facebook and WhatsApp and check the preview picture and text.
 - Check `/robots.txt` and `/sitemap.xml` on the live address.
 
-## 8. Handover
+## 9. Handover
 - Give the staff `docs/admin-guide.md` and their admin login (change the password after first use: `npm run admin:create` with the same username).
 - Remove your personal access from the NGO accounts once everything works.

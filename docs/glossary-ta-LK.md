@@ -70,3 +70,13 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | Phone / Email / Address / View on map | தொலைபேசி இலக்கம் / மின்னஞ்சல் / முகவரி / வரைபடத்தில் பார்க்க | - | Please confirm |
 | Reading page: newest video / follow our channel | புதிய காணொளி / எமது யூடியூப் அலைவரிசையைப் பின்தொடருங்கள் | யூடியூப் சேனல் | Please confirm |
 | Short descriptions under the 4 activity cards | Built from the client's own lists (இடர் நிவாரணம், சிரமதானம், கவிதை, சிறுகதை …) | - | Please confirm |
+| Radio name | பொதிகை இணைய வானொலி | - | From client |
+| Radio description (Home band, Radio page) | எமது கலை இலக்கிய செயற்பாடுகளின் ஒலிவடிவம் மற்றும் தமிழிசைப் பாடல்களுடன் ஒலிபரப்பாகும் இணைய வானொலி | - | From client |
+| Radio (short, menu and footer) | பொதிகை வானொலி | - | Please confirm |
+| Live / Listen live | நேரலை / நேரலையில் கேட்க | - | Please confirm |
+| Loading… / Now playing | ஏற்றுகிறது… / இப்போது ஒலிபரப்பாகிறது | - | Please confirm |
+| Play radio / Stop radio / Try again / Close | வானொலியை இயக்க / வானொலியை நிறுத்த / மீண்டும் முயற்சிக்க / மூடு | - | Please confirm |
+| Go to the radio page | வானொலிப் பக்கத்திற்குச் செல்க | - | Please confirm |
+| Radio is not available | வானொலி இப்போது கிடைக்கவில்லை. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும். | - | Please confirm |
+| Radio page: "You can listen to" | நீங்கள் கேட்கலாம் · எமது கலை இலக்கிய செயற்பாடுகளின் ஒலிவடிவம் · தமிழிசைப் பாடல்கள் | - | Please confirm |
+| Radio page: "How to listen?" and its 3 steps | எவ்வாறு கேட்பது? · மேலே உள்ள இயக்கு பொத்தானை அழுத்துங்கள். · வேறு பக்கங்களுக்குச் சென்றாலும் வானொலி தொடர்ந்து ஒலிக்கும். · நிறுத்த, நிறுத்து பொத்தானை அழுத்துங்கள். | - | Please confirm (written by me) |

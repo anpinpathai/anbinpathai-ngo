@@ -38,6 +38,33 @@ export const nav: readonly NavItem[] = [
 
 export const donate = { label: "நன்கொடை", href: "/donate" };
 
+// Pothigai internet radio. It only appears on the site once a stream address is saved in Settings.
+export const radio = {
+  name: "பொதிகை இணைய வானொலி",
+  navLabel: "பொதிகை வானொலி",
+  href: "/radio",
+  description:
+    "எமது கலை இலக்கிய செயற்பாடுகளின் ஒலிவடிவம் மற்றும் தமிழிசைப் பாடல்களுடன் ஒலிபரப்பாகும் இணைய வானொலி",
+  live: "நேரலை",
+  listen: "நேரலையில் கேட்க",
+  loading: "ஏற்றுகிறது…",
+  nowPlaying: "இப்போது ஒலிபரப்பாகிறது",
+  play: "வானொலியை இயக்க",
+  stop: "வானொலியை நிறுத்த",
+  retry: "மீண்டும் முயற்சிக்க",
+  close: "மூடு",
+  openPage: "வானொலிப் பக்கத்திற்குச் செல்க",
+  error: "வானொலி இப்போது கிடைக்கவில்லை. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.",
+  hearTitle: "நீங்கள் கேட்கலாம்",
+  hear: ["எமது கலை இலக்கிய செயற்பாடுகளின் ஒலிவடிவம்", "தமிழிசைப் பாடல்கள்"],
+  howTitle: "எவ்வாறு கேட்பது?",
+  how: [
+    "மேலே உள்ள இயக்கு பொத்தானை அழுத்துங்கள்.",
+    "வேறு பக்கங்களுக்குச் சென்றாலும் வானொலி தொடர்ந்து ஒலிக்கும்.",
+    "நிறுத்த, நிறுத்து பொத்தானை அழுத்துங்கள்.",
+  ],
+} as const;
+
 export const postFallbackTitles = {
   photos: "புகைப்படப் பதிவு",
   video: "காணொளிப் பதிவு",

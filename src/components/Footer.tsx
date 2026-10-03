@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { donate, nav, t } from "@/content/ta-LK";
+import { donate, nav, radio, t } from "@/content/ta-LK";
+import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
 import { ColorStripe } from "./ColorStripe";
 import { SiteLogo } from "./SiteLogo";
@@ -55,6 +56,7 @@ export async function Footer() {
   const links = nav.flatMap((item) =>
     item.children ? item.children : item.href ? [{ label: item.label, href: item.href }] : [],
   );
+  if (getRadioConfig(s)) links.push({ label: radio.name, href: radio.href });
   links.push(donate);
 
   return (

@@ -22,16 +22,20 @@ export default async function LoginPage() {
 
   return (
     <main className="grid min-h-screen lg:grid-cols-[minmax(0,5fr)_minmax(0,4fr)]">
-      <section className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] p-12 text-white lg:flex">
+      <section className="relative hidden flex-col overflow-hidden bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] p-12 text-white lg:flex">
         <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-gold/25 blur-3xl" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
         <Logos size="h-16 w-16" />
-        <div className="relative">
-          <h2 className="text-4xl font-bold leading-tight">{admin.login.sideTitle}</h2>
-          <p className="mt-4 max-w-md text-lg text-white/80">{admin.login.sideText}</p>
+        <div className="relative my-auto py-10">
+          <p lang="ta" className="inline-block rounded-full bg-gold px-5 py-1 text-lg font-semibold text-ink">
+            {t.tagline}
+          </p>
+          <p lang="ta" className="mt-6 text-balance text-2xl font-bold leading-snug xl:text-3xl">
+            {t.siteName}
+          </p>
         </div>
-        <p lang="ta" className="relative max-w-md text-sm leading-relaxed text-white/70">
-          {t.siteName}
+        <p lang="ta" className="relative font-semibold text-gold">
+          {t.footer.since}
         </p>
       </section>
 

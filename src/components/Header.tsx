@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { donate, nav, t } from "@/content/ta-LK";
+import { donate, nav, radio, t, type NavItem } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { Button } from "./Button";
 import { ColorStripe } from "./ColorStripe";
+import { RadioIcon } from "./radio/icons";
 import { SiteLogo } from "./SiteLogo";
 
 function Chevron({ open }: { open: boolean }) {
@@ -24,8 +25,14 @@ function Chevron({ open }: { open: boolean }) {
   );
 }
 
-export function Header() {
+export function Header({ showRadio = false }: { showRadio?: boolean }) {
   const pathname = usePathname();
+
+  // The phone menu lists the radio just before "Contact". On wide screens there is no room for a sixth
+  // word in the menu, so the radio is a round button beside Donate instead (see below).
+  const mobileItems: readonly NavItem[] = showRadio
+    ? [...nav.slice(0, -1), { label: radio.navLabel, href: radio.href }, ...nav.slice(-1)]
+    : nav;
   const navRef = useRef<HTMLElement>(null);
 
   const [menu, setMenu] = useState<{ path: string; key: string | null }>({ path: pathname, key: null });
@@ -120,6 +127,19 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {showRadio && (
+            <Link
+              href={radio.href}
+              aria-label={radio.name}
+              title={radio.name}
+              aria-current={isActive(radio.href) ? "page" : undefined}
+              className={`hidden h-9 w-9 items-center justify-center rounded-full border-2 text-brand transition-colors hover:border-gold hover:bg-gold/25 xl:inline-flex ${
+                isActive(radio.href) ? "border-gold bg-gold/25" : "border-brand/25"
+              }`}
+            >
+              <RadioIcon className="h-5 w-5" />
+            </Link>
+          )}
           <Button href={donate.href} variant="donate" size="sm">
             {donate.label}
           </Button>
@@ -149,7 +169,7 @@ export function Header() {
           className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-line bg-cream px-4 pb-6 pt-2 xl:hidden"
         >
           <ul className="mx-auto max-w-7xl">
-            {nav.map((item) =>
+            {mobileItems.map((item) =>
               item.children ? (
                 <li key={item.label} className="py-2">
                   <p className="px-3 text-sm font-semibold text-muted">{item.label}</p>

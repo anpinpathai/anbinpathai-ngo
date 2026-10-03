@@ -79,6 +79,12 @@ export default async function DashboardPage() {
       icon: "globe",
     },
     {
+      done: filled("radio_stream_url") && settings.radio_enabled !== "0",
+      ...text.items.radio,
+      href: "/admin/settings/radio",
+      icon: "radio",
+    },
+    {
       done: members.length > 0 && withPhoto === members.length,
       label: text.items.photos.label,
       hint: text.items.photos.hint(withPhoto, members.length),

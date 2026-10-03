@@ -65,6 +65,31 @@ export function SettingsForm({
                   );
                 }
 
+                if (field.type === "toggle") {
+                  // The tick box comes first so a ticked box wins; the hidden "0" is sent only when it is not ticked.
+                  return (
+                    <label key={field.key} htmlFor={id} className="flex cursor-pointer items-start gap-4">
+                      <input
+                        id={id}
+                        type="checkbox"
+                        name={field.key}
+                        value="1"
+                        defaultChecked={value !== "0"}
+                        className="peer sr-only"
+                      />
+                      <input type="hidden" name={field.key} value="0" />
+                      <span
+                        aria-hidden="true"
+                        className="relative mt-0.5 h-7 w-12 shrink-0 rounded-full bg-muted/40 transition-colors after:absolute after:left-1 after:top-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-transform peer-checked:bg-green-600 peer-checked:after:translate-x-5 peer-focus-visible:ring-4 peer-focus-visible:ring-gold"
+                      />
+                      <span className="min-w-0">
+                        <span className="block font-semibold text-ink">{field.label}</span>
+                        {field.help && <span className="block text-sm text-muted">{field.help}</span>}
+                      </span>
+                    </label>
+                  );
+                }
+
                 return (
                   <Field key={field.key} id={id} label={field.label} help={field.help} error={error}>
                     {field.type === "textarea" ? (
@@ -84,7 +109,9 @@ export function SettingsForm({
                         id={id}
                         name={field.key}
                         type={field.type === "email" ? "email" : field.type === "tel" ? "tel" : "text"}
-                        inputMode={field.type === "facebook" || field.type === "youtube" ? "url" : undefined}
+                        inputMode={
+                          field.type === "facebook" || field.type === "youtube" || field.type === "url" ? "url" : undefined
+                        }
                         defaultValue={value}
                         lang={field.lang}
                         maxLength={field.maxLength}

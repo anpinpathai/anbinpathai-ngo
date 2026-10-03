@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { siteSettings } from "@/db/schema";
 import { admin, settingGroups, type SettingField } from "@/content/admin-en";
 import { isValidKey } from "@/lib/storage";
-import { FACEBOOK_HOSTS, isHttpsUrlOnHosts, YOUTUBE_HOSTS } from "@/lib/urls";
+import { FACEBOOK_HOSTS, isHttpsUrl, isHttpsUrlOnHosts, YOUTUBE_HOSTS } from "@/lib/urls";
 
 export const settingFields: readonly SettingField[] = settingGroups.flatMap((g) => g.fields);
 
@@ -24,6 +24,13 @@ export function validateSettings(input: SettingsValues, fields: readonly Setting
   for (const field of fields) {
     const value = (input[field.key] ?? "").trim();
     values[field.key] = value;
+
+    // A switch is either "0" (off) or "1" (on). Not saved yet counts as on.
+    if (field.type === "toggle") {
+      values[field.key] = value === "0" ? "0" : "1";
+      continue;
+    }
+
     if (!value) continue;
 
     if (value.length > field.maxLength) {
@@ -47,6 +54,9 @@ export function validateSettings(input: SettingsValues, fields: readonly Setting
         if (!isHttpsUrlOnHosts(value, YOUTUBE_HOSTS)) {
           errors[field.key] = admin.settings.errors.youtube;
         }
+        break;
+      case "url":
+        if (!isHttpsUrl(value)) errors[field.key] = admin.settings.errors.url;
         break;
       case "image":
         if (!isValidKey(value)) errors[field.key] = admin.settings.errors.image;

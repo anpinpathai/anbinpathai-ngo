@@ -74,8 +74,45 @@
   line-height: 1.8;
 }
 
+/* Radio player: the sound bars dance only while the radio is playing. */
+@keyframes radio-eq {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.radio-eq > span {
+  transform-origin: bottom;
+  transform: scaleY(0.3);
+}
+
+.radio-eq[data-active="true"] > span {
+  animation: radio-eq 1s ease-in-out infinite;
+}
+
+.radio-eq[data-active="true"] > span:nth-child(2) {
+  animation-delay: -0.7s;
+}
+
+.radio-eq[data-active="true"] > span:nth-child(3) {
+  animation-delay: -0.4s;
+}
+
+.radio-eq[data-active="true"] > span:nth-child(4) {
+  animation-delay: -0.15s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .radio-eq[data-active="true"] > span {
+    animation: none;
+    transform: scaleY(0.7);
   }
 }

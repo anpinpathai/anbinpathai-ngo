@@ -1,6 +1,15 @@
 import type { IconName } from "@/components/admin/Icon";
 
-export type SettingFieldType = "text" | "textarea" | "email" | "tel" | "facebook" | "youtube" | "image";
+export type SettingFieldType =
+  | "text"
+  | "textarea"
+  | "email"
+  | "tel"
+  | "facebook"
+  | "youtube"
+  | "url"
+  | "toggle"
+  | "image";
 
 export type SettingField = {
   key: string;
@@ -117,6 +126,33 @@ const socialGroup: SettingGroup = {
   ],
 };
 
+const radioGroup: SettingGroup = {
+  title: "Radio player",
+  fields: [
+    {
+      key: "radio_enabled",
+      label: "Show the radio on the website",
+      help: "Switch this off to hide the radio for a while. Your addresses below are kept. The radio only appears once a stream address is added.",
+      type: "toggle",
+      maxLength: 1,
+    },
+    {
+      key: "radio_stream_url",
+      label: "Stream address",
+      help: "The listening address of your radio. In AzuraCast, open your station and copy the Stream URL (it often ends in .mp3). It must start with https://",
+      type: "url",
+      maxLength: 300,
+    },
+    {
+      key: "radio_nowplaying_url",
+      label: "Song name address (optional)",
+      help: "Shows the name of the song that is playing. In AzuraCast it looks like https://your-radio-site/api/nowplaying/your-station. Leave it empty if you are not sure.",
+      type: "url",
+      maxLength: 300,
+    },
+  ],
+};
+
 export const settingSections: readonly SettingSection[] = [
   {
     slug: "home",
@@ -141,6 +177,15 @@ export const settingSections: readonly SettingSection[] = [
     icon: "phone",
     previewHref: "/contact",
     groups: [contactGroup, socialGroup],
+  },
+  {
+    slug: "radio",
+    title: "Radio",
+    description:
+      "Your internet radio, Pothigai Internet Radio. Add its address and a player appears on the home page and on its own Radio page.",
+    icon: "radio",
+    previewHref: "/radio",
+    groups: [radioGroup],
   },
 ];
 
@@ -167,9 +212,7 @@ export const admin = {
   login: {
     title: "Admin Login",
     welcome: "Welcome back",
-    subtitle: "Sign in to update your website: news, committee members and more.",
-    sideTitle: "Your website, in your hands",
-    sideText: "Share news, add photos and keep your committee up to date. No technical skills needed.",
+    subtitle: "Sign in to manage your website.",
     username: "Username",
     password: "Password",
     submit: "Log in",
@@ -192,6 +235,7 @@ export const admin = {
     homePage: "Home page",
     donation: "Donation",
     contact: "Contact and links",
+    radio: "Radio",
     help: "Help",
     viewSite: "View website",
     logout: "Log out",
@@ -220,6 +264,7 @@ export const admin = {
         bank: { label: "Bank details", hint: "So supporters know where to send help." },
         contact: { label: "Phone, email and address", hint: "Shown on the Contact page and in the footer." },
         social: { label: "Facebook or YouTube link", hint: "Lets visitors follow your pages." },
+        radio: { label: "Radio stream address", hint: "Puts the Pothigai radio player on your website." },
         photos: {
           label: "Committee photos",
           hint: (withPhoto: number, total: number) => `${withPhoto} of ${total} members have a photo.`,
@@ -381,6 +426,7 @@ export const admin = {
       phone: "Enter a valid phone number.",
       facebook: "Enter a valid Facebook link (https://facebook.com/…).",
       youtube: "Enter a valid YouTube link (https://youtube.com/…).",
+      url: "Enter a valid address that starts with https://",
       image: "Please upload the image again.",
     },
   },
@@ -437,6 +483,17 @@ export const admin = {
           "Each page saves only its own details, so nothing else is affected.",
         ],
         note: "On the Home page you can also change the big banner photo.",
+      },
+      {
+        title: "How do I put the radio on my website?",
+        steps: [
+          "Open Radio under Website pages in the menu.",
+          "In your AzuraCast, open your station and copy the Stream URL. This is the listening address. It starts with https://",
+          "Paste it into Stream address and press Save changes.",
+          "The player now appears on the home page and on its own Radio page, and Radio is added to the website menu. Visitors can keep listening while they read other pages.",
+          "To hide the radio for a while, switch off Show the radio on the website and press Save changes. The address is kept.",
+        ],
+        note: "The address must start with https:// or browsers will not play it on your website.",
       },
       {
         title: "Which photos work best?",

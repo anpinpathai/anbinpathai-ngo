@@ -14,7 +14,7 @@ Forgot the password? Ask the developer. They can set a new one in a minute.
 - **On a computer** the menu is on the left. **On a phone** press the ☰ button at the top left to open it.
 - The gold **New post** button is always there.
 - **Home** shows a short summary: how many posts you have, what is still missing on the website (banner photo, bank details, contact details…), and your latest posts.
-- Menu groups: **Content** (Posts, Committee) and **Website pages** (Home page, Donation, Contact and links).
+- Menu groups: **Content** (Posts, Committee) and **Website pages** (Home page, Donation, Contact and links, Radio).
 
 ## Add news (New post)
 It works like a Facebook post.
@@ -50,6 +50,20 @@ Each page has its own **Save changes** button and saves only its own details, so
   - If you press **Remove image** by mistake, press **Undo**. The photo is only deleted when you press **Save changes**.
 - **Donation**: bank details shown on the Donation page. The account name and number get "copy" buttons for donors.
 - **Contact and links**: phone, email, address, and the Facebook and YouTube links. They appear on the Contact page and in the footer of every page.
+- **Radio**: puts the Pothigai Internet Radio player on the website (see below).
+
+## Radio (Pothigai Internet Radio)
+The radio itself runs on its own small server (AzuraCast). The website only needs its listening address.
+1. Open **Radio** under Website pages.
+2. In AzuraCast, open your station and copy the **Stream URL** (the listening address, often ending in `.mp3`). It must start with `https://`.
+3. Paste it into **Stream address** and press **Save changes**.
+4. Optional: paste the **Song name address** (in AzuraCast it looks like `https://your-radio-site/api/nowplaying/your-station`) to show the song that is playing.
+
+Once a stream address is saved, the radio appears in four places: a band on the Home page, its own **Radio** page, a round radio button next to Donate in the top bar (in the phone menu on phones), and a link in the footer. When a visitor presses play, a small player stays at the bottom of the screen and keeps playing while they open other pages. They stop it with the stop button.
+
+- To hide the radio for a while (for example, while the radio server is being fixed), switch off **Show the radio on the website** and save. The addresses are kept.
+- If the address is empty or does not start with `https://`, the radio is not shown.
+- If the radio server is down, visitors see a friendly message and a "try again" button.
 
 ## Photo tips
 - Any photo from a phone is fine. It is made smaller automatically before it is saved.

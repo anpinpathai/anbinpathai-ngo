@@ -4,10 +4,12 @@ import { Button } from "@/components/Button";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { Hero } from "@/components/home/Hero";
 import { InitiativesGrid } from "@/components/home/InitiativesGrid";
+import { RadioSection } from "@/components/home/RadioSection";
 import { LatestUpdates } from "@/components/posts/LatestUpdates";
 import { categories, donate, t } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { getLatestTabs } from "@/lib/public-posts";
+import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
 import { publicUrl } from "@/lib/storage";
 
@@ -30,6 +32,8 @@ export default async function Home() {
       />
 
       {tabs.some((tab) => tab.posts.length > 0) && <LatestUpdates tabs={tabs} />}
+
+      {getRadioConfig(s) && <RadioSection />}
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <h2 className="text-2xl text-brand sm:text-3xl">{home.activitiesTitle}</h2>
