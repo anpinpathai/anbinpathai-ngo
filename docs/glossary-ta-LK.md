@@ -32,3 +32,6 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | Design sample (temporary page) | வடிவமைப்பு மாதிரி | - | Temporary |
 | Follow us / Contact us (footer) | எங்களைப் பின்தொடருங்கள் / தொடர்புகளுக்கு | - | Please confirm |
 | Facebook / YouTube (names) | பேஸ்புக் / யூடியூப் | - | Please confirm |
+| Post title when a post has only photos | புகைப்படப் பதிவு | - | Please confirm |
+| Post title when a post has only a video or link | காணொளிப் பதிவு | வீடியோ | Please confirm |
+| Post title fallback | பதிவு | - | Please confirm |

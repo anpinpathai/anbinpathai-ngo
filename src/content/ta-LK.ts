@@ -38,6 +38,21 @@ export const nav: readonly NavItem[] = [
 
 export const donate = { label: "நன்கொடை", href: "/donate" };
 
+export const postFallbackTitles = {
+  photos: "புகைப்படப் பதிவு",
+  video: "காணொளிப் பதிவு",
+  post: "பதிவு",
+} as const;
+
+export const roleGroups = [
+  { key: "director", title: "பணிப்பாளர்", heading: "பணிப்பாளர்" },
+  { key: "president", title: "தலைவர்", heading: "தலைவர்" },
+  { key: "secretary", title: "செயலாளர்", heading: "செயலாளர்" },
+  { key: "treasurer", title: "பொருளாளர்", heading: "பொருளாளர்" },
+  { key: "member", title: "உறுப்பினர்", heading: "உறுப்பினர்கள்" },
+  { key: "patron", title: "போசகர்", heading: "போசகர்கள்" },
+] as const;
+
 export const t = {
   siteName: "அன்பின்பாதை எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம் – திருகோணமலை",
   siteShortName: "அன்பின்பாதை",

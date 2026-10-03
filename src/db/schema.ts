@@ -24,8 +24,9 @@ export const posts = pgTable(
     title: text("title").notNull(),
     excerpt: text("excerpt").notNull().default(""),
     body: text("body").notNull().default(""),
-    coverImageKey: text("cover_image_key"),
+    galleryKeys: text("gallery_keys").array().notNull().default([]),
     youtubeUrl: text("youtube_url"),
+    facebookUrl: text("facebook_url"),
     categoryId: integer("category_id")
       .notNull()
       .references(() => categories.id),

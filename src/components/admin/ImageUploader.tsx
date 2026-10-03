@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { admin } from "@/content/admin-en";
-import { resizeImage } from "@/lib/image-resize";
+import { uploadErrorMessage, uploadImage } from "@/lib/upload-client";
 
 const buttonClass =
   "rounded-full border-2 border-brand px-4 py-1.5 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white disabled:opacity-60";
@@ -13,11 +13,15 @@ export function ImageUploader({
   initialKey,
   initialUrl,
   error,
+  maxSide = 1600,
+  shape = "wide",
 }: {
   name: string;
   initialKey: string;
   initialUrl: string | null;
   error?: string;
+  maxSide?: number;
+  shape?: "wide" | "square";
 }) {
   const [key, setKey] = useState(initialKey);
   const [url, setUrl] = useState(initialUrl);
@@ -29,33 +33,11 @@ export function ImageUploader({
     setMessage(null);
     setBusy(true);
     try {
-      let blob: Blob;
-      try {
-        blob = await resizeImage(file);
-      } catch {
-        setMessage(admin.uploader.unsupported);
-        return;
-      }
-
-      const body = new FormData();
-      body.append("file", blob, "upload");
-      const res = await fetch("/api/admin/upload", { method: "POST", body });
-      const data = (await res.json().catch(() => ({}))) as { key?: string; url?: string; error?: string };
-
-      if (!res.ok || !data.key) {
-        setMessage(
-          data.error === "unsupported"
-            ? admin.uploader.unsupported
-            : data.error === "not_configured"
-              ? admin.uploader.notConfigured
-              : admin.uploader.failed,
-        );
-        return;
-      }
-      setKey(data.key);
-      setUrl(data.url ?? null);
-    } catch {
-      setMessage(admin.uploader.failed);
+      const uploaded = await uploadImage(file, maxSide);
+      setKey(uploaded.key);
+      setUrl(uploaded.url);
+    } catch (err) {
+      setMessage(uploadErrorMessage(err));
     } finally {
       setBusy(false);
     }
@@ -81,14 +63,25 @@ export function ImageUploader({
       />
 
       {url ? (
-        <Image
-          src={url}
-          alt=""
-          width={1600}
-          height={900}
-          unoptimized
-          className="mb-3 h-auto max-h-64 w-full max-w-lg rounded-lg border border-line object-cover"
-        />
+        shape === "square" ? (
+          <Image
+            src={url}
+            alt=""
+            width={400}
+            height={400}
+            unoptimized
+            className="mb-3 h-40 w-40 rounded-lg border border-line object-cover"
+          />
+        ) : (
+          <Image
+            src={url}
+            alt=""
+            width={1600}
+            height={900}
+            unoptimized
+            className="mb-3 h-auto max-h-64 w-full max-w-lg rounded-lg border border-line object-cover"
+          />
+        )
       ) : (
         <p className="mb-3 text-sm text-muted">{admin.uploader.noImage}</p>
       )}

@@ -68,6 +68,11 @@
   line-height: 1.6;
 }
 
+[lang="ta"] {
+  font-family: var(--font-tamil), sans-serif;
+  line-height: 1.8;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

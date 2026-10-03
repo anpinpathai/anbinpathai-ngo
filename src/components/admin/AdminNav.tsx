@@ -6,6 +6,8 @@ import { admin } from "@/content/admin-en";
 
 const links = [
   { href: "/admin", label: admin.nav.dashboard },
+  { href: "/admin/posts", label: admin.nav.posts },
+  { href: "/admin/team", label: admin.nav.team },
   { href: "/admin/settings", label: admin.nav.settings },
 ];
 

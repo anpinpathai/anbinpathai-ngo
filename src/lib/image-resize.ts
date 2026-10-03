@@ -1,5 +1,3 @@
-const MAX_SIDE = 1600;
-
 function toBlob(canvas: HTMLCanvasElement, type: string, quality: number) {
   return new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, quality));
 }
@@ -18,10 +16,10 @@ function drawScaled(bitmap: ImageBitmap, width: number, height: number, whiteBac
   return canvas;
 }
 
-export async function resizeImage(file: File): Promise<Blob> {
+export async function resizeImage(file: File, maxSide: number): Promise<Blob> {
   const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
   try {
-    const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
+    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
     const width = Math.max(1, Math.round(bitmap.width * scale));
     const height = Math.max(1, Math.round(bitmap.height * scale));
 

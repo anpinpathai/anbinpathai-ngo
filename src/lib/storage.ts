@@ -75,6 +75,11 @@ export async function deleteObject(key: string) {
   await unlink(path.join(LOCAL_DIR, key)).catch(() => undefined);
 }
 
+export async function deleteObjects(keys: (string | null | undefined)[]) {
+  const results = await Promise.allSettled(keys.filter((k): k is string => Boolean(k)).map((k) => deleteObject(k)));
+  for (const r of results) if (r.status === "rejected") console.error("Deleting a stored file failed:", r.reason);
+}
+
 export function publicUrl(key: string | null | undefined) {
   if (!key || !isValidKey(key)) return null;
   const cfg = r2Config();

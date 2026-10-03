@@ -22,6 +22,27 @@
       "when": 1790989984352,
       "tag": "0002_brown_earthquake",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790993058429,
+      "tag": "0003_friendly_mauler",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790993538106,
+      "tag": "0004_flat_crystal",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790993552446,
+      "tag": "0005_conscious_skreet",
+      "breakpoints": true
     }
   ]
 }
