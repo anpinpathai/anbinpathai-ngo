@@ -56,6 +56,18 @@
   }
 }
 
+.admin-en,
+.admin-en h1,
+.admin-en h2,
+.admin-en h3,
+.admin-en .font-heading {
+  font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.admin-en {
+  line-height: 1.6;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

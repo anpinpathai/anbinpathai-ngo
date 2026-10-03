@@ -24,7 +24,7 @@ export const posts = pgTable(
     title: text("title").notNull(),
     excerpt: text("excerpt").notNull().default(""),
     body: text("body").notNull().default(""),
-    coverImageUrl: text("cover_image_url"),
+    coverImageKey: text("cover_image_key"),
     youtubeUrl: text("youtube_url"),
     categoryId: integer("category_id")
       .notNull()
@@ -57,13 +57,19 @@ export const teamMembers = pgTable("team_members", {
   roleTitle: text("role_title").notNull(),
   roleGroup: text("role_group").$type<RoleGroup>().notNull(),
   subtitle: text("subtitle"),
-  photoUrl: text("photo_url"),
+  photoKey: text("photo_key"),
   sortOrder: integer("sort_order").notNull().default(0),
 });
 
 export const siteSettings = pgTable("site_settings", {
   key: text("key").primaryKey(),
   value: text("value").notNull().default(""),
+});
+
+export const loginAttempts = pgTable("login_attempts", {
+  key: text("key").primaryKey(),
+  failedCount: integer("failed_count").notNull().default(0),
+  windowStartedAt: timestamp("window_started_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const adminUsers = pgTable("admin_users", {

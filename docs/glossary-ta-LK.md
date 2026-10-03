@@ -1,4 +1,4 @@
-# Wording list (Sri Lankan Tamil) - for the client to review
+﻿# Wording list (Sri Lankan Tamil) - for the client to review
 
 All website wording is kept in one file: `src/content/ta-LK.ts`.
 "From client" means the word comes straight from the client's own text. "Please confirm" means I chose it and a Sri Lankan Tamil reader should check it.
@@ -30,3 +30,5 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | Important links (footer) | முக்கிய இணைப்புகள் | - | Please confirm |
 | All rights reserved | அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை | - | Please confirm |
 | Design sample (temporary page) | வடிவமைப்பு மாதிரி | - | Temporary |
+| Follow us / Contact us (footer) | எங்களைப் பின்தொடருங்கள் / தொடர்புகளுக்கு | - | Please confirm |
+| Facebook / YouTube (names) | பேஸ்புக் / யூடியூப் | - | Please confirm |
