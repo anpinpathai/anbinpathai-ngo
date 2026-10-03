@@ -517,6 +517,16 @@ export const admin = {
         note: "The address must start with https:// or browsers will not play it on your website.",
       },
       {
+        title: "How do I move, zoom or rotate a photo?",
+        steps: [
+          "Press Adjust next to a photo. In a news post, press the small crop button on the photo.",
+          "Drag the photo to move it. Use the slider, the + and - buttons, or pinch with two fingers to zoom.",
+          "Press Rotate left or Rotate right if the photo came out sideways.",
+          "Press Use this photo to keep your changes. Press Cancel to go back without changing anything.",
+        ],
+        note: "The home banner and committee photos open in this window by themselves when you choose a new photo, so you can place them straight away.",
+      },
+      {
         title: "Which photos work best?",
         steps: [
           "Any photo from a phone is fine. It is made smaller automatically before it is saved.",

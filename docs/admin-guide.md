@@ -65,6 +65,15 @@ Once a stream address is saved, the radio appears in four places: a band on the 
 - If the address is empty or does not start with `https://`, the radio is not shown.
 - If the radio server is down, visitors see a friendly message and a "try again" button.
 
+## Adjust a photo (move, zoom, rotate)
+- Next to the home banner and each committee photo there is an **Adjust** button. In a news post, each photo has a small crop button.
+- In the window that opens: **drag** the photo to move it, use the **slider** (or the + and - buttons, or two fingers) to **zoom**, and press **Rotate left / Rotate right** if it came out sideways.
+- Press **Use this photo** to keep your changes, or **Cancel** to leave the photo as it was.
+- When you choose a *new* banner or committee photo, this window opens by itself, so you can place the photo before it is saved.
+- **Banner:** the dashed lines show the middle part that is always visible on a phone. Keep the main subject between them.
+- **Committee photos:** the round frame shows how the photo will look on the website. Put the face in the middle.
+- Adjusting a photo that is already saved works on the saved picture. To show a part of the original photo that was already cut away, choose the original photo again with **Change image**.
+
 ## Photo tips
 - Any photo from a phone is fine. It is made smaller automatically before it is saved.
 - Use JPG, PNG or WebP photos.
