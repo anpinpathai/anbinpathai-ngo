@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/admin/Icon";
+
 export type SettingFieldType = "text" | "textarea" | "email" | "tel" | "facebook" | "youtube" | "image";
 
 export type SettingField = {
@@ -11,87 +13,138 @@ export type SettingField = {
 
 export type SettingGroup = { title: string; fields: readonly SettingField[] };
 
-export const settingGroups: readonly SettingGroup[] = [
+export type SettingSection = {
+  slug: string;
+  title: string;
+  description: string;
+  icon: IconName;
+  previewHref: string;
+  groups: readonly SettingGroup[];
+};
+
+const homeGroup: SettingGroup = {
+  title: "Banner and words",
+  fields: [
+    {
+      key: "home_banner",
+      label: "Banner photo",
+      help: "A wide, landscape photo works best. White words are written over it, so avoid very bright pictures.",
+      type: "image",
+      maxLength: 200,
+    },
+    {
+      key: "site_tagline",
+      label: "Tagline",
+      help: "The short motto shown on the website. Write it in Tamil.",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+    },
+    {
+      key: "home_headline",
+      label: "Headline",
+      help: "The big line on the home page. Write it in Tamil.",
+      type: "text",
+      maxLength: 160,
+      lang: "ta",
+    },
+    {
+      key: "home_welcome",
+      label: "Welcome text",
+      help: "A few friendly lines under the headline. Write it in Tamil.",
+      type: "textarea",
+      maxLength: 600,
+      lang: "ta",
+    },
+  ],
+};
+
+const bankGroup: SettingGroup = {
+  title: "Bank account",
+  fields: [
+    { key: "bank_name", label: "Bank name", type: "text", maxLength: 100 },
+    { key: "bank_branch", label: "Branch", type: "text", maxLength: 100 },
+    { key: "bank_account_name", label: "Account name", type: "text", maxLength: 120 },
+    {
+      key: "bank_account_number",
+      label: "Account number",
+      help: "Visitors get a Copy button next to the account name and number.",
+      type: "text",
+      maxLength: 40,
+    },
+    {
+      key: "bank_note",
+      label: "Extra note",
+      help: "Optional. For example, how to tell you about a donation. Shown on the Donation page.",
+      type: "textarea",
+      maxLength: 500,
+    },
+  ],
+};
+
+const contactGroup: SettingGroup = {
+  title: "Contact details",
+  fields: [
+    { key: "contact_phone", label: "Phone number", type: "tel", maxLength: 40 },
+    { key: "contact_email", label: "Email address", type: "email", maxLength: 120 },
+    {
+      key: "contact_address",
+      label: "Address",
+      help: "You can use more than one line. It is shown on one line in the footer.",
+      type: "textarea",
+      maxLength: 300,
+    },
+  ],
+};
+
+const socialGroup: SettingGroup = {
+  title: "Social media",
+  fields: [
+    {
+      key: "facebook_url",
+      label: "Facebook page link",
+      help: "Example: https://www.facebook.com/yourpage",
+      type: "facebook",
+      maxLength: 200,
+    },
+    {
+      key: "youtube_url",
+      label: "YouTube channel link",
+      help: "Example: https://www.youtube.com/@yourchannel",
+      type: "youtube",
+      maxLength: 200,
+    },
+  ],
+};
+
+export const settingSections: readonly SettingSection[] = [
   {
+    slug: "home",
     title: "Home page",
-    fields: [
-      {
-        key: "home_banner",
-        label: "Home page banner image",
-        help: "Choose one large image. It is resized automatically.",
-        type: "image",
-        maxLength: 200,
-      },
-      {
-        key: "site_tagline",
-        label: "Tagline",
-        help: "Short motto shown on the website. Write it in Tamil.",
-        type: "text",
-        maxLength: 120,
-        lang: "ta",
-      },
-      {
-        key: "home_headline",
-        label: "Home page headline",
-        help: "Write it in Tamil.",
-        type: "text",
-        maxLength: 160,
-        lang: "ta",
-      },
-      {
-        key: "home_welcome",
-        label: "Welcome text",
-        help: "Write it in Tamil.",
-        type: "textarea",
-        maxLength: 600,
-        lang: "ta",
-      },
-    ],
+    description: "The big banner photo and the words visitors see first.",
+    icon: "layout",
+    previewHref: "/",
+    groups: [homeGroup],
   },
   {
-    title: "Bank details (for donations)",
-    fields: [
-      { key: "bank_name", label: "Bank name", type: "text", maxLength: 100 },
-      { key: "bank_branch", label: "Branch", type: "text", maxLength: 100 },
-      { key: "bank_account_name", label: "Account name", type: "text", maxLength: 120 },
-      { key: "bank_account_number", label: "Account number", type: "text", maxLength: 40 },
-      {
-        key: "bank_note",
-        label: "Additional note",
-        help: "Shown on the Donation page.",
-        type: "textarea",
-        maxLength: 500,
-      },
-    ],
+    slug: "donation",
+    title: "Donation details",
+    description: "Your bank account, shown on the Donation page so supporters can send help.",
+    icon: "heart",
+    previewHref: "/donate",
+    groups: [bankGroup],
   },
   {
-    title: "Contact details",
-    fields: [
-      { key: "contact_phone", label: "Phone number", type: "tel", maxLength: 40 },
-      { key: "contact_email", label: "Email address", type: "email", maxLength: 120 },
-      { key: "contact_address", label: "Address", type: "textarea", maxLength: 300 },
-    ],
-  },
-  {
-    title: "Social media",
-    fields: [
-      {
-        key: "facebook_url",
-        label: "Facebook page link",
-        help: "Example: https://www.facebook.com/yourpage",
-        type: "facebook",
-        maxLength: 200,
-      },
-      {
-        key: "youtube_url",
-        label: "YouTube channel link",
-        help: "Example: https://www.youtube.com/@yourchannel",
-        type: "youtube",
-        maxLength: 200,
-      },
-    ],
+    slug: "contact",
+    title: "Contact and links",
+    description: "How people can reach you. Shown on the Contact page and at the bottom of every page.",
+    icon: "phone",
+    previewHref: "/contact",
+    groups: [contactGroup, socialGroup],
   },
 ];
+
+export const settingGroups: readonly SettingGroup[] = settingSections.flatMap((s) => s.groups);
 
 export const categoryEnglish: Record<string, string> = {
   social: "Social Service",
@@ -113,10 +166,16 @@ export const admin = {
   title: "Admin Panel",
   login: {
     title: "Admin Login",
+    welcome: "Welcome back",
+    subtitle: "Sign in to update your website: news, committee members and more.",
+    sideTitle: "Your website, in your hands",
+    sideText: "Share news, add photos and keep your committee up to date. No technical skills needed.",
     username: "Username",
     password: "Password",
     submit: "Log in",
     pending: "Logging in…",
+    showPassword: "Show password",
+    hidePassword: "Hide password",
     invalid: "Incorrect username or password.",
     blocked: "Too many failed attempts. Please wait a while and try again.",
     required: "Please enter your username and password.",
@@ -124,29 +183,54 @@ export const admin = {
     backToSite: "Back to the website",
   },
   nav: {
-    dashboard: "Dashboard",
+    home: "Home",
+    newPost: "New post",
+    content: "Content",
     posts: "Posts",
     team: "Committee",
-    settings: "Settings",
+    website: "Website pages",
+    homePage: "Home page",
+    donation: "Donation",
+    contact: "Contact and links",
+    help: "Help",
     viewSite: "View website",
     logout: "Log out",
+    menu: "Open menu",
+    closeMenu: "Close menu",
+    signedInAs: "Signed in as",
+    unsavedLeave: "You have changes that are not saved yet. Leave this page anyway?",
   },
   dashboard: {
-    title: "Welcome",
-    intro: "Manage the website content from here.",
-    cards: {
-      posts: {
-        title: "Posts",
-        text: "Add news and updates for the four categories.",
+    greeting: { morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening" },
+    question: "What would you like to do today?",
+    actions: {
+      post: "Write a post",
+      member: "Add a member",
+      home: "Edit home page",
+    },
+    stats: { published: "Published posts", drafts: "Drafts", members: "Committee members" },
+    checklist: {
+      title: "Getting your website ready",
+      progress: (done: number, total: number) => `${done} of ${total} done`,
+      allDone: "Everything is set up. Nice work!",
+      setUp: "Set up",
+      open: "Open",
+      items: {
+        banner: { label: "Home page banner photo", hint: "The big picture visitors see first." },
+        bank: { label: "Bank details", hint: "So supporters know where to send help." },
+        contact: { label: "Phone, email and address", hint: "Shown on the Contact page and in the footer." },
+        social: { label: "Facebook or YouTube link", hint: "Lets visitors follow your pages." },
+        photos: {
+          label: "Committee photos",
+          hint: (withPhoto: number, total: number) => `${withPhoto} of ${total} members have a photo.`,
+        },
+        post: { label: "Your first news post", hint: "Share what you have been doing." },
       },
-      team: {
-        title: "Executive Committee",
-        text: "Manage committee members' details and photos.",
-      },
-      settings: {
-        title: "Settings",
-        text: "Bank details, contact details, social media links and the home page texts.",
-      },
+    },
+    recent: {
+      title: "Latest posts",
+      viewAll: "See all posts",
+      empty: "No posts yet. Write your first post and it will appear here.",
     },
   },
   common: {
@@ -162,22 +246,33 @@ export const admin = {
     noticeDeleted: "Deleted successfully.",
     actionFailed: "Something went wrong. Please try again.",
     fixErrors: "Please fix the highlighted errors and try again.",
+    unsaved: "You have unsaved changes",
+    yesDelete: "Yes, delete",
+    deleting: "Deleting…",
+    keep: "No, keep it",
   },
   posts: {
     title: "Posts",
+    subtitle: "News and updates shown on your website.",
     newPost: "New post",
     editPost: "Edit post",
+    backToPosts: "Back to posts",
     empty: "No posts found.",
+    emptyAll: "No posts yet. Let's write your first one!",
+    emptyFiltered: "No posts match this choice.",
+    clearFilters: "Show all posts",
     columns: { post: "Post", category: "Category", status: "Status", date: "Date", actions: "Actions" },
+    tabs: { all: "All", published: "Published", draft: "Drafts" },
+    sections: "Section",
+    allCategories: "All sections",
     published: "Published",
     draft: "Draft",
-    view: "View",
+    view: "View on website",
     publish: "Publish",
     unpublish: "Unpublish",
-    confirmDelete: "Delete this post permanently? This cannot be undone.",
-    allCategories: "All categories",
-    allStatuses: "All statuses",
-    filter: "Filter",
+    publishing: "Please wait…",
+    deleteTitle: "Delete this post?",
+    confirmDelete: "This post and its photos will be deleted for good. This cannot be undone.",
     previous: "Previous",
     next: "Next",
     page: (page: number, pages: number) => `Page ${page} of ${pages}`,
@@ -188,6 +283,8 @@ export const admin = {
     composer: {
       postingTo: "Posting to",
       chooseCategory: "Choose category",
+      categoryQuestion: "Which section is this news for?",
+      writeLabel: "Your news",
       placeholder: "What's new? Write your news here (in Tamil)…",
       addToPost: "Add to your post",
       photos: "Photos",
@@ -199,7 +296,9 @@ export const admin = {
       removePhoto: "Remove photo",
       movePhotoEarlier: "Move earlier",
       movePhotoLater: "Move later",
+      cover: "Cover",
       photoCount: (n: number, max: number) => `${n} / ${max} photos`,
+      photoHint: "The first photo is the cover picture.",
       photosFull: "A post can have up to 20 photos.",
       youtubeLabel: "YouTube video link",
       youtubeHelp: "Paste a YouTube video link. The video plays inside the post.",
@@ -231,14 +330,21 @@ export const admin = {
   },
   team: {
     title: "Executive Committee",
+    subtitle: "The people shown on the Committee page of your website.",
     newMember: "Add member",
     editMember: "Edit member",
+    backToTeam: "Back to committee",
     empty: "No members in this group yet.",
+    count: (n: number) => `${n} member${n === 1 ? "" : "s"}`,
     moveUp: "Move up",
     moveDown: "Move down",
-    confirmDelete: "Remove this member permanently? This cannot be undone.",
+    moveEarlier: "Move earlier",
+    moveLater: "Move later",
+    deleteTitle: "Remove this member?",
+    confirmDelete: "This member and their photo will be removed for good. This cannot be undone.",
     noPhoto: "No photo",
     form: {
+      detailsTitle: "Member details",
       name: "Name",
       nameHelp: "Write it in Tamil, including the title (for example திரு, திருமதி, செல்வி).",
       group: "Group",
@@ -265,8 +371,10 @@ export const admin = {
     save: "Save changes",
     saving: "Saving…",
     saved: "Changes saved.",
+    seeOnSite: "See this page on the website",
     fixErrors: "Please fix the highlighted errors and try again.",
     saveFailed: "Could not save. Please try again.",
+    unknownSection: "That settings page does not exist.",
     tooLong: (n: number) => `Maximum ${n} characters allowed.`,
     errors: {
       email: "Enter a valid email address.",
@@ -280,10 +388,74 @@ export const admin = {
     choose: "Choose image",
     change: "Change image",
     remove: "Remove image",
+    removedNote: "The image will be removed when you press Save changes.",
+    undo: "Undo",
     uploading: "Uploading…",
-    noImage: "No image selected.",
+    noImage: "No image selected yet.",
     unsupported: "This image format is not supported. Use a JPG, PNG or WebP image.",
     failed: "Could not upload the image. Please try again.",
     notConfigured: "Photo storage is not set up yet.",
+  },
+  help: {
+    title: "Help",
+    intro: "Quick answers for everything you do in this panel. Tap a question to open it.",
+    sections: [
+      {
+        title: "How do I add news to the website?",
+        steps: [
+          "Press the gold New post button.",
+          "Choose which section the news is for.",
+          "Write the news in the big box, in Tamil. The first line becomes the title, so keep it short and clear.",
+          "Add photos, a YouTube video, a Facebook link or an older date if you need them.",
+          "Press Post to publish it at once, or Save as draft to keep it hidden for now.",
+        ],
+        note: "The post appears on the website within a few seconds.",
+      },
+      {
+        title: "How do I change, hide or delete a post?",
+        steps: [
+          "Open Posts in the menu.",
+          "Press Edit on the post, change what you need, then press Save changes.",
+          "Press Unpublish to hide a post from visitors without losing it. Press Publish to show it again.",
+          "Press the red bin to delete a post for good. You will be asked to confirm first.",
+        ],
+      },
+      {
+        title: "How do I add or change committee members?",
+        steps: [
+          "Open Committee in the menu.",
+          "Press Add member. Type the name in Tamil, choose the group and add a photo.",
+          "To change someone, press Edit on their card.",
+          "Use the arrow buttons on a card to move a person earlier or later inside their group.",
+        ],
+      },
+      {
+        title: "How do I change the home page, bank details or contact details?",
+        steps: [
+          "Open Home page, Donation or Contact and links under Website pages in the menu.",
+          "Change what you need and press Save changes at the bottom.",
+          "Each page saves only its own details, so nothing else is affected.",
+        ],
+        note: "On the Home page you can also change the big banner photo.",
+      },
+      {
+        title: "Which photos work best?",
+        steps: [
+          "Any photo from a phone is fine. It is made smaller automatically before it is saved.",
+          "Use JPG, PNG or WebP photos.",
+          "For the home banner, choose a wide landscape photo that is not very bright.",
+          "For committee members, a clear head-and-shoulders photo looks best.",
+        ],
+      },
+      {
+        title: "Something looks wrong. What should I do?",
+        steps: [
+          "Refresh the page once.",
+          "Log out and log in again.",
+          "If it still looks wrong, tell the developer what you were doing and what you saw.",
+        ],
+        note: "The website data is backed up every week.",
+      },
+    ],
   },
 } as const;

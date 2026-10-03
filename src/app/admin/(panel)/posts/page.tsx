@@ -2,9 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { DeleteButton } from "@/components/admin/DeleteButton";
-import { admin } from "@/content/admin-en";
+import { Icon } from "@/components/admin/Icon";
+import { Notice } from "@/components/admin/Notice";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { SubmitButton } from "@/components/admin/SubmitButton";
+import { button, card } from "@/components/admin/ui";
+import { admin, categoryEnglish } from "@/content/admin-en";
 import type { ColorKey } from "@/content/ta-LK";
-import { listCategories, listPosts, POSTS_PER_PAGE } from "@/lib/posts";
+import { categoryColor } from "@/lib/category-colors";
+import { getPostCounts, listCategories, listPosts, POSTS_PER_PAGE } from "@/lib/posts";
 import { requireAdmin } from "@/lib/session";
 import { publicUrl } from "@/lib/storage";
 import { deletePostAction, togglePublishAction } from "./actions";
@@ -38,179 +44,245 @@ export default async function PostsPage(props: PageProps<"/admin/posts">) {
   const categoryId = Number.isInteger(categoryParam) && categoryParam > 0 ? categoryParam : undefined;
   const status = statusParam === "published" || statusParam === "draft" ? statusParam : undefined;
 
-  const [categories, { rows, total }] = await Promise.all([
+  const [categories, { rows, total }, counts] = await Promise.all([
     listCategories(),
     listPosts({ categoryId, status, page }),
+    getPostCounts(),
   ]);
 
   const pages = Math.max(1, Math.ceil(total / POSTS_PER_PAGE));
 
-  const query = (nextPage: number) => {
+  // Builds a link that keeps the other choices (tab, section) and changes one thing.
+  const link = (next: { category?: number | null; status?: "published" | "draft" | null; page?: number }) => {
     const params = new URLSearchParams();
-    if (categoryId) params.set("category", String(categoryId));
-    if (status) params.set("status", status);
-    if (nextPage > 1) params.set("page", String(nextPage));
+    const nextCategory = next.category === undefined ? categoryId : (next.category ?? undefined);
+    const nextStatus = next.status === undefined ? status : (next.status ?? undefined);
+    if (nextCategory) params.set("category", String(nextCategory));
+    if (nextStatus) params.set("status", nextStatus);
+    if (next.page && next.page > 1) params.set("page", String(next.page));
     const qs = params.toString();
     return qs ? `/admin/posts?${qs}` : "/admin/posts";
   };
-  const returnTo = query(page);
+  const returnTo = link({ page });
 
-  const selectClass =
-    "rounded-lg border border-line bg-white px-3 py-2 text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
+  const tabs = [
+    { label: admin.posts.tabs.all, count: counts.total, value: null, active: !status },
+    { label: admin.posts.tabs.published, count: counts.published, value: "published" as const, active: status === "published" },
+    { label: admin.posts.tabs.draft, count: counts.drafts, value: "draft" as const, active: status === "draft" },
+  ];
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl text-brand">{admin.posts.title}</h1>
-        <Link
-          href="/admin/posts/new"
-          className="rounded-full bg-brand px-6 py-2.5 font-semibold text-white transition-colors hover:bg-brand-dark"
-        >
-          {admin.posts.newPost}
-        </Link>
-      </div>
+      <PageHeader
+        title={admin.posts.title}
+        description={admin.posts.subtitle}
+        icon="file"
+        actions={
+          <Link href="/admin/posts/new" className={button.gold}>
+            <Icon name="plus" className="h-5 w-5" />
+            {admin.posts.newPost}
+          </Link>
+        }
+      />
 
       {notice && (
-        <p role="status" className="mt-5 rounded-lg bg-green-50 px-4 py-2 font-semibold text-cat-green">
-          {notice}
-        </p>
-      )}
-
-      <form method="get" className="mt-6 flex flex-wrap items-center gap-3">
-        <select name="category" defaultValue={categoryId ? String(categoryId) : ""} className={selectClass} aria-label={admin.posts.columns.category}>
-          <option value="">{admin.posts.allCategories}</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-        <select name="status" defaultValue={status ?? ""} className={selectClass} aria-label={admin.posts.columns.status}>
-          <option value="">{admin.posts.allStatuses}</option>
-          <option value="published">{admin.posts.published}</option>
-          <option value="draft">{admin.posts.draft}</option>
-        </select>
-        <button type="submit" className="rounded-full border-2 border-brand px-5 py-1.5 font-semibold text-brand hover:bg-brand hover:text-white">
-          {admin.posts.filter}
-        </button>
-      </form>
-
-      {rows.length === 0 ? (
-        <p className="mt-8 rounded-2xl border border-dashed border-line bg-white/60 p-8 text-center text-muted">
-          {admin.posts.empty}
-        </p>
-      ) : (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-white">
-          <table className="w-full min-w-[44rem] text-left">
-            <thead className="border-b border-line bg-sand/50 text-sm text-muted">
-              <tr>
-                <th className="px-4 py-3 font-semibold">{admin.posts.columns.post}</th>
-                <th className="px-4 py-3 font-semibold">{admin.posts.columns.category}</th>
-                <th className="px-4 py-3 font-semibold">{admin.posts.columns.status}</th>
-                <th className="px-4 py-3 font-semibold">{admin.posts.columns.date}</th>
-                <th className="px-4 py-3 font-semibold">{admin.posts.columns.actions}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-line">
-              {rows.map((post) => (
-                <tr key={post.id} className="align-top">
-                  <td className="px-4 py-3">
-                    <Link href={`/admin/posts/${post.id}`} className="flex items-start gap-3">
-                      {publicUrl(post.galleryKeys[0]) ? (
-                        <Image
-                          src={publicUrl(post.galleryKeys[0])!}
-                          alt=""
-                          width={128}
-                          height={128}
-                          unoptimized
-                          className="h-16 w-16 shrink-0 rounded-lg border border-line object-cover"
-                        />
-                      ) : (
-                        <span
-                          aria-hidden="true"
-                          className="grid h-16 w-16 shrink-0 place-items-center rounded-lg bg-sand text-xs text-muted"
-                        >
-                          Aa
-                        </span>
-                      )}
-                      <span className="min-w-0">
-                        <span lang="ta" className="line-clamp-2 font-semibold text-brand">
-                          {post.excerpt || post.title}
-                        </span>
-                        <span className="mt-1 flex flex-wrap gap-x-3 text-xs text-muted">
-                          {post.galleryKeys.length > 0 && <span>{admin.posts.photoCount(post.galleryKeys.length)}</span>}
-                          {post.youtubeUrl && <span>{admin.posts.hasVideo}</span>}
-                          {post.facebookUrl && <span>{admin.posts.hasFacebook}</span>}
-                        </span>
-                      </span>
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3">
-                    <CategoryBadge name={post.categoryName} colorKey={post.categoryColor as ColorKey} />
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`rounded-full px-3 py-0.5 text-sm font-semibold ${
-                        post.published ? "bg-green-50 text-cat-green" : "bg-sand text-muted"
-                      }`}
-                    >
-                      {post.published ? admin.posts.published : admin.posts.draft}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-sm text-muted">
-                    {dateFormat.format(post.publishedAt ?? post.createdAt)}
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-                      <Link href={`/admin/posts/${post.id}`} className="font-semibold text-brand underline-offset-4 hover:underline">
-                        {admin.common.edit}
-                      </Link>
-                      {post.published && (
-                        <Link
-                          href={`/posts/${post.slug}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-semibold text-brand underline-offset-4 hover:underline"
-                        >
-                          {admin.posts.view}
-                        </Link>
-                      )}
-                      <form action={togglePublishAction}>
-                        <input type="hidden" name="id" value={post.id} />
-                        <input type="hidden" name="publish" value={post.published ? "false" : "true"} />
-                        <input type="hidden" name="returnTo" value={returnTo} />
-                        <button type="submit" className="font-semibold text-brand underline-offset-4 hover:underline">
-                          {post.published ? admin.posts.unpublish : admin.posts.publish}
-                        </button>
-                      </form>
-                      <DeleteButton
-                        action={deletePostAction}
-                        id={post.id}
-                        label={admin.common.delete}
-                        confirmMessage={admin.posts.confirmDelete}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="mb-5">
+          <Notice>{notice}</Notice>
         </div>
       )}
 
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label={admin.posts.title}>
+        {tabs.map((tab) => (
+          <Link
+            key={tab.label}
+            href={link({ status: tab.value, page: 1 })}
+            role="tab"
+            aria-selected={tab.active}
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 font-semibold transition-colors ${
+              tab.active ? "bg-brand text-white shadow-sm" : "bg-white text-ink ring-1 ring-line hover:bg-sand/60"
+            }`}
+          >
+            {tab.label}
+            <span
+              className={`rounded-full px-2 text-sm font-bold ${tab.active ? "bg-white/20 text-white" : "bg-panel text-muted"}`}
+            >
+              {tab.count}
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2" aria-label={admin.posts.sections}>
+        <Link
+          href={link({ category: null, page: 1 })}
+          className={`rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors ${
+            !categoryId ? "bg-ink text-white" : "bg-white text-muted ring-1 ring-line hover:bg-sand/60"
+          }`}
+        >
+          {admin.posts.allCategories}
+        </Link>
+        {categories.map((c) => {
+          const active = categoryId === c.id;
+          const color = categoryColor[c.colorKey as ColorKey];
+          return (
+            <Link
+              key={c.id}
+              href={link({ category: c.id, page: 1 })}
+              title={c.name}
+              className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors ${
+                active ? `${color.solid} shadow-sm` : "bg-white text-ink ring-1 ring-line hover:bg-sand/60"
+              }`}
+            >
+              <span aria-hidden="true" className={`h-2 w-2 rounded-full ${active ? "bg-white" : color.dot}`} />
+              {categoryEnglish[c.slug] ?? c.name}
+            </Link>
+          );
+        })}
+      </div>
+
+      {rows.length === 0 ? (
+        <div className={`${card} mt-6 px-6 py-14 text-center`}>
+          <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 text-brand">
+            <Icon name="file" className="h-7 w-7" />
+          </span>
+          <p className="mt-4 text-lg font-semibold text-ink">
+            {counts.total === 0 ? admin.posts.emptyAll : admin.posts.emptyFiltered}
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            {counts.total === 0 ? (
+              <Link href="/admin/posts/new" className={button.primary}>
+                <Icon name="plus" className="h-5 w-5" />
+                {admin.posts.newPost}
+              </Link>
+            ) : (
+              <Link href="/admin/posts" className={button.secondary}>
+                {admin.posts.clearFilters}
+              </Link>
+            )}
+          </div>
+        </div>
+      ) : (
+        <ul className="mt-6 space-y-4">
+          {rows.map((post) => {
+            const cover = publicUrl(post.galleryKeys[0]);
+            const edit = `/admin/posts/${post.id}`;
+            return (
+              <li key={post.id} className={`${card} p-4 sm:p-5`}>
+                <div className="flex gap-4">
+                  <Link href={edit} className="shrink-0" tabIndex={-1} aria-hidden="true">
+                    {cover ? (
+                      <Image
+                        src={cover}
+                        alt=""
+                        width={192}
+                        height={192}
+                        unoptimized
+                        className="h-20 w-20 rounded-xl border border-line object-cover sm:h-24 sm:w-24"
+                      />
+                    ) : (
+                      <span className="grid h-20 w-20 place-items-center rounded-xl bg-sand text-lg font-bold text-muted sm:h-24 sm:w-24">
+                        Aa
+                      </span>
+                    )}
+                  </Link>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                      <CategoryBadge
+                        name={categoryEnglish[post.categorySlug] ?? post.categoryName}
+                        colorKey={post.categoryColor as ColorKey}
+                      />
+                      <span
+                        className={`rounded-full px-3 py-0.5 text-sm font-bold ${
+                          post.published ? "bg-green-50 text-green-800" : "bg-amber-50 text-amber-800"
+                        }`}
+                      >
+                        {post.published ? admin.posts.published : admin.posts.draft}
+                      </span>
+                      <span className="text-sm text-muted">{dateFormat.format(post.publishedAt ?? post.createdAt)}</span>
+                    </div>
+                    <Link
+                      href={edit}
+                      lang="ta"
+                      className="mt-1.5 line-clamp-2 text-lg font-semibold leading-snug text-ink transition-colors hover:text-brand"
+                    >
+                      {post.excerpt || post.title || admin.posts.noText}
+                    </Link>
+                    {(post.galleryKeys.length > 0 || post.youtubeUrl || post.facebookUrl) && (
+                      <p className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+                        {post.galleryKeys.length > 0 && (
+                          <span className="inline-flex items-center gap-1.5">
+                            <Icon name="image" className="h-4 w-4" />
+                            {admin.posts.photoCount(post.galleryKeys.length)}
+                          </span>
+                        )}
+                        {post.youtubeUrl && (
+                          <span className="inline-flex items-center gap-1.5">
+                            <Icon name="video" className="h-4 w-4" />
+                            {admin.posts.hasVideo}
+                          </span>
+                        )}
+                        {post.facebookUrl && (
+                          <span className="inline-flex items-center gap-1.5">
+                            <Icon name="facebook" className="h-4 w-4" />
+                            {admin.posts.hasFacebook}
+                          </span>
+                        )}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line/70 pt-3">
+                  <Link href={edit} className={button.small}>
+                    <Icon name="edit" className="h-4 w-4" />
+                    {admin.common.edit}
+                  </Link>
+                  {post.published && (
+                    <Link href={`/posts/${post.slug}`} target="_blank" rel="noopener noreferrer" className={button.small}>
+                      <Icon name="externalLink" className="h-4 w-4" />
+                      {admin.posts.view}
+                    </Link>
+                  )}
+                  <form action={togglePublishAction}>
+                    <input type="hidden" name="id" value={post.id} />
+                    <input type="hidden" name="publish" value={post.published ? "false" : "true"} />
+                    <input type="hidden" name="returnTo" value={returnTo} />
+                    <SubmitButton pendingLabel={admin.posts.publishing} className={button.small}>
+                      <Icon name={post.published ? "eyeOff" : "send"} className="h-4 w-4" />
+                      {post.published ? admin.posts.unpublish : admin.posts.publish}
+                    </SubmitButton>
+                  </form>
+                  <span className="ml-auto">
+                    <DeleteButton
+                      action={deletePostAction}
+                      id={post.id}
+                      label={admin.common.delete}
+                      title={admin.posts.deleteTitle}
+                      confirmMessage={admin.posts.confirmDelete}
+                    />
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
       {pages > 1 && (
-        <nav className="mt-6 flex items-center justify-between" aria-label={admin.posts.title}>
+        <nav className="mt-6 flex items-center justify-between gap-3" aria-label={admin.posts.title}>
           {page > 1 ? (
-            <Link href={query(page - 1)} className="font-semibold text-brand hover:underline">
-              ← {admin.posts.previous}
+            <Link href={link({ page: page - 1 })} className={button.secondary}>
+              <Icon name="arrowLeft" className="h-4 w-4" />
+              {admin.posts.previous}
             </Link>
           ) : (
             <span />
           )}
-          <span className="text-sm text-muted">{admin.posts.page(page, pages)}</span>
+          <span className="text-sm font-semibold text-muted">{admin.posts.page(page, pages)}</span>
           {page < pages ? (
-            <Link href={query(page + 1)} className="font-semibold text-brand hover:underline">
-              {admin.posts.next} →
+            <Link href={link({ page: page + 1 })} className={button.secondary}>
+              {admin.posts.next}
+              <Icon name="arrowRight" className="h-4 w-4" />
             </Link>
           ) : (
             <span />

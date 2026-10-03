@@ -21,11 +21,12 @@
   --color-ink: #2b2420;
   --color-muted: #6b5f58;
   --color-line: #e6d9c9;
+  --color-panel: #f6f3ee;
 
-  --color-cat-red: #c2410c;
-  --color-cat-green: #2f7d0b;
+  --color-cat-red: #b53a09;
+  --color-cat-green: #2a7309;
   --color-cat-purple: #7a2f9a;
-  --color-cat-blue: #1769c9;
+  --color-cat-blue: #1560bb;
 }
 
 @layer base {

@@ -52,7 +52,11 @@ export async function putObject(key: string, body: Uint8Array, contentType: stri
     const res = await r2Request(r2Config()!, key, {
       method: "PUT",
       body: body as BodyInit,
-      headers: { "Content-Type": contentType, "Cache-Control": "public, max-age=31536000, immutable" },
+      headers: {
+        "Content-Type": contentType,
+        "Content-Length": String(body.byteLength),
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
     });
     if (!res.ok) throw new Error(`R2 upload failed with status ${res.status}`);
     return;

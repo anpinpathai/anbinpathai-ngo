@@ -1,4 +1,6 @@
+import { PageHeader } from "@/components/admin/PageHeader";
 import { admin } from "@/content/admin-en";
+import type { ColorKey } from "@/content/ta-LK";
 import { listCategories } from "@/lib/posts";
 import { todayInput, type PostFormValues } from "@/lib/post-form";
 import { requireAdmin } from "@/lib/session";
@@ -20,10 +22,15 @@ export default async function NewPostPage() {
 
   return (
     <>
-      <h1 className="mb-6 text-center text-3xl text-brand">{admin.posts.newPost}</h1>
+      <PageHeader
+        title={admin.posts.newPost}
+        description="Write your news, add photos if you like, then press Post."
+        icon="edit"
+        back={{ href: "/admin/posts", label: admin.posts.backToPosts }}
+      />
       <PostComposer
         initialValues={initialValues}
-        categories={categories.map((c) => ({ id: c.id, slug: c.slug, name: c.name }))}
+        categories={categories.map((c) => ({ id: c.id, slug: c.slug, name: c.name, colorKey: c.colorKey as ColorKey }))}
         initialPhotos={[]}
         status="new"
       />

@@ -17,11 +17,11 @@ export const getSettings = cache(async (): Promise<SettingsValues> => {
   return Object.fromEntries(rows.map((r) => [r.key, r.value]));
 });
 
-export function validateSettings(input: SettingsValues) {
+export function validateSettings(input: SettingsValues, fields: readonly SettingField[] = settingFields) {
   const values: SettingsValues = {};
   const errors: SettingsErrors = {};
 
-  for (const field of settingFields) {
+  for (const field of fields) {
     const value = (input[field.key] ?? "").trim();
     values[field.key] = value;
     if (!value) continue;
@@ -57,8 +57,9 @@ export function validateSettings(input: SettingsValues) {
   return { values, errors, valid: Object.keys(errors).length === 0 };
 }
 
-export async function saveSettings(values: SettingsValues) {
-  const rows = settingFields.map((f) => ({ key: f.key, value: values[f.key] ?? "" }));
+// Saves only the given fields, so saving one settings page never touches another page's values.
+export async function saveSettings(values: SettingsValues, fields: readonly SettingField[] = settingFields) {
+  const rows = fields.map((f) => ({ key: f.key, value: values[f.key] ?? "" }));
   await db
     .insert(siteSettings)
     .values(rows)

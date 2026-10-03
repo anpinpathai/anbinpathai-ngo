@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { Icon } from "@/components/admin/Icon";
+import { Notice } from "@/components/admin/Notice";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { button, card } from "@/components/admin/ui";
 import { admin, roleGroupEnglish } from "@/content/admin-en";
 import { roleGroups } from "@/content/ta-LK";
+import { initialOf } from "@/lib/names";
 import { requireAdmin } from "@/lib/session";
 import { publicUrl } from "@/lib/storage";
 import { listMembers } from "@/lib/team";
@@ -13,27 +18,14 @@ const notices: Record<string, string> = {
   deleted: admin.common.noticeDeleted,
 };
 
-const graphemes = new Intl.Segmenter("ta", { granularity: "grapheme" });
-
-function initialOf(name: string) {
-  const stripped = name.replace(/^(?:திருமதி|திரு|செல்வி|செல்வன்)[.\s]+/, "").trim();
-  const [first] = graphemes.segment(stripped || name);
-  return first?.segment ?? "?";
-}
-
 function MoveButton({ id, direction, disabled }: { id: number; direction: "up" | "down"; disabled: boolean }) {
+  const label = direction === "up" ? admin.team.moveEarlier : admin.team.moveLater;
   return (
     <form action={moveMemberAction}>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="direction" value={direction} />
-      <button
-        type="submit"
-        disabled={disabled}
-        aria-label={direction === "up" ? admin.team.moveUp : admin.team.moveDown}
-        title={direction === "up" ? admin.team.moveUp : admin.team.moveDown}
-        className="grid h-8 w-8 place-items-center rounded-md border border-line font-bold text-brand hover:bg-sand disabled:opacity-30"
-      >
-        {direction === "up" ? "↑" : "↓"}
+      <button type="submit" disabled={disabled} aria-label={label} title={label} className={button.icon}>
+        <Icon name={direction === "up" ? "arrowLeft" : "arrowRight"} className="h-4 w-4" />
       </button>
     </form>
   );
@@ -50,93 +42,96 @@ export default async function TeamPage(props: PageProps<"/admin/team">) {
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl text-brand">{admin.team.title}</h1>
-        <Link
-          href="/admin/team/new"
-          className="rounded-full bg-brand px-6 py-2.5 font-semibold text-white transition-colors hover:bg-brand-dark"
-        >
-          {admin.team.newMember}
-        </Link>
-      </div>
+      <PageHeader
+        title={admin.team.title}
+        description={admin.team.subtitle}
+        icon="users"
+        actions={
+          <Link href="/admin/team/new" className={button.gold}>
+            <Icon name="plus" className="h-5 w-5" />
+            {admin.team.newMember}
+          </Link>
+        }
+      />
 
       {notice && (
-        <p role="status" className="mt-5 rounded-lg bg-green-50 px-4 py-2 font-semibold text-cat-green">
-          {notice}
-        </p>
+        <div className="mb-5">
+          <Notice>{notice}</Notice>
+        </div>
       )}
 
-      <div className="mt-8 space-y-8">
+      <div className="space-y-6">
         {roleGroups.map((group) => {
           const list = members.filter((m) => m.roleGroup === group.key);
           return (
-            <section key={group.key} className="rounded-2xl border border-line bg-white p-5 sm:p-6">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className="text-xl text-brand">
-                  {roleGroupEnglish[group.key]}{" "}
-                  <span lang="ta" className="text-base font-normal text-muted">
-                    ({group.heading})
+            <section key={group.key} className={`${card} p-5 sm:p-6`} aria-labelledby={`group-${group.key}`}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-baseline gap-x-3">
+                  <h2 id={`group-${group.key}`} className="text-xl font-bold text-brand-dark">
+                    {roleGroupEnglish[group.key]}
+                  </h2>
+                  <span lang="ta" className="text-sm text-muted">
+                    {group.heading}
                   </span>
-                </h2>
-                <Link
-                  href={`/admin/team/new?group=${group.key}`}
-                  className="text-sm font-semibold text-brand underline-offset-4 hover:underline"
-                >
-                  + {admin.team.newMember}
+                  <span className="rounded-full bg-panel px-2.5 py-0.5 text-sm font-bold text-muted">
+                    {admin.team.count(list.length)}
+                  </span>
+                </div>
+                <Link href={`/admin/team/new?group=${group.key}`} className={button.small}>
+                  <Icon name="plus" className="h-4 w-4" />
+                  {admin.team.newMember}
                 </Link>
               </div>
 
               {list.length === 0 ? (
-                <p className="mt-3 text-muted">{admin.team.empty}</p>
+                <p className="mt-4 rounded-xl border border-dashed border-line bg-panel/60 px-4 py-6 text-center text-muted">
+                  {admin.team.empty}
+                </p>
               ) : (
-                <ul className="mt-4 divide-y divide-line">
+                <ul className="mt-5 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 xl:grid-cols-3">
                   {list.map((m, index) => {
                     const photo = publicUrl(m.photoKey);
                     return (
-                      <li key={m.id} className="flex flex-wrap items-center gap-4 py-3">
+                      <li key={m.id} className="flex flex-col items-center rounded-2xl border border-line/80 bg-panel/40 p-4 text-center">
                         {photo ? (
                           <Image
                             src={photo}
                             alt=""
-                            width={96}
-                            height={96}
+                            width={192}
+                            height={192}
                             unoptimized
-                            className="h-12 w-12 shrink-0 rounded-full border border-line object-cover"
+                            className="h-24 w-24 rounded-full border-2 border-white object-cover shadow"
                           />
                         ) : (
                           <span
                             aria-label={admin.team.noPhoto}
                             title={admin.team.noPhoto}
-                            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-sand text-lg font-semibold text-muted"
+                            className="grid h-24 w-24 place-items-center rounded-full bg-sand text-3xl font-bold text-muted"
                           >
                             {initialOf(m.name)}
                           </span>
                         )}
 
-                        <div className="min-w-0 flex-1" lang="ta">
-                          <p className="font-semibold">{m.name}</p>
-                          <p className="text-sm text-muted">
+                        <div className="mt-3 min-w-0" lang="ta">
+                          <p className="font-semibold leading-snug text-ink">{m.name}</p>
+                          <p className="text-sm leading-snug text-muted">
                             {m.roleTitle}
                             {m.subtitle ? ` · ${m.subtitle}` : ""}
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="mt-auto flex flex-wrap items-center justify-center gap-2 pt-4">
                           <MoveButton id={m.id} direction="up" disabled={index === 0} />
                           <MoveButton id={m.id} direction="down" disabled={index === list.length - 1} />
-                        </div>
-
-                        <div className="flex items-center gap-4 text-sm">
-                          <Link
-                            href={`/admin/team/${m.id}`}
-                            className="font-semibold text-brand underline-offset-4 hover:underline"
-                          >
+                          <Link href={`/admin/team/${m.id}`} className={button.small}>
+                            <Icon name="edit" className="h-4 w-4" />
                             {admin.common.edit}
                           </Link>
                           <DeleteButton
                             action={deleteMemberAction}
                             id={m.id}
                             label={admin.common.delete}
+                            title={admin.team.deleteTitle}
                             confirmMessage={admin.team.confirmDelete}
                           />
                         </div>

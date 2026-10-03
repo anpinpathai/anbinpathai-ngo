@@ -2,62 +2,95 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { startTransition, useActionState, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { startTransition, useActionState, useRef, useState, type FormEvent } from "react";
+import { Icon, type IconName } from "@/components/admin/Icon";
+import { useUnsavedChanges } from "@/components/admin/UnsavedChanges";
+import { button, card, inputClass } from "@/components/admin/ui";
 import { admin, categoryEnglish } from "@/content/admin-en";
-import { t } from "@/content/ta-LK";
+import { t, type ColorKey } from "@/content/ta-LK";
+import { categoryColor } from "@/lib/category-colors";
 import { MAX_GALLERY_PHOTOS } from "@/lib/limits";
 import type { PostFormValues } from "@/lib/post-form";
 import { uploadErrorMessage, uploadImage } from "@/lib/upload-client";
 import { savePostAction, type PostFormState } from "./actions";
 
-type CategoryOption = { id: number; slug: string; name: string };
+type CategoryOption = { id: number; slug: string; name: string; colorKey: ColorKey };
 type PhotoItem = { key: string; url: string };
 type PostStatus = "new" | "published" | "draft";
 
-const inputClass =
-  "mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
-
-function Icon({ children }: { children: ReactNode }) {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-      {children}
-    </svg>
-  );
-}
-
 function AddButton({
   label,
+  icon,
   active,
   disabled,
   onClick,
-  children,
 }: {
   label: string;
+  icon: IconName;
   active?: boolean;
   disabled?: boolean;
   onClick: () => void;
-  children: ReactNode;
 }) {
   return (
     <button
       type="button"
-      title={label}
-      aria-label={label}
       aria-pressed={active}
       disabled={disabled}
       onClick={onClick}
-      className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-colors disabled:opacity-50 ${
-        active ? "bg-brand text-white" : "text-brand hover:bg-sand"
+      className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-colors disabled:opacity-50 ${
+        active ? "border-brand bg-brand text-white" : "border-line bg-white text-brand hover:bg-sand/60"
       }`}
     >
-      <Icon>{children}</Icon>
-      <span className="hidden sm:inline">{label}</span>
+      <Icon name={icon} className="h-5 w-5" />
+      {label}
     </button>
   );
 }
 
+function ExtraField({
+  id,
+  label,
+  help,
+  error,
+  onRemove,
+  children,
+}: {
+  id: string;
+  label: string;
+  help: string;
+  error?: string;
+  onRemove: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-t border-line/70 px-5 py-4">
+      <div className="flex items-center justify-between gap-3">
+        <label htmlFor={id} className="font-semibold text-ink">
+          {label}
+        </label>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-red-700 transition-colors hover:bg-red-50"
+        >
+          <Icon name="x" className="h-4 w-4" />
+          {admin.posts.composer.hide}
+        </button>
+      </div>
+      <p className="text-sm text-muted">{help}</p>
+      {children}
+      {error && (
+        <p className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-red-700">
+          <Icon name="alert" className="h-4 w-4" />
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
 const tileButton =
-  "grid h-8 w-8 place-items-center rounded-full bg-white/90 text-sm font-bold text-ink shadow hover:bg-white disabled:opacity-40";
+  "grid h-8 w-8 place-items-center rounded-full bg-white/95 text-ink shadow transition-colors hover:bg-white disabled:opacity-40";
 
 export function PostComposer({
   initialValues,
@@ -74,6 +107,12 @@ export function PostComposer({
   const initial: PostFormState = { status: "idle", values: initialValues, errors: {} };
   const [state, action, pending] = useActionState(savePostAction, initial);
   const { values, errors } = state;
+
+  // "Edited" means something changed since the last result from the server.
+  const [editedAt, setEditedAt] = useState<PostFormState | null>(null);
+  const dirty = editedAt === state;
+  useUnsavedChanges(dirty);
+  const markEdited = () => setEditedAt(state);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -98,7 +137,7 @@ export function PostComposer({
     const el = textRef.current;
     if (!el) return;
     el.style.height = "auto";
-    el.style.height = `${Math.max(el.scrollHeight, 160)}px`;
+    el.style.height = `${Math.max(el.scrollHeight, 176)}px`;
   }
 
   async function addPhotos(files: File[]) {
@@ -116,6 +155,7 @@ export function PostComposer({
       try {
         const uploaded = await uploadImage(chosen[i], 1600);
         setPhotos((prev) => [...prev, uploaded]);
+        markEdited();
       } catch (err) {
         failure = uploadErrorMessage(err);
       }
@@ -132,81 +172,103 @@ export function PostComposer({
       [next[index], next[target]] = [next[target], next[index]];
       return next;
     });
+    markEdited();
   }
 
-  const primaryLabel =
-    status === "new" ? text.post : status === "draft" ? text.publishNow : text.saveChanges;
+  const primaryLabel = status === "new" ? text.post : status === "draft" ? text.publishNow : text.saveChanges;
   const secondaryLabel = status === "published" ? text.unpublish : text.saveDraft;
   const photoMessage = uploadMessage ?? errors.photoKeys ?? null;
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-2xl">
+    <form onSubmit={handleSubmit} onInput={markEdited} className="max-w-3xl">
       <input type="hidden" name="id" value={values.id} />
       {photos.map((photo) => (
         <input key={photo.key} type="hidden" name="photoKeys" value={photo.key} />
       ))}
 
-      <div className="rounded-2xl border border-line bg-white shadow-sm">
-        <div className="flex items-center gap-3 border-b border-line p-4">
-          <Image
-            src="/logos/logo-anbin.webp"
-            alt=""
-            width={96}
-            height={96}
-            unoptimized
-            className="h-11 w-11 rounded-full"
-          />
-          <div className="min-w-0">
-            <p lang="ta" className="font-semibold leading-tight">
-              {t.siteShortName}
-            </p>
-            <label className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted">
-              {text.postingTo}
-              <select
-                name="categoryId"
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                aria-invalid={Boolean(errors.categoryId)}
-                className="max-w-full rounded-full border border-line bg-sand px-3 py-1 text-sm font-semibold text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
-              >
-                <option value="">{text.chooseCategory}</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} ({categoryEnglish[c.slug] ?? c.slug})
-                  </option>
-                ))}
-              </select>
-            </label>
+      <div className={`${card} overflow-hidden`}>
+        <section className="p-5">
+          <h2 id="category-question" className="font-bold text-brand-dark">
+            {text.categoryQuestion}
+          </h2>
+          <div role="radiogroup" aria-labelledby="category-question" className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            {categories.map((c) => {
+              const color = categoryColor[c.colorKey];
+              const checked = categoryId === String(c.id);
+              return (
+                <label
+                  key={c.id}
+                  className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 p-3 transition-colors focus-within:ring-2 focus-within:ring-brand/30 ${
+                    checked ? `${color.border} ${color.soft}` : "border-line hover:bg-panel"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="categoryId"
+                    value={c.id}
+                    checked={checked}
+                    onChange={() => setCategoryId(String(c.id))}
+                    className="sr-only"
+                  />
+                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full ${checked ? color.solid : "bg-panel"}`}>
+                    {checked ? (
+                      <Icon name="check" className="h-5 w-5" />
+                    ) : (
+                      <span aria-hidden="true" className={`h-3 w-3 rounded-full ${color.dot}`} />
+                    )}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-semibold leading-tight text-ink">{categoryEnglish[c.slug] ?? c.name}</span>
+                    <span lang="ta" className="mt-0.5 block truncate text-sm text-muted">
+                      {c.name}
+                    </span>
+                  </span>
+                </label>
+              );
+            })}
           </div>
-        </div>
-        {errors.categoryId && (
-          <p role="alert" className="px-4 pt-3 text-sm font-semibold text-red-700">
-            {errors.categoryId}
-          </p>
-        )}
+          {errors.categoryId && (
+            <p role="alert" className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-red-700">
+              <Icon name="alert" className="h-4 w-4" />
+              {errors.categoryId}
+            </p>
+          )}
+        </section>
 
-        <div className="px-4 pt-3">
+        <section className="border-t border-line/70 px-5 pb-3 pt-4">
+          <div className="flex items-center gap-3">
+            <Image src="/logos/logo-anbin.webp" alt="" width={96} height={96} unoptimized className="h-10 w-10 rounded-full" />
+            <div className="min-w-0">
+              <p lang="ta" className="truncate font-semibold leading-tight text-ink">
+                {t.siteShortName}
+              </p>
+              <label htmlFor="post-text" className="text-sm text-muted">
+                {text.writeLabel}
+              </label>
+            </div>
+          </div>
           <textarea
+            id="post-text"
             ref={textRef}
             name="text"
             lang="ta"
             defaultValue={values.text}
             placeholder={text.placeholder}
-            aria-label={text.placeholder}
             aria-invalid={Boolean(errors.text)}
             maxLength={10000}
             onInput={grow}
-            className="min-h-40 w-full resize-none border-0 bg-transparent text-lg leading-relaxed text-ink placeholder:text-muted focus:outline-none"
+            className="mt-3 min-h-44 w-full resize-none border-0 bg-transparent text-lg leading-relaxed text-ink placeholder:text-muted/70 focus:outline-none"
           />
           {errors.text && (
-            <p role="alert" className="pb-2 text-sm font-semibold text-red-700">
+            <p role="alert" className="flex items-center gap-1.5 pb-1 text-sm font-semibold text-red-700">
+              <Icon name="alert" className="h-4 w-4" />
               {errors.text}
             </p>
           )}
-        </div>
+        </section>
 
         {photos.length > 0 && (
-          <ul className="grid grid-cols-2 gap-2 px-4 pb-2 sm:grid-cols-3">
+          <ul className="grid grid-cols-2 gap-2.5 px-5 pb-2 sm:grid-cols-3">
             {photos.map((photo, index) => (
               <li key={photo.key} className="relative">
                 <Image
@@ -215,18 +277,26 @@ export function PostComposer({
                   width={400}
                   height={400}
                   unoptimized
-                  className="aspect-square w-full rounded-lg object-cover"
+                  className="aspect-square w-full rounded-xl object-cover"
                 />
+                {index === 0 && (
+                  <span className="absolute left-2 top-2 rounded-full bg-gold px-2.5 py-0.5 text-xs font-bold text-ink shadow">
+                    {text.cover}
+                  </span>
+                )}
                 <button
                   type="button"
-                  onClick={() => setPhotos((prev) => prev.filter((p) => p.key !== photo.key))}
+                  onClick={() => {
+                    setPhotos((prev) => prev.filter((p) => p.key !== photo.key));
+                    markEdited();
+                  }}
                   aria-label={text.removePhoto}
                   title={text.removePhoto}
-                  className={`${tileButton} absolute right-2 top-2`}
+                  className={`${tileButton} absolute right-2 top-2 text-red-700`}
                 >
-                  ×
+                  <Icon name="x" className="h-4 w-4" />
                 </button>
-                <div className="absolute bottom-2 left-2 flex gap-1">
+                <div className="absolute bottom-2 left-2 flex gap-1.5">
                   <button
                     type="button"
                     disabled={index === 0}
@@ -235,7 +305,7 @@ export function PostComposer({
                     title={text.movePhotoEarlier}
                     className={tileButton}
                   >
-                    ←
+                    <Icon name="arrowLeft" className="h-4 w-4" />
                   </button>
                   <button
                     type="button"
@@ -245,7 +315,7 @@ export function PostComposer({
                     title={text.movePhotoLater}
                     className={tileButton}
                   >
-                    →
+                    <Icon name="arrowRight" className="h-4 w-4" />
                   </button>
                 </div>
               </li>
@@ -253,14 +323,19 @@ export function PostComposer({
           </ul>
         )}
         {(photos.length > 0 || uploading || photoMessage) && (
-          <div className="px-4 pb-2 text-sm">
+          <div className="px-5 pb-3 text-sm">
             {uploading ? (
-              <p className="text-muted">{text.uploadingPhotos(progress.done, progress.total)}</p>
+              <p className="font-semibold text-brand">{text.uploadingPhotos(progress.done, progress.total)}</p>
             ) : (
-              <p className="text-muted">{text.photoCount(photos.length, MAX_GALLERY_PHOTOS)}</p>
+              photos.length > 0 && (
+                <p className="text-muted">
+                  {text.photoCount(photos.length, MAX_GALLERY_PHOTOS)} · {text.photoHint}
+                </p>
+              )
             )}
             {photoMessage && (
-              <p role="alert" className="font-semibold text-red-700">
+              <p role="alert" className="mt-1 flex items-center gap-1.5 font-semibold text-red-700">
+                <Icon name="alert" className="h-4 w-4" />
                 {photoMessage}
               </p>
             )}
@@ -268,20 +343,16 @@ export function PostComposer({
         )}
 
         {showVideo && (
-          <div className="px-4 pb-3">
-            <div className="flex items-center justify-between">
-              <label htmlFor="youtubeUrl" className="font-semibold">
-                {text.youtubeLabel}
-              </label>
-              <button
-                type="button"
-                onClick={() => setShowVideo(false)}
-                className="text-sm font-semibold text-red-700 hover:underline"
-              >
-                {text.hide}
-              </button>
-            </div>
-            <p className="text-sm text-muted">{text.youtubeHelp}</p>
+          <ExtraField
+            id="youtubeUrl"
+            label={text.youtubeLabel}
+            help={text.youtubeHelp}
+            error={errors.youtubeUrl}
+            onRemove={() => {
+              setShowVideo(false);
+              markEdited();
+            }}
+          >
             <input
               id="youtubeUrl"
               name="youtubeUrl"
@@ -290,27 +361,22 @@ export function PostComposer({
               defaultValue={values.youtubeUrl}
               maxLength={200}
               aria-invalid={Boolean(errors.youtubeUrl)}
-              className={inputClass}
+              className={inputClass(errors.youtubeUrl)}
             />
-            {errors.youtubeUrl && <p className="mt-1 text-sm font-semibold text-red-700">{errors.youtubeUrl}</p>}
-          </div>
+          </ExtraField>
         )}
 
         {showFacebook && (
-          <div className="px-4 pb-3">
-            <div className="flex items-center justify-between">
-              <label htmlFor="facebookUrl" className="font-semibold">
-                {text.facebookLabel}
-              </label>
-              <button
-                type="button"
-                onClick={() => setShowFacebook(false)}
-                className="text-sm font-semibold text-red-700 hover:underline"
-              >
-                {text.hide}
-              </button>
-            </div>
-            <p className="text-sm text-muted">{text.facebookHelp}</p>
+          <ExtraField
+            id="facebookUrl"
+            label={text.facebookLabel}
+            help={text.facebookHelp}
+            error={errors.facebookUrl}
+            onRemove={() => {
+              setShowFacebook(false);
+              markEdited();
+            }}
+          >
             <input
               id="facebookUrl"
               name="facebookUrl"
@@ -319,108 +385,90 @@ export function PostComposer({
               defaultValue={values.facebookUrl}
               maxLength={500}
               aria-invalid={Boolean(errors.facebookUrl)}
-              className={inputClass}
+              className={inputClass(errors.facebookUrl)}
             />
-            {errors.facebookUrl && <p className="mt-1 text-sm font-semibold text-red-700">{errors.facebookUrl}</p>}
-          </div>
+          </ExtraField>
         )}
 
         {showDate && (
-          <div className="px-4 pb-3">
-            <div className="flex items-center justify-between">
-              <label htmlFor="publishDate" className="font-semibold">
-                {text.dateLabel}
-              </label>
-              <button
-                type="button"
-                onClick={() => setShowDate(false)}
-                className="text-sm font-semibold text-red-700 hover:underline"
-              >
-                {text.hide}
-              </button>
-            </div>
-            <p className="text-sm text-muted">{text.dateHelp}</p>
+          <ExtraField
+            id="publishDate"
+            label={text.dateLabel}
+            help={text.dateHelp}
+            error={errors.publishDate}
+            onRemove={() => setShowDate(false)}
+          >
             <input
               id="publishDate"
               name="publishDate"
               type="date"
               defaultValue={values.publishDate}
               aria-invalid={Boolean(errors.publishDate)}
-              className={`${inputClass} max-w-xs`}
+              className={`${inputClass(errors.publishDate)} max-w-xs`}
             />
-            {errors.publishDate && <p className="mt-1 text-sm font-semibold text-red-700">{errors.publishDate}</p>}
-          </div>
+          </ExtraField>
         )}
 
-        <div className="mx-4 mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line p-2">
-          <span className="px-2 text-sm font-semibold">{text.addToPost}</span>
-          <div className="flex items-center gap-1">
-            <input
-              ref={fileRef}
-              type="file"
-              multiple
-              accept="image/jpeg,image/png,image/webp"
-              className="sr-only"
-              tabIndex={-1}
-              aria-hidden="true"
-              onChange={(e) => {
-                const files = Array.from(e.target.files ?? []);
-                e.target.value = "";
-                if (files.length > 0) void addPhotos(files);
-              }}
-            />
+        <section className="border-t border-line/70 bg-panel/50 p-5">
+          <p className="mb-2.5 text-sm font-bold uppercase tracking-wide text-muted">{text.addToPost}</p>
+          <input
+            ref={fileRef}
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp"
+            className="sr-only"
+            tabIndex={-1}
+            aria-hidden="true"
+            onChange={(e) => {
+              const files = Array.from(e.target.files ?? []);
+              e.target.value = "";
+              if (files.length > 0) void addPhotos(files);
+            }}
+          />
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             <AddButton
-              label={text.addPhotos}
+              label={text.photos}
+              icon="image"
               disabled={uploading || photos.length >= MAX_GALLERY_PHOTOS}
               onClick={() => fileRef.current?.click()}
-            >
-              <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2ZM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5ZM8 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-            </AddButton>
-            <AddButton label={text.video} active={showVideo} onClick={() => setShowVideo((v) => !v)}>
-              <path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM10 15V9l5.2 3L10 15Z" />
-            </AddButton>
-            <AddButton label={text.facebook} active={showFacebook} onClick={() => setShowFacebook((v) => !v)}>
-              <path d="M12 2a10 10 0 1 0 1.5 19.9v-7h-2.3V12h2.3V9.8c0-2.3 1.4-3.5 3.4-3.5.7 0 1.4.1 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.4V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 12 2Z" />
-            </AddButton>
-            <AddButton label={text.date} active={showDate} onClick={() => setShowDate((v) => !v)}>
-              <path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm-2 8h14v10H5V10Z" />
-            </AddButton>
+            />
+            <AddButton label={text.video} icon="video" active={showVideo} onClick={() => setShowVideo((v) => !v)} />
+            <AddButton label={text.facebook} icon="facebook" active={showFacebook} onClick={() => setShowFacebook((v) => !v)} />
+            <AddButton label={text.date} icon="calendar" active={showDate} onClick={() => setShowDate((v) => !v)} />
           </div>
-        </div>
+        </section>
+      </div>
 
-        <div className="space-y-3 border-t border-line p-4">
-          <button
-            type="submit"
-            name="intent"
-            value="publish"
-            disabled={pending || uploading}
-            className="w-full rounded-lg bg-brand px-6 py-3 text-lg font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
-          >
+      <div className="sticky bottom-0 z-10 -mx-4 mt-6 border-t border-line bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(26,5,64,0.18)] backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
+        <div className="flex max-w-3xl flex-wrap items-center gap-x-3 gap-y-2">
+          <button type="submit" name="intent" value="publish" disabled={pending || uploading} className={button.primary}>
+            <Icon name="send" className="h-5 w-5" />
             {pending ? text.working : primaryLabel}
           </button>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <button
-              type="submit"
-              name="intent"
-              value="draft"
-              disabled={pending || uploading}
-              className="font-semibold text-brand underline-offset-4 hover:underline disabled:opacity-60"
-            >
-              {secondaryLabel}
-            </button>
-            <Link href="/admin/posts" className="font-semibold text-muted underline-offset-4 hover:underline">
-              {admin.common.cancel}
-            </Link>
+          <button type="submit" name="intent" value="draft" disabled={pending || uploading} className={button.secondary}>
+            {secondaryLabel}
+          </button>
+          <Link href="/admin/posts" className="rounded-xl px-3 py-2.5 font-semibold text-muted transition-colors hover:text-brand">
+            {admin.common.cancel}
+          </Link>
+          <div className="min-w-0 flex-1 text-sm font-semibold" aria-live="polite">
+            {uploading ? (
+              <span className="text-muted">{text.waitForUploads}</span>
+            ) : dirty ? (
+              <span className="inline-flex items-center gap-1.5 text-muted">
+                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-gold" />
+                {admin.common.unsaved}
+              </span>
+            ) : state.message ? (
+              <span
+                role={state.status === "error" ? "alert" : "status"}
+                className={`inline-flex items-center gap-1.5 ${state.status === "error" ? "text-red-700" : "text-green-700"}`}
+              >
+                <Icon name={state.status === "error" ? "alert" : "checkCircle"} className="h-4 w-4" />
+                {state.message}
+              </span>
+            ) : null}
           </div>
-          {uploading && <p className="text-sm text-muted">{text.waitForUploads}</p>}
-          {state.message && (
-            <p
-              role={state.status === "error" ? "alert" : "status"}
-              className={`font-semibold ${state.status === "error" ? "text-red-700" : "text-cat-green"}`}
-            >
-              {state.message}
-            </p>
-          )}
         </div>
       </div>
     </form>

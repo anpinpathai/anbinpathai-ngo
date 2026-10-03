@@ -1,10 +1,7 @@
 import type { ReactNode } from "react";
+import { Icon } from "./Icon";
 
-export function inputClass(error?: string) {
-  return `mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30 ${
-    error ? "border-red-600" : "border-line"
-  }`;
-}
+export { inputClass } from "./ui";
 
 export function Field({
   id,
@@ -21,17 +18,18 @@ export function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="font-semibold">
+      <label htmlFor={id} className="font-semibold text-ink">
         {label}
       </label>
       {help && (
-        <p id={`${id}-help`} className="text-sm text-muted">
+        <p id={`${id}-help`} className="text-sm text-muted [overflow-wrap:anywhere]">
           {help}
         </p>
       )}
       {children}
       {error && (
-        <p id={`${id}-error`} className="mt-1 text-sm font-semibold text-red-700">
+        <p id={`${id}-error`} className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-red-700">
+          <Icon name="alert" className="h-4 w-4" />
           {error}
         </p>
       )}

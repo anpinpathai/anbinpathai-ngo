@@ -2,6 +2,9 @@
   "name": "mandram",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +13,10 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/db/seed.ts",
-    "admin:create": "tsx src/scripts/create-admin.ts"
+    "admin:create": "tsx src/scripts/create-admin.ts",
+    "backup": "tsx src/scripts/backup-db.ts",
+    "restore": "tsx src/scripts/restore-db.ts",
+    "cleanup:photos": "tsx src/scripts/cleanup-photos.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",

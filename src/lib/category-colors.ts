@@ -1,8 +1,8 @@
-import type { ColorKey } from "@/content/ta-LK";
+﻿import type { ColorKey } from "@/content/ta-LK";
 
 export const categoryColor: Record<
   ColorKey,
-  { solid: string; soft: string; text: string; border: string; dot: string; topBorder: string }
+  { solid: string; soft: string; text: string; border: string; dot: string; topBorder: string; tint: string }
 > = {
   red: {
     solid: "bg-cat-red text-white",
@@ -11,6 +11,7 @@ export const categoryColor: Record<
     border: "border-cat-red",
     dot: "bg-cat-red",
     topBorder: "border-t-cat-red",
+    tint: "bg-cat-red/5",
   },
   green: {
     solid: "bg-cat-green text-white",
@@ -19,6 +20,7 @@ export const categoryColor: Record<
     border: "border-cat-green",
     dot: "bg-cat-green",
     topBorder: "border-t-cat-green",
+    tint: "bg-cat-green/5",
   },
   purple: {
     solid: "bg-cat-purple text-white",
@@ -27,6 +29,7 @@ export const categoryColor: Record<
     border: "border-cat-purple",
     dot: "bg-cat-purple",
     topBorder: "border-t-cat-purple",
+    tint: "bg-cat-purple/5",
   },
   blue: {
     solid: "bg-cat-blue text-white",
@@ -35,5 +38,6 @@ export const categoryColor: Record<
     border: "border-cat-blue",
     dot: "bg-cat-blue",
     topBorder: "border-t-cat-blue",
+    tint: "bg-cat-blue/5",
   },
 };

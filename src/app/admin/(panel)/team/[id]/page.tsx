@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/admin/PageHeader";
 import { admin } from "@/content/admin-en";
 import type { MemberFormValues } from "@/lib/member-form";
 import { requireAdmin } from "@/lib/session";
@@ -26,7 +27,12 @@ export default async function EditMemberPage(props: PageProps<"/admin/team/[id]"
 
   return (
     <>
-      <h1 className="mb-6 text-3xl text-brand">{admin.team.editMember}</h1>
+      <PageHeader
+        title={admin.team.editMember}
+        description="Change the details or the photo, then press Save member."
+        icon="users"
+        back={{ href: "/admin/team", label: admin.team.backToTeam }}
+      />
       <TeamForm initialValues={initialValues} photoUrl={publicUrl(member.photoKey)} isEdit />
     </>
   );

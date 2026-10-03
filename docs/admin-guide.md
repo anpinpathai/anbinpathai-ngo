@@ -1,0 +1,61 @@
+# Website admin guide
+
+For the staff who update the website. The admin area is in English; everything visitors see is in Tamil.
+The same steps are also inside the admin area: press **Help** in the left menu.
+
+## Log in
+1. Open your website address followed by `/admin` (for example `https://yourwebsite.org/admin`).
+2. Type the username and password you were given, then press **Log in**. The eye button shows the password while you type it.
+3. When you finish, press **Log out** at the bottom of the menu, especially on a shared computer.
+
+Forgot the password? Ask the developer. They can set a new one in a minute.
+
+## Finding your way around
+- **On a computer** the menu is on the left. **On a phone** press the ☰ button at the top left to open it.
+- The gold **New post** button is always there.
+- **Home** shows a short summary: how many posts you have, what is still missing on the website (banner photo, bank details, contact details…), and your latest posts.
+- Menu groups: **Content** (Posts, Committee) and **Website pages** (Home page, Donation, Contact and links).
+
+## Add news (New post)
+It works like a Facebook post.
+1. Press **New post**.
+2. Choose which **section** the news is for (Social Service, Green Homeland, Arts & Literature, Reading).
+3. Write the news in the big box, in Tamil. The first line becomes the title, so make it short and clear.
+4. Under **Add to your post** you can add:
+   - **Photos**: pick as many as you like (up to 20). Use the arrows to change the order. The first photo is the cover picture.
+   - **YouTube video**: paste the link of the video.
+   - **Facebook link**: paste the link of a public Facebook post or video, and it shows inside the post.
+   - **Date**: only needed to give an older date to an old post.
+5. Press **Post** to publish at once, or **Save as draft** to keep it hidden for now.
+
+The post appears on the website within a few seconds. A small note at the bottom says "You have unsaved changes" until you save.
+
+## Change or remove a post (Posts)
+- Use the tabs **All / Published / Drafts** and the section buttons to find a post.
+- **Edit**: change the text, photos or links, then press **Save changes**.
+- **Unpublish**: hides the post from visitors but keeps it. **Publish** shows it again.
+- **View on website** opens the published post.
+- The red bin deletes the post and its photos for good. A window asks you to confirm first.
+
+## Committee members (Committee)
+- **Add member**: type the name in Tamil (with திரு, திருமதி, செல்வி), choose the group, add a photo.
+- **Edit**: change details or the photo. The role title is filled in from the group if you leave it empty.
+- Use the **← →** buttons on a card to move a person earlier or later inside their group.
+- The red bin removes a member (you are asked to confirm).
+
+## Website pages
+Each page has its own **Save changes** button and saves only its own details, so nothing else is affected.
+- **Home page**: the banner photo, tagline, headline and welcome words.
+  - The banner works best as a wide landscape photo. Words are written over it in white, so avoid very bright photos.
+  - If you press **Remove image** by mistake, press **Undo**. The photo is only deleted when you press **Save changes**.
+- **Donation**: bank details shown on the Donation page. The account name and number get "copy" buttons for donors.
+- **Contact and links**: phone, email, address, and the Facebook and YouTube links. They appear on the Contact page and in the footer of every page.
+
+## Photo tips
+- Any photo from a phone is fine. It is made smaller automatically before it is saved.
+- Use JPG, PNG or WebP photos.
+
+## If something looks wrong
+- Refresh the page once.
+- Log out and log in again.
+- Tell the developer what you were doing and what you saw. The database is backed up every week.

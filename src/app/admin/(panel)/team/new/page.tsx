@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/admin/PageHeader";
 import { admin } from "@/content/admin-en";
 import { roleGroups } from "@/content/ta-LK";
 import type { MemberFormValues } from "@/lib/member-form";
@@ -22,7 +23,12 @@ export default async function NewMemberPage(props: PageProps<"/admin/team/new">)
 
   return (
     <>
-      <h1 className="mb-6 text-3xl text-brand">{admin.team.newMember}</h1>
+      <PageHeader
+        title={admin.team.newMember}
+        description="Add a person to the Committee page of your website."
+        icon="users"
+        back={{ href: "/admin/team", label: admin.team.backToTeam }}
+      />
       <TeamForm initialValues={initialValues} photoUrl={null} isEdit={false} />
     </>
   );

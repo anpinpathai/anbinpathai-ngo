@@ -6,6 +6,7 @@ const variants = {
   outline: "border-2 border-brand text-brand hover:bg-brand hover:text-white",
   donate: "bg-gold text-ink hover:bg-ink hover:text-white",
   light: "bg-white text-brand hover:bg-sand",
+  outlineLight: "border-2 border-white text-white hover:bg-white hover:text-brand",
 } as const;
 
 const sizes = {

@@ -1,12 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { admin } from "@/content/admin-en";
+import { admin, settingSections } from "@/content/admin-en";
 import { requireAdmin } from "@/lib/session";
 import {
   getSettings,
   saveSettings,
-  settingFields,
   validateSettings,
   type SettingsErrors,
   type SettingsValues,
@@ -23,21 +22,26 @@ export type SettingsState = {
 export async function saveSettingsAction(prev: SettingsState, formData: FormData): Promise<SettingsState> {
   await requireAdmin();
 
-  const input: SettingsValues = {};
-  for (const field of settingFields) input[field.key] = String(formData.get(field.key) ?? "");
+  // Only the fields of the page being saved are read and written.
+  const section = settingSections.find((s) => s.slug === formData.get("section"));
+  if (!section) return { ...prev, status: "error", message: admin.settings.unknownSection, errors: {} };
+  const fields = section.groups.flatMap((g) => g.fields);
 
-  const { values, errors, valid } = validateSettings(input);
+  const input: SettingsValues = {};
+  for (const field of fields) input[field.key] = String(formData.get(field.key) ?? "");
+
+  const { values, errors, valid } = validateSettings(input, fields);
   if (!valid) return { status: "error", message: admin.settings.fixErrors, values, errors };
 
   const before = await getSettings();
   try {
-    await saveSettings(values);
+    await saveSettings(values, fields);
   } catch (err) {
     console.error("Saving settings failed:", err);
     return { status: "error", message: admin.settings.saveFailed, values, errors: {} };
   }
 
-  if (before.home_banner && before.home_banner !== values.home_banner) {
+  if ("home_banner" in values && before.home_banner && before.home_banner !== values.home_banner) {
     await deleteObject(before.home_banner).catch((err) => console.error("Deleting old banner failed:", err));
   }
 

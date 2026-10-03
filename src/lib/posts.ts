@@ -55,6 +55,7 @@ export async function listPosts(filters: PostListFilters) {
       publishedAt: posts.publishedAt,
       createdAt: posts.createdAt,
       categoryName: categories.name,
+      categorySlug: categories.slug,
       categoryColor: categories.colorKey,
     })
     .from(posts)
@@ -66,6 +67,16 @@ export async function listPosts(filters: PostListFilters) {
 
   const [{ total }] = await db.select({ total: count() }).from(posts).where(where);
   return { rows, total };
+}
+
+export async function getPostCounts() {
+  const [row] = await db
+    .select({
+      total: count(),
+      published: sql<number>`count(*) filter (where ${posts.published})`.mapWith(Number),
+    })
+    .from(posts);
+  return { total: row.total, published: row.published, drafts: row.total - row.published };
 }
 
 export async function getPost(id: number) {

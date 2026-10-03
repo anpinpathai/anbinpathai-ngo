@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function AdminRootLayout({ children }: LayoutProps<"/admin">) {
   return (
-    <div lang="en" className="admin-en min-h-screen bg-sand/60">
+    <div lang="en" className="admin-en min-h-screen bg-panel">
       {children}
     </div>
   );
