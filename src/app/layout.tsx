@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Tamil, Noto_Serif_Tamil } from "next/font/google";
+import { Baloo_Thambi_2, Mukta_Malar } from "next/font/google";
 import { t } from "@/content/ta-LK";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
-const notoSansTamil = Noto_Sans_Tamil({
+// Body text: Mukta Malar, a friendly and readable Tamil font. Its letters run small (about 15% smaller than
+// Noto Sans Tamil), so the public site's base text size is raised in globals.css to make up for it.
+const bodyFont = Mukta_Malar({
   variable: "--font-tamil",
   subsets: ["tamil", "latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const notoSerifTamil = Noto_Serif_Tamil({
+// Headings: Baloo Thambi 2, rounded and warm.
+const headingFont = Baloo_Thambi_2({
   variable: "--font-tamil-heading",
   subsets: ["tamil", "latin"],
+  weight: ["500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -33,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ta-LK"
-      className={`${notoSansTamil.variable} ${notoSerifTamil.variable} h-full antialiased`}
+      className={`${bodyFont.variable} ${headingFont.variable} h-full antialiased`}
     >
       <body className="min-h-full">{children}</body>
     </html>

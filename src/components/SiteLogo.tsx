@@ -19,7 +19,7 @@ export function SiteLogo({ light = false, compact = false }: { light?: boolean; 
             width={256}
             height={256}
             unoptimized
-            className={`h-10 w-10 rounded-full sm:h-11 sm:w-11 ${compact ? "xl:h-[3.25rem] xl:w-[3.25rem]" : ""}`}
+            className={`h-10 w-10 rounded-full max-[359px]:h-9 max-[359px]:w-9 sm:h-11 sm:w-11 ${compact ? "xl:h-[3.25rem] xl:w-[3.25rem]" : ""}`}
           />
         ))}
       </span>

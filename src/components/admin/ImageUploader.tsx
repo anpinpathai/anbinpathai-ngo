@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { admin } from "@/content/admin-en";
-import { uploadErrorMessage, uploadImage } from "@/lib/upload-client";
+import { fetchStoredImage, uploadBlob } from "@/lib/upload-client";
 import { Icon } from "./Icon";
+import { ImageEditor, type EditorSettings } from "./ImageEditor";
 import { button } from "./ui";
 
 export function ImageUploader({
@@ -12,7 +13,7 @@ export function ImageUploader({
   initialKey,
   initialUrl,
   error,
-  maxSide = 1600,
+  maxSide,
   shape = "wide",
   onChange,
 }: {
@@ -30,26 +31,49 @@ export function ImageUploader({
   const [message, setMessage] = useState<string | null>(null);
   // The image that was just removed, so an accidental click can be undone before saving.
   const [removed, setRemoved] = useState<{ key: string; url: string } | null>(null);
+  const [editing, setEditing] = useState<EditorSettings | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  async function handleFile(file: File) {
+  const square = shape === "square";
+
+  // A wide photo is the home banner (shown about twice as wide as tall); a square one is shown round.
+  const editorFor = (source: Blob): EditorSettings => ({
+    source,
+    aspect: square ? 1 : 2,
+    circle: square,
+    guide: square ? undefined : { fraction: 0.22 },
+    maxSide: maxSide ?? (square ? 1600 : 2000),
+  });
+
+  // A newly chosen photo opens in the Adjust window first. Nothing is uploaded until "Use this photo".
+  function handleFile(file: File) {
+    setMessage(null);
+    setEditing(editorFor(file));
+  }
+
+  // Adjust the photo that is already saved.
+  async function adjustCurrent() {
     setMessage(null);
     setBusy(true);
     try {
-      const uploaded = await uploadImage(file, maxSide);
-      setKey(uploaded.key);
-      setUrl(uploaded.url);
-      setRemoved(null);
-      onChange?.();
-    } catch (err) {
-      setMessage(uploadErrorMessage(err));
+      setEditing(editorFor(await fetchStoredImage(key)));
+    } catch {
+      setMessage(admin.uploader.adjustFailed);
     } finally {
       setBusy(false);
     }
   }
 
+  async function applyEdit(blob: Blob) {
+    const uploaded = await uploadBlob(blob);
+    setKey(uploaded.key);
+    setUrl(uploaded.url);
+    setRemoved(null);
+    setEditing(null);
+    onChange?.();
+  }
+
   const shownMessage = message ?? error ?? null;
-  const square = shape === "square";
 
   return (
     <div>
@@ -64,9 +88,10 @@ export function ImageUploader({
         onChange={(e) => {
           const file = e.target.files?.[0];
           e.target.value = "";
-          if (file) void handleFile(file);
+          if (file) handleFile(file);
         }}
       />
+      <ImageEditor settings={editing} onApply={applyEdit} onCancel={() => setEditing(null)} />
 
       <div className="flex flex-col items-start gap-4">
         {url ? (
@@ -99,8 +124,14 @@ export function ImageUploader({
         <div className="flex flex-wrap items-center gap-3">
           <button type="button" disabled={busy} onClick={() => inputRef.current?.click()} className={button.secondary}>
             <Icon name="image" className="h-5 w-5" />
-            {busy ? admin.uploader.uploading : url ? admin.uploader.change : admin.uploader.choose}
+            {busy ? admin.editor.opening : url ? admin.uploader.change : admin.uploader.choose}
           </button>
+          {url && (
+            <button type="button" disabled={busy} onClick={() => void adjustCurrent()} className={button.secondary}>
+              <Icon name="crop" className="h-5 w-5" />
+              {admin.uploader.adjust}
+            </button>
+          )}
           {url && !busy && (
             <button
               type="button"

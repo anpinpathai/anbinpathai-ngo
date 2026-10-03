@@ -23,7 +23,23 @@ export async function uploadImage(file: File, maxSide: number): Promise<{ key: s
   } catch {
     throw new UploadError("unsupported");
   }
+  return uploadBlob(blob);
+}
 
+// Fetches a photo that is already saved, through this website, so the Adjust window can edit it.
+export async function fetchStoredImage(key: string): Promise<Blob> {
+  let res: Response;
+  try {
+    res = await fetch(`/api/admin/image?key=${encodeURIComponent(key)}`);
+  } catch {
+    throw new UploadError("failed");
+  }
+  if (!res.ok) throw new UploadError("failed");
+  return res.blob();
+}
+
+// Uploads a photo that is already the right size (for example one made in the Adjust window).
+export async function uploadBlob(blob: Blob): Promise<{ key: string; url: string }> {
   const body = new FormData();
   body.append("file", blob, "upload");
 

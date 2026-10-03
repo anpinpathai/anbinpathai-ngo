@@ -31,8 +31,14 @@
 
 @layer base {
   html {
-    font-size: 106.25%;
+    /* Mukta Malar's letters are about 15% smaller than the old body font's, so the public site is larger. */
+    font-size: 118%;
     scroll-behavior: smooth;
+  }
+
+  /* The admin panel keeps its own size. */
+  html:has(.admin-en) {
+    font-size: 106.25%;
   }
 
   body {

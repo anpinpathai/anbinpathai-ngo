@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { startTransition, useActionState, useRef, useState, type FormEvent } from "react";
+import { ActionBar, FormStatus } from "@/components/admin/ActionBar";
 import { Icon, type IconName } from "@/components/admin/Icon";
+import { ImageEditor, type EditorSettings } from "@/components/admin/ImageEditor";
 import { useUnsavedChanges } from "@/components/admin/UnsavedChanges";
 import { button, card, inputClass } from "@/components/admin/ui";
 import { admin, categoryEnglish } from "@/content/admin-en";
@@ -11,7 +13,7 @@ import { t, type ColorKey } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { MAX_GALLERY_PHOTOS } from "@/lib/limits";
 import type { PostFormValues } from "@/lib/post-form";
-import { uploadErrorMessage, uploadImage } from "@/lib/upload-client";
+import { fetchStoredImage, uploadBlob, uploadErrorMessage, uploadImage } from "@/lib/upload-client";
 import { savePostAction, type PostFormState } from "./actions";
 
 type CategoryOption = { id: number; slug: string; name: string; colorKey: ColorKey };
@@ -164,6 +166,27 @@ export function PostComposer({
     setUploadMessage(failure ?? notice);
   }
 
+  // Adjust one photo of the post: it is opened, changed, then saved as a new photo in the same place.
+  const [adjusting, setAdjusting] = useState<{ key: string; settings: EditorSettings } | null>(null);
+
+  async function adjustPhoto(photo: PhotoItem) {
+    setUploadMessage(null);
+    try {
+      const source = await fetchStoredImage(photo.key);
+      setAdjusting({ key: photo.key, settings: { source, aspect: null, maxSide: 1600 } });
+    } catch (err) {
+      setUploadMessage(uploadErrorMessage(err));
+    }
+  }
+
+  async function applyAdjustment(blob: Blob) {
+    if (!adjusting) return;
+    const uploaded = await uploadBlob(blob);
+    setPhotos((prev) => prev.map((p) => (p.key === adjusting.key ? uploaded : p)));
+    setAdjusting(null);
+    markEdited();
+  }
+
   function movePhoto(index: number, direction: -1 | 1) {
     setPhotos((prev) => {
       const target = index + direction;
@@ -181,6 +204,18 @@ export function PostComposer({
 
   return (
     <form onSubmit={handleSubmit} onInput={markEdited} className="max-w-3xl">
+      {/* Pressing Enter in a field submits with the form's first submit button. Keep that "Post",
+          even though the buttons in the bar below put "Post" on the right. */}
+      <button
+        type="submit"
+        name="intent"
+        value="publish"
+        disabled={pending || uploading}
+        tabIndex={-1}
+        aria-hidden="true"
+        className="sr-only"
+      />
+      <ImageEditor settings={adjusting?.settings ?? null} onApply={applyAdjustment} onCancel={() => setAdjusting(null)} />
       <input type="hidden" name="id" value={values.id} />
       {photos.map((photo) => (
         <input key={photo.key} type="hidden" name="photoKeys" value={photo.key} />
@@ -295,6 +330,15 @@ export function PostComposer({
                   className={`${tileButton} absolute right-2 top-2 text-red-700`}
                 >
                   <Icon name="x" className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void adjustPhoto(photo)}
+                  aria-label={text.adjustPhoto}
+                  title={text.adjustPhoto}
+                  className={`${tileButton} absolute bottom-2 right-2`}
+                >
+                  <Icon name="crop" className="h-4 w-4" />
                 </button>
                 <div className="absolute bottom-2 left-2 flex gap-1.5">
                   <button
@@ -439,38 +483,38 @@ export function PostComposer({
         </section>
       </div>
 
-      <div className="sticky bottom-0 z-10 -mx-4 mt-6 border-t border-line bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(26,5,64,0.18)] backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
-        <div className="flex max-w-3xl flex-wrap items-center gap-x-3 gap-y-2">
-          <button type="submit" name="intent" value="publish" disabled={pending || uploading} className={button.primary}>
-            <Icon name="send" className="h-5 w-5" />
-            {pending ? text.working : primaryLabel}
-          </button>
-          <button type="submit" name="intent" value="draft" disabled={pending || uploading} className={button.secondary}>
-            {secondaryLabel}
-          </button>
-          <Link href="/admin/posts" className="rounded-xl px-3 py-2.5 font-semibold text-muted transition-colors hover:text-brand">
-            {admin.common.cancel}
-          </Link>
-          <div className="min-w-0 flex-1 text-sm font-semibold" aria-live="polite">
-            {uploading ? (
-              <span className="text-muted">{text.waitForUploads}</span>
-            ) : dirty ? (
-              <span className="inline-flex items-center gap-1.5 text-muted">
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-gold" />
-                {admin.common.unsaved}
-              </span>
-            ) : state.message ? (
-              <span
-                role={state.status === "error" ? "alert" : "status"}
-                className={`inline-flex items-center gap-1.5 ${state.status === "error" ? "text-red-700" : "text-green-700"}`}
-              >
-                <Icon name={state.status === "error" ? "alert" : "checkCircle"} className="h-4 w-4" />
-                {state.message}
-              </span>
-            ) : null}
-          </div>
-        </div>
-      </div>
+      <ActionBar
+        status={
+          uploading ? (
+            <span className="text-muted">{text.waitForUploads}</span>
+          ) : (
+            <FormStatus dirty={dirty} status={state.status} message={state.message} />
+          )
+        }
+      >
+        <Link href="/admin/posts" className={button.ghost}>
+          {admin.common.cancel}
+        </Link>
+        <button
+          type="submit"
+          name="intent"
+          value="draft"
+          disabled={pending || uploading}
+          className={`${button.secondary} flex-1 sm:flex-none`}
+        >
+          {secondaryLabel}
+        </button>
+        <button
+          type="submit"
+          name="intent"
+          value="publish"
+          disabled={pending || uploading}
+          className={`${button.primary} flex-1 sm:flex-none`}
+        >
+          <Icon name="send" className="hidden h-5 w-5 min-[400px]:block" />
+          {pending ? text.working : primaryLabel}
+        </button>
+      </ActionBar>
     </form>
   );
 }

@@ -175,6 +175,39 @@ const icons = {
       <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
     </>
   ),
+  crop: (
+    <>
+      <path d="M6.13 1 6 16a2 2 0 0 0 2 2h15" />
+      <path d="M1 6.13 16 6a2 2 0 0 1 2 2v15" />
+    </>
+  ),
+  rotateLeft: (
+    <>
+      <polyline points="1 4 1 10 7 10" />
+      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+    </>
+  ),
+  rotateRight: (
+    <>
+      <polyline points="23 4 23 10 17 10" />
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+    </>
+  ),
+  zoomIn: (
+    <>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      <line x1="11" y1="8" x2="11" y2="14" />
+      <line x1="8" y1="11" x2="14" y2="11" />
+    </>
+  ),
+  zoomOut: (
+    <>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      <line x1="8" y1="11" x2="14" y2="11" />
+    </>
+  ),
   radio: (
     <>
       <circle cx="12" cy="12" r="2" />

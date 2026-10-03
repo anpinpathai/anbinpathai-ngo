@@ -1,5 +1,5 @@
 import "server-only";
-import { mkdir, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { AwsClient } from "aws4fetch";
 
@@ -65,6 +65,26 @@ export async function putObject(key: string, body: Uint8Array, contentType: stri
   const file = path.join(LOCAL_DIR, key);
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, body);
+}
+
+const MIME_BY_EXTENSION: Record<string, string> = { webp: "image/webp", jpg: "image/jpeg", png: "image/png" };
+
+export async function getObject(key: string): Promise<{ body: Uint8Array; contentType: string } | null> {
+  if (!isValidKey(key)) return null;
+  const contentType = MIME_BY_EXTENSION[key.slice(key.lastIndexOf(".") + 1)] ?? "application/octet-stream";
+
+  if (driver() === "r2") {
+    const res = await r2Request(r2Config()!, key, { method: "GET" });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`R2 download failed with status ${res.status}`);
+    return { body: new Uint8Array(await res.arrayBuffer()), contentType };
+  }
+
+  try {
+    return { body: new Uint8Array(await readFile(path.join(LOCAL_DIR, key))), contentType };
+  } catch {
+    return null;
+  }
 }
 
 export async function deleteObject(key: string) {

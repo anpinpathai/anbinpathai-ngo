@@ -72,7 +72,7 @@ export function Header({ showRadio = false }: { showRadio?: boolean }) {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
       <ColorStripe />
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2.5 min-[360px]:gap-4 sm:px-6">
         <SiteLogo compact />
 
         <nav ref={navRef} aria-label={t.a11y.mainNav} className="hidden items-center xl:flex">
@@ -140,7 +140,7 @@ export function Header({ showRadio = false }: { showRadio?: boolean }) {
               <RadioIcon className="h-5 w-5" />
             </Link>
           )}
-          <Button href={donate.href} variant="donate" size="sm">
+          <Button href={donate.href} variant="donate" size="sm" className="max-[359px]:px-3">
             {donate.label}
           </Button>
           <button

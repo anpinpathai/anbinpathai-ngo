@@ -100,15 +100,27 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-dark text-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 py-12 sm:px-6">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl text-white sm:text-3xl">{home.donate.title}</h2>
-            <p className="mt-2 text-white/85">{home.donate.text}</p>
+      {/* A rounded card on the cream page (not a full-width dark band), so it never runs into the dark footer below. */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+        <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] text-white shadow-xl ring-1 ring-brand-dark/10">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 -z-10 h-64 w-64 rounded-full bg-gold/20 blur-3xl" />
+          <div className="flex flex-col items-start gap-6 px-6 py-9 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+            <div className="flex items-start gap-5">
+              <span
+                aria-hidden="true"
+                className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gold text-cat-red"
+              >
+                <CategoryIcon slug="social" className="h-7 w-7" />
+              </span>
+              <div className="max-w-2xl">
+                <h2 className="text-2xl text-white sm:text-3xl">{home.donate.title}</h2>
+                <p className="mt-2 text-white/85">{home.donate.text}</p>
+              </div>
+            </div>
+            <Button href={donate.href} variant="donate" className="shrink-0">
+              {home.donate.button}
+            </Button>
           </div>
-          <Button href={donate.href} variant="donate">
-            {home.donate.button}
-          </Button>
         </div>
       </section>
     </main>
