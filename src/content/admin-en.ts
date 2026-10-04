@@ -1,4 +1,5 @@
 import type { IconName } from "@/components/admin/Icon";
+import { categories } from "@/content/ta-LK";
 
 export type SettingFieldType =
   | "text"
@@ -191,12 +192,8 @@ export const settingSections: readonly SettingSection[] = [
 
 export const settingGroups: readonly SettingGroup[] = settingSections.flatMap((s) => s.groups);
 
-export const categoryEnglish: Record<string, string> = {
-  social: "Social Service",
-  green: "Green Homeland",
-  arts: "Arts & Literature",
-  reading: "Reading (Vaasippom Suvaasippom)",
-};
+// The four sections are shown by their Tamil names everywhere in the admin panel (not in English).
+export const categoryLabel: Record<string, string> = Object.fromEntries(categories.map((c) => [c.slug, c.name]));
 
 export const roleGroupEnglish: Record<string, string> = {
   director: "Director",
@@ -242,7 +239,6 @@ export const admin = {
     menu: "Open menu",
     closeMenu: "Close menu",
     signedInAs: "Signed in as",
-    unsavedLeave: "You have changes that are not saved yet. Leave this page anyway?",
   },
   dashboard: {
     greeting: { morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening" },
@@ -292,6 +288,13 @@ export const admin = {
     actionFailed: "Something went wrong. Please try again.",
     fixErrors: "Please fix the highlighted errors and try again.",
     unsaved: "You have unsaved changes",
+    leaveDialog: {
+      title: "Leave without saving?",
+      message: "You have changes that are not saved yet. If you leave now, they will be lost.",
+      stay: "Stay on this page",
+      leave: "Leave without saving",
+    },
+    toastClose: "Close",
     yesDelete: "Yes, delete",
     deleting: "Deleting…",
     keep: "No, keep it",

@@ -1,11 +1,12 @@
 "use client";
 
-import { startTransition, useActionState, useState, type FormEvent } from "react";
+import { startTransition, useActionState, useEffect, useState, type FormEvent } from "react";
 import { Field, describedBy, inputClass } from "@/components/admin/Field";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { SaveBar } from "@/components/admin/SaveBar";
 import { useUnsavedChanges } from "@/components/admin/UnsavedChanges";
 import { card } from "@/components/admin/ui";
+import { useToast } from "@/components/toast/ToastProvider";
 import { admin, roleGroupEnglish } from "@/content/admin-en";
 import { roleGroups } from "@/content/ta-LK";
 import type { MemberFormValues } from "@/lib/member-form";
@@ -26,6 +27,13 @@ export function TeamForm({
   const [roleGroup, setRoleGroup] = useState(initialValues.roleGroup);
   const text = admin.team.form;
 
+  // Tell the person how the save went, in a toast.
+  const toast = useToast();
+  useEffect(() => {
+    if (state.status === "saved") toast.success(state.message ?? text.saved);
+    else if (state.status === "error") toast.error(state.message ?? admin.common.actionFailed);
+  }, [state, toast, text.saved]);
+
   // "Edited" means something changed since the last result from the server.
   const [editedAt, setEditedAt] = useState<MemberFormState | null>(null);
   const dirty = editedAt === state;
@@ -39,7 +47,7 @@ export function TeamForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} onInput={markEdited}>
+    <form onSubmit={handleSubmit} onInput={markEdited} noValidate>
       <input type="hidden" name="id" value={values.id} />
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_18rem] xl:items-start">
@@ -135,8 +143,6 @@ export function TeamForm({
         pendingLabel={admin.common.saving}
         pending={pending}
         cancelHref="/admin/team"
-        message={state.message}
-        status={state.status}
         dirty={dirty}
       />
     </form>

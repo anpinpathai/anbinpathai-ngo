@@ -80,6 +80,26 @@
   line-height: 1.8;
 }
 
+/* Toast notices slide in a little and fade in. */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--toast-shift, -0.6rem)) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toast-in {
+  animation: toast-in 200ms ease-out both;
+}
+
+.toasts-bottom {
+  --toast-shift: 0.6rem;
+}
+
 /* Radio player: the sound bars dance only while the radio is playing. */
 @keyframes radio-eq {
   0%,
@@ -120,5 +140,9 @@
   .radio-eq[data-active="true"] > span {
     animation: none;
     transform: scaleY(0.7);
+  }
+
+  .toast-in {
+    animation: none;
   }
 }

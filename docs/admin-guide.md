@@ -19,7 +19,7 @@ Forgot the password? Ask the developer. They can set a new one in a minute.
 ## Add news (New post)
 It works like a Facebook post.
 1. Press **New post**.
-2. Choose which **section** the news is for (Social Service, Green Homeland, Arts & Literature, Reading).
+2. Choose which **section** the news is for. The sections are shown by their Tamil names: அன்பின்பாதை – சமூகப் பணிகள், பசுமைத் தாயகம், கலை & இலக்கியம், வாசிப்போம் சுவாசிப்போம்.
 3. Write the news in the big box, in Tamil. The first line becomes the title, so make it short and clear.
 4. Under **Add to your post** you can add:
    - **Photos**: pick as many as you like (up to 20). Use the arrows to change the order. The first photo is the cover picture.
@@ -28,7 +28,9 @@ It works like a Facebook post.
    - **Date**: only needed to give an older date to an old post.
 5. Press **Post** to publish at once, or **Save as draft** to keep it hidden for now.
 
-The post appears on the website within a few seconds. A small note at the bottom says "You have unsaved changes" until you save.
+The post appears on the website within a few seconds. A small note in the bar at the bottom says "You have unsaved changes" until you save.
+
+**Messages:** when something is saved, published, deleted or goes wrong, a small notice (a "toast") appears in the top-right corner of the screen (top of the screen on a phone) and disappears by itself after a few seconds. Errors stay a little longer. Press the × to close one, or hold the mouse over it to keep it open. If you try to leave a page through the menu with unsaved changes, a window asks "Leave without saving?". Closing or refreshing the browser tab with unsaved changes shows the browser's own standard warning, which websites cannot restyle.
 
 ## Change or remove a post (Posts)
 - Use the tabs **All / Published / Drafts** and the section buttons to find a post.

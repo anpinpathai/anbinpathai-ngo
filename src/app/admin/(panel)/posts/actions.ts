@@ -76,9 +76,12 @@ export async function togglePublishAction(formData: FormData) {
   await requireAdmin();
 
   const id = Number(formData.get("id"));
+  const publish = formData.get("publish") === "true";
   if (Number.isInteger(id)) {
-    await setPublished(id, formData.get("publish") === "true");
+    await setPublished(id, publish);
     revalidatePath("/", "layout");
   }
-  redirect(safeReturnPath(formData.get("returnTo")));
+  // Back to the same list (same tab and page), with a notice that the page shows as a toast.
+  const back = safeReturnPath(formData.get("returnTo"));
+  redirect(`${back}${back.includes("?") ? "&" : "?"}notice=${publish ? "published" : "unpublished"}`);
 }

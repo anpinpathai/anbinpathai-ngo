@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { Icon, type IconName } from "@/components/admin/Icon";
 import { button, card } from "@/components/admin/ui";
-import { admin } from "@/content/admin-en";
+import { admin, categoryLabel } from "@/content/admin-en";
 import type { ColorKey } from "@/content/ta-LK";
 import { getPostCounts, listPosts } from "@/lib/posts";
 import { requireAdmin } from "@/lib/session";
@@ -184,7 +184,7 @@ export default async function DashboardPage() {
                     <span className={`block font-semibold ${task.done ? "text-muted line-through decoration-1" : "text-ink"}`}>
                       {task.label}
                     </span>
-                    <span className="block truncate text-sm text-muted">{task.hint}</span>
+                    <span className="block text-sm leading-snug text-muted">{task.hint}</span>
                   </span>
                   <span className="shrink-0 text-sm font-bold text-brand group-hover:underline">
                     {task.done ? text.open : text.setUp}
@@ -217,28 +217,32 @@ export default async function DashboardPage() {
                 const cover = publicUrl(post.galleryKeys[0]);
                 return (
                   <li key={post.id}>
-                    <Link href={`/admin/posts/${post.id}`} className="-mx-2 flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-panel">
+                    {/* Photo on the left; on the right the title, then date and status, then the section tag. */}
+                    <Link href={`/admin/posts/${post.id}`} className="-mx-2 flex items-start gap-3.5 rounded-xl px-2 py-3 transition-colors hover:bg-panel">
                       {cover ? (
-                        <Image src={cover} alt="" width={96} height={96} unoptimized className="h-12 w-12 shrink-0 rounded-xl border border-line object-cover" />
+                        <Image src={cover} alt="" width={112} height={112} unoptimized className="h-14 w-14 shrink-0 rounded-xl border border-line object-cover" />
                       ) : (
-                        <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-sand text-sm font-bold text-muted">
+                        <span aria-hidden="true" className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-sand text-sm font-bold text-muted">
                           Aa
                         </span>
                       )}
                       <span className="min-w-0 flex-1">
-                        <span lang="ta" className="line-clamp-1 font-semibold text-ink">
+                        <span lang="ta" className="line-clamp-1 font-semibold leading-snug! text-ink">
                           {post.excerpt || post.title || admin.posts.noText}
                         </span>
-                        <span className="mt-0.5 flex flex-wrap items-center gap-x-2 text-sm text-muted">
+                        <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
                           <span>{dateFormat.format(post.publishedAt ?? post.createdAt)}</span>
                           <span aria-hidden="true">·</span>
                           <span className={post.published ? "font-semibold text-green-700" : "font-semibold text-amber-700"}>
                             {post.published ? admin.posts.published : admin.posts.draft}
                           </span>
                         </span>
-                      </span>
-                      <span className="hidden shrink-0 sm:block">
-                        <CategoryBadge name={post.categoryName} colorKey={post.categoryColor as ColorKey} />
+                        <span className="mt-1.5 flex">
+                          <CategoryBadge
+                            name={categoryLabel[post.categorySlug] ?? post.categoryName}
+                            colorKey={post.categoryColor as ColorKey}
+                          />
+                        </span>
                       </span>
                     </Link>
                   </li>

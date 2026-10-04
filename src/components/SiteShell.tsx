@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
-import { t } from "@/content/ta-LK";
+import { postText, t } from "@/content/ta-LK";
 import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
+import { ToastProvider } from "./toast/ToastProvider";
 import { RadioProvider } from "./radio/RadioProvider";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -26,5 +27,12 @@ export async function SiteShell({ children }: { children: ReactNode }) {
   );
 
   // One player for the whole site, so the radio keeps playing while visitors move between pages.
-  return radio ? <RadioProvider {...radio}>{shell}</RadioProvider> : shell;
+  const withRadio = radio ? <RadioProvider {...radio}>{shell}</RadioProvider> : shell;
+
+  // Small notices (for example "could not copy") use the site's own toast, never the browser's pop-up boxes.
+  return (
+    <ToastProvider placement="bottom" closeLabel={postText.gallery.close}>
+      {withRadio}
+    </ToastProvider>
+  );
 }

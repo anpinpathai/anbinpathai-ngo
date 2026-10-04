@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { admin } from "@/content/admin-en";
-import { Icon } from "./Icon";
 
 // The bar with the Save / Cancel buttons at the bottom of a form.
 // It is a floating card exactly as wide as the cards above it, and stays in reach while you scroll.
@@ -25,32 +24,13 @@ export function ActionBar({ status, children }: { status?: ReactNode; children: 
   );
 }
 
-// The small message shown on the left of the bar.
-export function FormStatus({
-  dirty,
-  status,
-  message,
-}: {
-  dirty: boolean;
-  status: "idle" | "saved" | "error";
-  message?: string;
-}) {
-  if (dirty) {
-    return (
-      <span className="inline-flex items-center gap-2 text-muted">
-        <span aria-hidden="true" className="h-2 w-2 rounded-full bg-gold" />
-        {admin.common.unsaved}
-      </span>
-    );
-  }
-  if (!message) return null;
+// The small "unsaved changes" reminder on the left of the bar. "Saved" and errors are shown as toasts.
+export function FormStatus({ dirty }: { dirty: boolean }) {
+  if (!dirty) return null;
   return (
-    <span
-      role={status === "error" ? "alert" : "status"}
-      className={`inline-flex items-center gap-1.5 ${status === "error" ? "text-red-700" : "text-green-700"}`}
-    >
-      <Icon name={status === "error" ? "alert" : "checkCircle"} className="h-4 w-4" />
-      {message}
+    <span className="inline-flex items-center gap-2 text-muted">
+      <span aria-hidden="true" className="h-2 w-2 rounded-full bg-gold" />
+      {admin.common.unsaved}
     </span>
   );
 }

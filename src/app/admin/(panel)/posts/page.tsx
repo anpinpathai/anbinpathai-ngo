@@ -3,11 +3,11 @@ import Link from "next/link";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { Icon } from "@/components/admin/Icon";
-import { Notice } from "@/components/admin/Notice";
+import { NoticeToast } from "@/components/admin/NoticeToast";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { SubmitButton } from "@/components/admin/SubmitButton";
 import { button, card } from "@/components/admin/ui";
-import { admin, categoryEnglish } from "@/content/admin-en";
+import { admin, categoryLabel } from "@/content/admin-en";
 import type { ColorKey } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { getPostCounts, listCategories, listPosts, POSTS_PER_PAGE } from "@/lib/posts";
@@ -25,6 +25,8 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
 const notices: Record<string, string> = {
   posted: "Your post is published.",
   draftsaved: "Saved as a draft.",
+  published: "Post published. Visitors can see it now.",
+  unpublished: "Post unpublished. It is hidden from visitors.",
   deleted: admin.common.noticeDeleted,
 };
 
@@ -85,11 +87,7 @@ export default async function PostsPage(props: PageProps<"/admin/posts">) {
         }
       />
 
-      {notice && (
-        <div className="mb-5">
-          <Notice>{notice}</Notice>
-        </div>
-      )}
+      {notice && <NoticeToast message={notice} />}
 
       <div className="flex flex-wrap gap-2" role="tablist" aria-label={admin.posts.title}>
         {tabs.map((tab) => (
@@ -133,8 +131,10 @@ export default async function PostsPage(props: PageProps<"/admin/posts">) {
                 active ? `${color.solid} shadow-sm` : "bg-white text-ink ring-1 ring-line hover:bg-sand/60"
               }`}
             >
-              <span aria-hidden="true" className={`h-2 w-2 rounded-full ${active ? "bg-white" : color.dot}`} />
-              {categoryEnglish[c.slug] ?? c.name}
+              <span aria-hidden="true" className={`h-2 w-2 shrink-0 rounded-full ${active ? "bg-white" : color.dot}`} />
+              <span lang="ta" className="leading-snug!">
+                {categoryLabel[c.slug] ?? c.name}
+              </span>
             </Link>
           );
         })}
@@ -188,7 +188,7 @@ export default async function PostsPage(props: PageProps<"/admin/posts">) {
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
                       <CategoryBadge
-                        name={categoryEnglish[post.categorySlug] ?? post.categoryName}
+                        name={categoryLabel[post.categorySlug] ?? post.categoryName}
                         colorKey={post.categoryColor as ColorKey}
                       />
                       <span

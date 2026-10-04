@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { startTransition, useActionState, useRef, useState, type FormEvent } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import { ActionBar, FormStatus } from "@/components/admin/ActionBar";
 import { Icon, type IconName } from "@/components/admin/Icon";
 import { ImageEditor, type EditorSettings } from "@/components/admin/ImageEditor";
 import { useUnsavedChanges } from "@/components/admin/UnsavedChanges";
 import { button, card, inputClass } from "@/components/admin/ui";
-import { admin, categoryEnglish } from "@/content/admin-en";
+import { useToast } from "@/components/toast/ToastProvider";
+import { admin, categoryLabel } from "@/content/admin-en";
 import { t, type ColorKey } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { MAX_GALLERY_PHOTOS } from "@/lib/limits";
@@ -126,7 +127,14 @@ export function PostComposer({
   const [categoryId, setCategoryId] = useState(initialValues.categoryId);
   const [photos, setPhotos] = useState<PhotoItem[]>(initialPhotos);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
-  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+
+  // Tell the person how the save went, and about any photo problems, in toasts.
+  const toast = useToast();
+  useEffect(() => {
+    if (state.status === "saved") toast.success(state.message ?? text.saved);
+    else if (state.status === "error") toast.error(state.message ?? admin.common.actionFailed);
+  }, [state, toast, text.saved]);
+
   const [showVideo, setShowVideo] = useState(Boolean(initialValues.youtubeUrl));
   const [showFacebook, setShowFacebook] = useState(Boolean(initialValues.facebookUrl));
   const [showDate, setShowDate] = useState(false);
@@ -143,11 +151,10 @@ export function PostComposer({
   }
 
   async function addPhotos(files: File[]) {
-    setUploadMessage(null);
     const chosen = files.slice(0, Math.max(0, MAX_GALLERY_PHOTOS - photos.length));
     const notice = files.length > chosen.length ? text.photosFull : null;
     if (chosen.length === 0) {
-      setUploadMessage(notice);
+      if (notice) toast.info(notice);
       return;
     }
 
@@ -163,19 +170,19 @@ export function PostComposer({
       }
     }
     setProgress(null);
-    setUploadMessage(failure ?? notice);
+    if (failure) toast.error(failure);
+    else if (notice) toast.info(notice);
   }
 
   // Adjust one photo of the post: it is opened, changed, then saved as a new photo in the same place.
   const [adjusting, setAdjusting] = useState<{ key: string; settings: EditorSettings } | null>(null);
 
   async function adjustPhoto(photo: PhotoItem) {
-    setUploadMessage(null);
     try {
       const source = await fetchStoredImage(photo.key);
       setAdjusting({ key: photo.key, settings: { source, aspect: null, maxSide: 1600 } });
     } catch (err) {
-      setUploadMessage(uploadErrorMessage(err));
+      toast.error(uploadErrorMessage(err));
     }
   }
 
@@ -200,10 +207,10 @@ export function PostComposer({
 
   const primaryLabel = status === "new" ? text.post : status === "draft" ? text.publishNow : text.saveChanges;
   const secondaryLabel = status === "published" ? text.unpublish : text.saveDraft;
-  const photoMessage = uploadMessage ?? errors.photoKeys ?? null;
+  const photoMessage = errors.photoKeys ?? null;
 
   return (
-    <form onSubmit={handleSubmit} onInput={markEdited} className="max-w-3xl">
+    <form onSubmit={handleSubmit} onInput={markEdited} noValidate className="max-w-3xl">
       {/* Pressing Enter in a field submits with the form's first submit button. Keep that "Post",
           even though the buttons in the bar below put "Post" on the right. */}
       <button
@@ -252,11 +259,8 @@ export function PostComposer({
                       <span aria-hidden="true" className={`h-3 w-3 rounded-full ${color.dot}`} />
                     )}
                   </span>
-                  <span className="min-w-0">
-                    <span className="block font-semibold leading-tight text-ink">{categoryEnglish[c.slug] ?? c.name}</span>
-                    <span lang="ta" className="mt-0.5 block truncate text-sm text-muted">
-                      {c.name}
-                    </span>
+                  <span lang="ta" className="min-w-0 font-semibold leading-snug! text-ink">
+                    {categoryLabel[c.slug] ?? c.name}
                   </span>
                 </label>
               );
@@ -488,7 +492,7 @@ export function PostComposer({
           uploading ? (
             <span className="text-muted">{text.waitForUploads}</span>
           ) : (
-            <FormStatus dirty={dirty} status={state.status} message={state.message} />
+            <FormStatus dirty={dirty} />
           )
         }
       >

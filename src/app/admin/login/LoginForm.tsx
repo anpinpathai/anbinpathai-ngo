@@ -20,7 +20,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <form action={action} className="mt-6 space-y-5">
+    <form action={action} noValidate className="mt-6 space-y-5">
       <div>
         <label htmlFor="username" className="font-semibold text-ink">
           {admin.login.username}

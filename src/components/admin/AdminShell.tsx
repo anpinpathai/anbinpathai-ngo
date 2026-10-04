@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { ToastProvider } from "@/components/toast/ToastProvider";
 import { admin } from "@/content/admin-en";
 import { Icon, type IconName } from "./Icon";
 import { UnsavedProvider, useConfirmLeave } from "./UnsavedChanges";
@@ -58,14 +59,21 @@ function SidebarContent({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const confirmLeave = useConfirmLeave();
 
-  function go(event: MouseEvent<HTMLAnchorElement>) {
-    if (!confirmLeave()) {
-      event.preventDefault();
+  // A menu link. If the page has unsaved changes, our own "Leave without saving?" window opens first.
+  function go(event: MouseEvent<HTMLAnchorElement>, href: string) {
+    // Opening in a new tab or window loses nothing, so let the browser do it.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    if (confirmLeave(() => {
+      onNavigate?.();
+      router.push(href);
+    })) {
+      onNavigate?.();
       return;
     }
-    onNavigate?.();
+    event.preventDefault();
   }
 
   const newPostActive = pathname === "/admin/posts/new";
@@ -83,7 +91,7 @@ function SidebarContent({
       <div className="px-4">
         <Link
           href="/admin/posts/new"
-          onClick={go}
+          onClick={(event) => go(event, "/admin/posts/new")}
           aria-current={newPostActive ? "page" : undefined}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-4 py-3 font-bold text-ink shadow-sm transition-colors hover:bg-[#f0b90a]"
         >
@@ -107,7 +115,7 @@ function SidebarContent({
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      onClick={go}
+                      onClick={(event) => go(event, item.href)}
                       aria-current={active ? "page" : undefined}
                       className={`flex items-center gap-3 rounded-xl px-3 py-2 font-semibold transition-colors ${
                         active ? "bg-white text-brand-dark shadow-sm" : "text-white/85 hover:bg-white/10 hover:text-white"
@@ -137,7 +145,7 @@ function SidebarContent({
         </Link>
         <Link
           href="/admin/help"
-          onClick={go}
+          onClick={(event) => go(event, "/admin/help")}
           aria-current={pathname === "/admin/help" ? "page" : undefined}
           className={`flex items-center gap-3 rounded-xl px-3 py-2 font-semibold transition-colors ${
             pathname === "/admin/help" ? "bg-white text-brand-dark shadow-sm" : "text-white/85 hover:bg-white/10 hover:text-white"
@@ -247,8 +255,10 @@ function Shell({
 
 export function AdminShell(props: { username: string; logoutAction: () => void | Promise<void>; children: ReactNode }) {
   return (
-    <UnsavedProvider>
-      <Shell {...props} />
-    </UnsavedProvider>
+    <ToastProvider placement="top" closeLabel={admin.common.toastClose}>
+      <UnsavedProvider>
+        <Shell {...props} />
+      </UnsavedProvider>
+    </ToastProvider>
   );
 }

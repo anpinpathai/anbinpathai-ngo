@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { Icon } from "@/components/admin/Icon";
-import { Notice } from "@/components/admin/Notice";
+import { NoticeToast } from "@/components/admin/NoticeToast";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { button, card } from "@/components/admin/ui";
 import { admin, roleGroupEnglish } from "@/content/admin-en";
@@ -54,11 +54,7 @@ export default async function TeamPage(props: PageProps<"/admin/team">) {
         }
       />
 
-      {notice && (
-        <div className="mb-5">
-          <Notice>{notice}</Notice>
-        </div>
-      )}
+      {notice && <NoticeToast message={notice} />}
 
       <div className="space-y-6">
         {roleGroups.map((group) => {

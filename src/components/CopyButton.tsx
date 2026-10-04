@@ -1,20 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { pages } from "@/content/ta-LK";
+import { CopyIcon } from "@/components/CopyIcon";
+import { useToast } from "@/components/toast/ToastProvider";
+import { pages, postText } from "@/content/ta-LK";
+import { copyText } from "@/lib/clipboard";
 
 export function CopyButton({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
+  const toast = useToast();
 
   async function copy() {
-    try {
-      await navigator.clipboard.writeText(value);
+    if (await copyText(value)) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2500);
-    } catch {
-      try {
-        window.prompt(pages.donate.copy, value);
-      } catch {}
+    } else {
+      toast.error(postText.copyFailed);
     }
   }
 
@@ -23,9 +24,10 @@ export function CopyButton({ value }: { value: string }) {
       type="button"
       onClick={copy}
       aria-live="polite"
-      className="rounded-full border-2 border-brand px-4 py-1 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
+      className="inline-flex items-center gap-2 rounded-full border-2 border-brand px-4 py-1 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
     >
-      {copied ? pages.donate.copied : pages.donate.copy}
+      <CopyIcon done={copied} />
+      <span lang="en">{copied ? pages.donate.copied : pages.donate.copy}</span>
     </button>
   );
 }

@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Field, describedBy, inputClass } from "@/components/admin/Field";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { SaveBar } from "@/components/admin/SaveBar";
 import { useUnsavedChanges } from "@/components/admin/UnsavedChanges";
 import { card } from "@/components/admin/ui";
+import { useToast } from "@/components/toast/ToastProvider";
 import { admin, settingSections } from "@/content/admin-en";
 import { saveSettingsAction, type SettingsState } from "./actions";
 
@@ -22,6 +23,13 @@ export function SettingsForm({
   const initial: SettingsState = { status: "idle", values: initialValues, errors: {} };
   const [state, action, pending] = useActionState(saveSettingsAction, initial);
 
+  // Tell the person how the save went, in a toast.
+  const toast = useToast();
+  useEffect(() => {
+    if (state.status === "saved") toast.success(state.message ?? admin.common.noticeSaved);
+    else if (state.status === "error") toast.error(state.message ?? admin.common.actionFailed);
+  }, [state, toast]);
+
   // "Edited" means something changed since the last result from the server.
   const [editedAt, setEditedAt] = useState<SettingsState | null>(null);
   const dirty = editedAt === state;
@@ -31,7 +39,7 @@ export function SettingsForm({
   if (!section) return null;
 
   return (
-    <form action={action} onInput={markEdited}>
+    <form action={action} onInput={markEdited} noValidate>
       <input type="hidden" name="section" value={section.slug} />
 
       <div className="space-y-6">
@@ -132,8 +140,6 @@ export function SettingsForm({
         label={admin.settings.save}
         pendingLabel={admin.settings.saving}
         pending={pending}
-        message={state.message}
-        status={state.status}
         dirty={dirty}
       />
     </form>

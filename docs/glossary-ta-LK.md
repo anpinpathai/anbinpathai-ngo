@@ -50,8 +50,9 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | Photos (count) / Video | படங்கள் / காணொளி | - | Please confirm |
 | Newer / Older posts | புதிய பதிவுகள் / பழைய பதிவுகள் | - | Please confirm |
 | More posts in this category | இதே பிரிவின் மேலும் பதிவுகள் | - | Please confirm |
-| Share / Copy link / Copied | பகிர்க / இணைப்பை நகலெடுக்க / நகலெடுக்கப்பட்டது | - | Please confirm |
-| WhatsApp (name) | வாட்ஸ்அப் | - | Please confirm |
+| Share (label before the share buttons) | பகிர்க | - | Please confirm |
+| Facebook / WhatsApp / Copy link / Copied (the three share buttons on a post) | Kept in English with icons, as the client asked | - | Client request |
+| Could not copy (toast) | நகலெடுக்க முடியவில்லை. தயவுசெய்து கைமுறையாக நகலெடுக்கவும். | - | Please confirm |
 | View on Facebook / Watch on YouTube | பேஸ்புக்கில் பார்க்க / யூடியூப்பில் பார்க்க | - | Please confirm |
 | Stop / start automatic scrolling | தானாக நகர்வதை நிறுத்து / இயக்கு | - | Please confirm |
 | Photo viewer: close, previous, next, "photo n / total" | மூடு, முந்தைய படம், அடுத்த படம், படம் n / மொத்தம் | - | Please confirm |
@@ -65,7 +66,7 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | Bank details page: bank name / branch / account name / account number / extra note | வங்கியின் பெயர் / கிளை / கணக்கின் பெயர் / கணக்கு இலக்கம் / மேலதிக குறிப்பு | வங்கி விவரங்கள், கணக்கு எண் | Please confirm |
 | Donation page intro | உங்கள் ஆதரவு எமது கல்வி, சுற்றுச்சூழல் மற்றும் மனிதநேயப் பணிகளுக்கு வலுச்சேர்க்கும். வங்கிக் கணக்கு மூலம் நன்கொடை வழங்கலாம். | - | Please confirm (written by me) |
 | Donation page: "after donating" | நன்கொடை வழங்கிய பின் / நன்கொடை வழங்கியதும் எமக்குத் தெரியப்படுத்துங்கள். நன்றி! | - | Please confirm (written by me) |
-| Copy / Copied | நகலெடுக்க / நகலெடுக்கப்பட்டது | - | Please confirm |
+| Copy / Copied (Donation page, bank details) | Kept in English with an icon, as the client asked | - | Client request |
 | Contact page: title, intro, member invitation | தொடர்பு · எம்முடன் தொடர்புகொள்ளுங்கள். · எமது பணிகளில் இணைந்து உறுப்பினராக விரும்புவோர் எம்மைத் தொடர்புகொள்ளுங்கள். | - | Please confirm (written by me) |
 | Phone / Email / Address / View on map | தொலைபேசி இலக்கம் / மின்னஞ்சல் / முகவரி / வரைபடத்தில் பார்க்க | - | Please confirm |
 | Reading page: newest video / follow our channel | புதிய காணொளி / எமது யூடியூப் அலைவரிசையைப் பின்தொடருங்கள் | யூடியூப் சேனல் | Please confirm |

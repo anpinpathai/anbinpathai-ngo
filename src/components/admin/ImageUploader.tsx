@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { useToast } from "@/components/toast/ToastProvider";
 import { admin } from "@/content/admin-en";
 import { fetchStoredImage, uploadBlob } from "@/lib/upload-client";
 import { Icon } from "./Icon";
@@ -28,7 +29,7 @@ export function ImageUploader({
   const [key, setKey] = useState(initialKey);
   const [url, setUrl] = useState(initialUrl);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const toast = useToast();
   // The image that was just removed, so an accidental click can be undone before saving.
   const [removed, setRemoved] = useState<{ key: string; url: string } | null>(null);
   const [editing, setEditing] = useState<EditorSettings | null>(null);
@@ -47,18 +48,16 @@ export function ImageUploader({
 
   // A newly chosen photo opens in the Adjust window first. Nothing is uploaded until "Use this photo".
   function handleFile(file: File) {
-    setMessage(null);
     setEditing(editorFor(file));
   }
 
   // Adjust the photo that is already saved.
   async function adjustCurrent() {
-    setMessage(null);
     setBusy(true);
     try {
       setEditing(editorFor(await fetchStoredImage(key)));
     } catch {
-      setMessage(admin.uploader.adjustFailed);
+      toast.error(admin.uploader.adjustFailed);
     } finally {
       setBusy(false);
     }
@@ -73,7 +72,8 @@ export function ImageUploader({
     onChange?.();
   }
 
-  const shownMessage = message ?? error ?? null;
+  // A problem the server found with the saved value stays beside the photo; everything else is a toast.
+  const shownMessage = error ?? null;
 
   return (
     <div>
@@ -139,7 +139,6 @@ export function ImageUploader({
                 setRemoved({ key, url });
                 setKey("");
                 setUrl(null);
-                setMessage(null);
                 onChange?.();
               }}
               className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-semibold text-red-700 transition-colors hover:bg-red-50"

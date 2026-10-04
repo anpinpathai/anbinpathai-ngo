@@ -11,8 +11,6 @@ export function SaveBar({
   pending,
   icon = "save",
   cancelHref,
-  message,
-  status,
   dirty,
   disabled,
 }: {
@@ -21,13 +19,11 @@ export function SaveBar({
   pending: boolean;
   icon?: IconName;
   cancelHref?: string;
-  message?: string;
-  status: "idle" | "saved" | "error";
   dirty: boolean;
   disabled?: boolean;
 }) {
   return (
-    <ActionBar status={<FormStatus dirty={dirty} status={status} message={message} />}>
+    <ActionBar status={<FormStatus dirty={dirty} />}>
       {cancelHref && (
         <Link href={cancelHref} className={button.ghost}>
           {admin.common.cancel}
