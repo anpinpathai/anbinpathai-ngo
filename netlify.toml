@@ -1,5 +1,7 @@
 [build]
   command = "npm run build"
+  # Where Next.js puts its finished website. Netlify must not publish the project's top folder instead.
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
