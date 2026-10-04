@@ -10,6 +10,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Next.js's build cache writes the values of the settings it reads while building (session secret,
+  // photo-storage keys) into files under .next/cache. Netlify's secret scanner rightly refuses that,
+  // so the build cache is off. Builds are a few seconds slower, and no secret is ever written to a cache file.
+  experimental: { turbopackFileSystemCacheForBuild: false },
+
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
@@ -56,6 +61,6 @@ export default async function config(phase: string): Promise<NextConfig> {
   return {
     ...nextConfig,
     allowedDevOrigins: hosts,
-    experimental: { serverActions: { allowedOrigins: hosts } },
+    experimental: { ...nextConfig.experimental, serverActions: { allowedOrigins: hosts } },
   };
 }
