@@ -3,3 +3,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Makes sure Netlify runs the Next.js server part, which answers every page of the website.
+# Without it Netlify publishes only plain files, and every address shows Netlify's own "Page not found".
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
