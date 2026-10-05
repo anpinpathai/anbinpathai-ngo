@@ -102,7 +102,12 @@ export function LatestUpdates({ tabs }: { tabs: LatestTab[] }) {
         </button>
       </div>
 
-      <div role="tablist" aria-label={postText.tabsLabel} className="mt-6 flex gap-2 overflow-x-auto pb-2">
+      {/* One row that scrolls sideways on phones; on a computer the five names fit, and wrap if the window is narrow. */}
+      <div
+        role="tablist"
+        aria-label={postText.tabsLabel}
+        className="mt-6 flex gap-2 overflow-x-auto pb-2 lg:flex-wrap lg:overflow-visible"
+      >
         {tabs.map((tb, index) => {
           const c = categoryColor[tb.colorKey];
           const selected = index === active;
@@ -120,7 +125,7 @@ export function LatestUpdates({ tabs }: { tabs: LatestTab[] }) {
               tabIndex={selected ? 0 : -1}
               onClick={() => selectTab(index)}
               onKeyDown={(e) => onTabKeyDown(e, index)}
-              className={`whitespace-nowrap rounded-full border-2 px-4 py-2 font-semibold transition-colors ${
+              className={`whitespace-nowrap rounded-full border-2 px-3 py-2 text-[0.9rem] font-semibold transition-colors ${
                 selected ? `${c.solid} ${c.border}` : `border-line bg-white ${c.text} hover:bg-sand`
               }`}
             >
