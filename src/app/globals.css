@@ -27,6 +27,13 @@
   --color-cat-green: #2a7309;
   --color-cat-purple: #7a2f9a;
   --color-cat-blue: #1560bb;
+  --color-cat-teal: #0f766e;
+
+  /* The apps' own colours, used for their icons only. WhatsApp's green is a little deeper than its
+     official #25D366 so the icon stays visible on the cream page. */
+  --color-facebook: #1877f2;
+  --color-youtube: #ff0000;
+  --color-whatsapp: #1a9e4b;
 }
 
 @layer base {

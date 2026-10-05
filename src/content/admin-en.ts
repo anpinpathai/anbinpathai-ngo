@@ -192,7 +192,7 @@ export const settingSections: readonly SettingSection[] = [
 
 export const settingGroups: readonly SettingGroup[] = settingSections.flatMap((s) => s.groups);
 
-// The four sections are shown by their Tamil names everywhere in the admin panel (not in English).
+// The five sections are shown by their Tamil names everywhere in the admin panel (not in English).
 export const categoryLabel: Record<string, string> = Object.fromEntries(categories.map((c) => [c.slug, c.name]));
 
 export const roleGroupEnglish: Record<string, string> = {

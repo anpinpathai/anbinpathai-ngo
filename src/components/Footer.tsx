@@ -5,7 +5,17 @@ import { getSettings } from "@/lib/settings";
 import { ColorStripe } from "./ColorStripe";
 import { SiteLogo } from "./SiteLogo";
 
-function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+function SocialLink({
+  href,
+  label,
+  iconClass,
+  children,
+}: {
+  href: string;
+  label: string;
+  iconClass: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={href}
@@ -13,7 +23,8 @@ function SocialLink({ href, label, children }: { href: string; label: string; ch
       rel="noopener noreferrer"
       className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3.5 py-1 text-sm font-semibold text-white transition-colors hover:border-gold hover:text-gold"
     >
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+      {/* The icon keeps the app's own colour (blue / red); the name and outline are white, gold on hover. */}
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={`h-4 w-4 ${iconClass}`} fill="currentColor">
         {children}
       </svg>
       {label}
@@ -129,12 +140,12 @@ export async function Footer() {
             {hasSocial && (
               <div className="flex flex-wrap gap-2.5 xl:shrink-0">
                 {facebook && (
-                  <SocialLink href={facebook} label={t.footer.facebook}>
+                  <SocialLink href={facebook} label={t.footer.facebook} iconClass="text-facebook">
                     <path d="M12 2a10 10 0 1 0 1.5 19.9v-7h-2.3V12h2.3V9.8c0-2.3 1.4-3.5 3.4-3.5.7 0 1.4.1 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.4V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 12 2Z" />
                   </SocialLink>
                 )}
                 {youtube && (
-                  <SocialLink href={youtube} label={t.footer.youtube}>
+                  <SocialLink href={youtube} label={t.footer.youtube} iconClass="text-youtube">
                     <path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM10 15V9l5.2 3L10 15Z" />
                   </SocialLink>
                 )}

@@ -40,4 +40,13 @@ export const categoryColor: Record<
     topBorder: "border-t-cat-blue",
     tint: "bg-cat-blue/5",
   },
+  teal: {
+    solid: "bg-cat-teal text-white",
+    soft: "bg-cat-teal/10 text-cat-teal",
+    text: "text-cat-teal",
+    border: "border-cat-teal",
+    dot: "bg-cat-teal",
+    topBorder: "border-t-cat-teal",
+    tint: "bg-cat-teal/5",
+  },
 };

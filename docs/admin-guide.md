@@ -19,7 +19,7 @@ Forgot the password? Ask the developer. They can set a new one in a minute.
 ## Add news (New post)
 It works like a Facebook post.
 1. Press **New post**.
-2. Choose which **section** the news is for. The sections are shown by their Tamil names: அன்பின்பாதை – சமூகப் பணிகள், பசுமைத் தாயகம், கலை & இலக்கியம், வாசிப்போம் சுவாசிப்போம்.
+2. Choose which **section** the news is for. The sections are shown by their Tamil names: அன்பின்பாதை – சமூகப் பணிகள், பசுமைத் தாயகம், கலை & இலக்கியம், எண்ணம் போல் வாழ்க்கை மாணவர் மன்றம், வாசிப்போம் சுவாசிப்போம்.
 3. Write the news in the big box, in Tamil. The first line becomes the title, so make it short and clear.
 4. Under **Add to your post** you can add:
    - **Photos**: pick as many as you like (up to 20). Use the arrows to change the order. The first photo is the cover picture.

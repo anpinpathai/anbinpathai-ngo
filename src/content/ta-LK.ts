@@ -1,4 +1,4 @@
-export type ColorKey = "red" | "green" | "purple" | "blue";
+export type ColorKey = "red" | "green" | "purple" | "blue" | "teal";
 
 export type CategoryDef = {
   slug: string;
@@ -11,6 +11,7 @@ export const categories: readonly CategoryDef[] = [
   { slug: "social", name: "அன்பின்பாதை – சமூகப் பணிகள்", colorKey: "red", href: "/activities/social" },
   { slug: "green", name: "பசுமைத் தாயகம்", colorKey: "green", href: "/activities/green" },
   { slug: "arts", name: "கலை & இலக்கியம்", colorKey: "purple", href: "/activities/arts" },
+  { slug: "students", name: "எண்ணம் போல் வாழ்க்கை மாணவர் மன்றம்", colorKey: "teal", href: "/activities/students" },
   { slug: "reading", name: "வாசிப்போம் சுவாசிப்போம்", colorKey: "blue", href: "/reading" },
 ];
 
@@ -284,13 +285,14 @@ export const t = {
     aboutTitle: "எங்களைப் பற்றி",
     aboutText:
       "அன்பின்பாதை எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம் – திருகோணமலை சமூக, கலை, இலக்கிய மற்றும் கல்வி சார்ந்த செயற்பாடுகளை முன்னெடுத்து வரும் அமைப்பாகும்.",
-    since: "2017 முதல் தொடரும் எமது பணிகள்",
+    since: "2019 முதல் தொடரும் எமது பணிகள்",
     linksTitle: "முக்கிய இணைப்புகள்",
     rights: "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
     contactTitle: "தொடர்புகளுக்கு",
     followTitle: "எங்களைப் பின்தொடருங்கள்",
-    facebook: "பேஸ்புக்",
-    youtube: "யூடியூப்",
+    // English with icons, like the share buttons (the client asked; everyone knows these two names).
+    facebook: "Facebook",
+    youtube: "YouTube",
   },
   home: {
     headline: "எண்ணங்கள் உயர்ந்தால்… வாழ்க்கையும் உயர்கிறது.",
@@ -307,17 +309,18 @@ export const t = {
       social: "இடர் நிவாரணம் · பசித்தோருக்கு உதவுதல் · கல்வி உதவிகள்",
       green: "பசுமையான நாளைக்காக… சிரமதானம் · இயற்கைப் பாதுகாப்பு · போதைக்கு எதிரான விழிப்புணர்வு",
       arts: "கவிதை · சிறுகதை · கட்டுரை · பேச்சு · நாடகம் · இலக்கிய உரையாடல்",
+      students: "மாணவர்களின் திறமைகளை வெளிக்கொணருதல்",
       reading: "யூடியூப் வாசிப்பு முயற்சி",
     },
     aboutTitle: "எமது பயணம்",
     aboutText:
-      "அன்பின்பாதை எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம் – திருகோணமலை சமூக, கலை, இலக்கிய மற்றும் கல்வி சார்ந்த செயற்பாடுகளை முன்னெடுத்து வரும் அமைப்பாகும். 2017 முதல் தொடரும் எமது பணிகள், சமூகத்தின் பல்வேறு தரப்பினரையும் இணைத்து மனிதநேயம், கல்வி, கலை, இலக்கியம் மற்றும் சுற்றுச்சூழல் பாதுகாப்பை முன்னெடுப்பதை நோக்கமாகக் கொண்டுள்ளன.",
+      "அன்பின்பாதை எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம் – திருகோணமலை சமூக, கலை, இலக்கிய மற்றும் கல்வி சார்ந்த செயற்பாடுகளை முன்னெடுத்து வரும் அமைப்பாகும். 2019 முதல் தொடரும் எமது பணிகள், சமூகத்தின் பல்வேறு தரப்பினரையும் இணைத்து மனிதநேயம், கல்வி, கலை, இலக்கியம் மற்றும் சுற்றுச்சூழல் பாதுகாப்பை முன்னெடுப்பதை நோக்கமாகக் கொண்டுள்ளன.",
     aimLabel: "எமது நோக்கம்",
     initiativesTitle: "முக்கியப் பிரிவுகள்",
     initiatives: [
       { name: "அன்பின் பாதை சமூகம்", href: "/activities/social", colorKey: "red" },
       { name: "எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம்", href: "/activities/arts", colorKey: "purple" },
-      { name: "எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம்", colorKey: "blue" },
+      { name: "எண்ணம் போல் வாழ்க்கை மாணவர் மன்றம்", href: "/activities/students", colorKey: "teal" },
       { name: "வாசிப்போம் சுவாசிப்போம்", href: "/reading", colorKey: "blue" },
       { name: "பெண்மையைப் போற்றுவோம்", colorKey: "red" },
       { name: "“சிறுகதை மஞ்சரி” அனைத்துலக வாசகர் வட்டம்", colorKey: "purple" },

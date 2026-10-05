@@ -37,11 +37,12 @@ export default async function Home() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <h2 className="text-2xl text-brand sm:text-3xl">{home.activitiesTitle}</h2>
-        <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Five cards: 3 + 2 on a wide screen (the last row is centred), never four with one left alone. */}
+        <ul className="mt-8 flex flex-wrap justify-center gap-6">
           {categories.map((c) => {
             const color = categoryColor[c.colorKey];
             return (
-              <li key={c.slug}>
+              <li key={c.slug} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
                 <Link
                   href={c.href}
                   className={`group flex h-full flex-col items-center rounded-2xl border border-line border-t-4 bg-white p-6 text-center transition hover:-translate-y-1 hover:shadow-lg ${color.topBorder}`}
