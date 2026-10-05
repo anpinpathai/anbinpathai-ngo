@@ -9,6 +9,14 @@
   # public web address of the photos, written into the pages on purpose, so it is not a secret.
   SECRETS_SCAN_OMIT_KEYS = "R2_PUBLIC_URL"
 
+# Netlify's own address for this site always exists and cannot be removed, so it forwards to the real
+# domain. Visitors and search engines then only ever see https://anpinpathai.org.
+[[redirects]]
+  from = "https://anpinpathai.netlify.app/*"
+  to = "https://anpinpathai.org/:splat"
+  status = 301
+  force = true
+
 # Makes sure Netlify runs the Next.js server part, which answers every page of the website.
 # Without it Netlify publishes only plain files, and every address shows Netlify's own "Page not found".
 [[plugins]]
