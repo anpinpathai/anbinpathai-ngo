@@ -11,7 +11,7 @@ export const categories: readonly CategoryDef[] = [
   { slug: "social", name: "அன்பின்பாதை – சமூகப் பணிகள்", colorKey: "red", href: "/activities/social" },
   { slug: "green", name: "பசுமைத் தாயகம்", colorKey: "green", href: "/activities/green" },
   { slug: "arts", name: "கலை & இலக்கியம்", colorKey: "purple", href: "/activities/arts" },
-  { slug: "students", name: "எண்ணம் போல் வாழ்க்கை மாணவர் மன்றம்", colorKey: "teal", href: "/activities/students" },
+  { slug: "students", name: "எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம்", colorKey: "teal", href: "/activities/students" },
   { slug: "reading", name: "வாசிப்போம் சுவாசிப்போம்", colorKey: "blue", href: "/reading" },
 ];
 
@@ -320,7 +320,7 @@ export const t = {
     initiatives: [
       { name: "அன்பின் பாதை சமூகம்", href: "/activities/social", colorKey: "red" },
       { name: "எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம்", href: "/activities/arts", colorKey: "purple" },
-      { name: "எண்ணம் போல் வாழ்க்கை மாணவர் மன்றம்", href: "/activities/students", colorKey: "teal" },
+      { name: "எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம்", href: "/activities/students", colorKey: "teal" },
       { name: "வாசிப்போம் சுவாசிப்போம்", href: "/reading", colorKey: "blue" },
       { name: "பெண்மையைப் போற்றுவோம்", colorKey: "red" },
       { name: "“சிறுகதை மஞ்சரி” அனைத்துலக வாசகர் வட்டம்", colorKey: "purple" },
