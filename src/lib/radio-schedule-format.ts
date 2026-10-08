@@ -92,18 +92,16 @@ export function scheduleLineTa(p: ProgrammeTiming) {
   return `${weekdayShortTa(d.weekday)} · ${d.day} ${months[d.month - 1]} ${d.year} · ${time}`;
 }
 
-// What one row on the Radio page shows.
+// What one row on the Radio page shows: the date block, a day line and a time line.
 export function rowParts(p: ProgrammeTiming, date: string) {
   const d = parseDate(date);
-  const time = timeTextTa(p.startTime, p.endTime);
   return {
     day: d.day,
     month: months[d.month - 1],
     weekdayShort: weekdayShortTa(d.weekday),
-    line:
-      p.kind === "weekly"
-        ? `${text.everyWeek(weekdayLongTa(d.weekday))} · ${time}`
-        : `${weekdayShortTa(d.weekday)} · ${time}`,
+    // "ஒவ்வொரு சனிக்கிழமையும்" for a weekly programme, "சனிக்கிழமை" for a one-time one.
+    dayText: p.kind === "weekly" ? text.everyWeek(weekdayLongTa(d.weekday)) : weekdayLongTa(d.weekday),
+    timeText: timeTextTa(p.startTime, p.endTime),
   };
 }
 

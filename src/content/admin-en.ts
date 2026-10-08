@@ -419,7 +419,7 @@ export const admin = {
   },
   radioSchedule: {
     title: "Radio schedule",
-    subtitle: "The programmes shown on the Radio page of your website, under “You can listen”.",
+    subtitle: "The programmes shown on the Radio page of your website, just below the player.",
     newProgramme: "Add programme",
     editProgramme: "Edit programme",
     backToList: "Back to schedule",
@@ -581,7 +581,7 @@ export const admin = {
           "Choose On one date (a single programme) or Every week (it repeats on the same day each week).",
           "Pick the date or the day of the week, then the start time and, if you like, the end time.",
           "Type the programme heading in Tamil. Under How visitors will see it, you can check the wording before you save.",
-          "Press Add programme. It appears on the Radio page under You can listen.",
+          "Press Add programme. It appears on the Radio page, just below the player.",
         ],
         note: "One-date programmes disappear from the website by themselves once they are over. Weekly programmes stay until you delete them.",
       },

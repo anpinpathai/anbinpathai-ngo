@@ -40,21 +40,22 @@ export default async function RadioPage() {
           </div>
         </section>
 
+        {/* The programme schedule comes first: what is on and when is what a visitor wants most. */}
+        <RadioSchedule programmes={programmes} />
+
         <section>
           <h2 className="text-2xl text-brand">{radio.hearTitle}</h2>
           <ul className="mt-4 grid gap-4 sm:grid-cols-2">
             {radio.hear.map((item) => (
-              <li key={item} className="flex items-center gap-4 rounded-2xl border border-line bg-white p-5">
+              <li key={item} className="flex min-w-0 items-center gap-4 rounded-2xl border border-line bg-white p-5">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold/25 text-brand">
                   <RadioIcon />
                 </span>
-                <span className="text-lg font-semibold">{item}</span>
+                <span className="min-w-0 text-lg font-semibold [overflow-wrap:anywhere]">{item}</span>
               </li>
             ))}
           </ul>
         </section>
-
-        <RadioSchedule programmes={programmes} />
 
         <section className="rounded-2xl bg-sand p-6 sm:p-8">
           <h2 className="text-xl text-brand">{radio.howTitle}</h2>

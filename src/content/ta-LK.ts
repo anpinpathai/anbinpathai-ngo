@@ -65,10 +65,10 @@ export const radio = {
     "வேறு பக்கங்களுக்குச் சென்றாலும் வானொலி தொடர்ந்து ஒலிக்கும்.",
     "நிறுத்த, நிறுத்து பொத்தானை அழுத்துங்கள்.",
   ],
-  // The programme schedule under "நீங்கள் கேட்கலாம்". Wording to be reviewed by the client (see docs/glossary-ta-LK.md).
+  // The programme schedule, right under the player. Wording to be reviewed by the client (see docs/glossary-ta-LK.md).
   schedule: {
     title: "நிகழ்ச்சி அட்டவணை",
-    note: "நேரங்கள் இலங்கை நேரப்படி",
+    note: "இலங்கை நேரப்படி",
     next: "அடுத்தது",
     weekly: "வாராந்தம்",
     everyWeek: (day: string) => `ஒவ்வொரு ${day}யும்`,

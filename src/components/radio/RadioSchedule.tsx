@@ -2,7 +2,7 @@ import { radio } from "@/content/ta-LK";
 import type { SiteProgramme } from "@/lib/radio-schedule";
 import { ProgrammeRow } from "./ProgrammeRow";
 
-// The programme schedule on the Radio page, right under "நீங்கள் கேட்கலாம்". Hidden when there is nothing to show.
+// The programme schedule on the Radio page, right under the player and above "நீங்கள் கேட்கலாம்". Hidden when there is nothing to show.
 export function RadioSchedule({ programmes }: { programmes: SiteProgramme[] }) {
   if (programmes.length === 0) return null;
   const text = radio.schedule;

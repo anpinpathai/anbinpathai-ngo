@@ -69,7 +69,7 @@ Once a stream address is saved, the radio appears in four places: a band on the 
 - If the radio server is down, visitors see a friendly message and a "try again" button.
 
 ## Radio schedule (programme times)
-Shows visitors when your radio programmes are on, in a list on the Radio page right under **நீங்கள் கேட்கலாம்**.
+Shows visitors when your radio programmes are on, in a list on the Radio page, right under the player and above **நீங்கள் கேட்கலாம்**.
 1. Open **Radio schedule** under Website pages (there is also a link on the Radio settings page).
 2. Press **Add programme**.
 3. Choose **On one date** (a single programme) or **Every week** (it repeats on the same day each week).
