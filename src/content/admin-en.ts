@@ -192,7 +192,7 @@ export const settingSections: readonly SettingSection[] = [
 
 export const settingGroups: readonly SettingGroup[] = settingSections.flatMap((s) => s.groups);
 
-// The five sections are shown by their Tamil names everywhere in the admin panel (not in English).
+// The six sections are shown by their Tamil names everywhere in the admin panel (not in English).
 export const categoryLabel: Record<string, string> = Object.fromEntries(categories.map((c) => [c.slug, c.name]));
 
 export const roleGroupEnglish: Record<string, string> = {
@@ -200,8 +200,9 @@ export const roleGroupEnglish: Record<string, string> = {
   president: "President",
   secretary: "Secretary",
   treasurer: "Treasurer",
-  member: "Members",
+  member: "Committee members",
   patron: "Patrons",
+  general: "Members",
 };
 
 export const admin = {
@@ -233,6 +234,7 @@ export const admin = {
     donation: "Donation",
     contact: "Contact and links",
     radio: "Radio",
+    radioSchedule: "Radio schedule",
     help: "Help",
     viewSite: "View website",
     logout: "Log out",
@@ -415,6 +417,58 @@ export const admin = {
       notFound: "That member no longer exists.",
     },
   },
+  radioSchedule: {
+    title: "Radio schedule",
+    subtitle: "The programmes shown on the Radio page of your website, under “You can listen”.",
+    newProgramme: "Add programme",
+    editProgramme: "Edit programme",
+    backToList: "Back to schedule",
+    emptyTitle: "No programmes yet",
+    emptyText: "Add your first programme and visitors will see it on the Radio page.",
+    radioOff:
+      "The Radio page is hidden while the radio is switched off or has no stream address, so visitors cannot see this schedule yet.",
+    radioSettings: "Radio settings",
+    settingsLinkText: "Add the dates and times of your radio programmes.",
+    groups: { weekly: "Every week", once: "On a specific date", past: "Past programmes" },
+    pastHint: "These are hidden on the website. Delete them whenever you like.",
+    count: (n: number) => `${n} programme${n === 1 ? "" : "s"}`,
+    badge: { weekly: "Every week", upcoming: "Upcoming", past: "Past, hidden" },
+    deleteTitle: "Delete this programme?",
+    confirmDelete: "This programme will be removed from the website for good. This cannot be undone.",
+    weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    weekdaysLong: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    form: {
+      detailsTitle: "Programme details",
+      kindQuestion: "How often is it on?",
+      once: "On one date",
+      onceHelp: "A single programme on a particular day.",
+      weekly: "Every week",
+      weeklyHelp: "Repeats on the same day every week.",
+      date: "Date",
+      weekday: "Day of the week",
+      start: "Starts at",
+      end: "Ends at (optional)",
+      title: "Programme heading",
+      titleHelp: "Write it in Tamil. This is the name visitors see.",
+      timeNote: "Times are Sri Lanka time, and visitors are told so on the page.",
+      previewTitle: "How visitors will see it",
+      previewEmpty: "Fill in the details to see a preview.",
+      alreadyOver: "This date and time has already passed, so it will not show on the website.",
+      create: "Add programme",
+      save: "Save programme",
+      saved: "Programme saved.",
+    },
+    errors: {
+      title: "Enter the programme heading.",
+      kind: "Choose how often it is on.",
+      date: "Choose the date.",
+      weekday: "Choose the day of the week.",
+      start: "Choose the start time.",
+      end: "Choose a valid end time.",
+      endAfterStart: "The end time must be later than the start time.",
+      notFound: "That programme no longer exists.",
+    },
+  },
   settings: {
     title: "Settings",
     save: "Save changes",
@@ -518,6 +572,18 @@ export const admin = {
           "To hide the radio for a while, switch off Show the radio on the website and press Save changes. The address is kept.",
         ],
         note: "The address must start with https:// or browsers will not play it on your website.",
+      },
+      {
+        title: "How do I add the radio programme schedule?",
+        steps: [
+          "Open Radio schedule under Website pages in the menu.",
+          "Press Add programme.",
+          "Choose On one date (a single programme) or Every week (it repeats on the same day each week).",
+          "Pick the date or the day of the week, then the start time and, if you like, the end time.",
+          "Type the programme heading in Tamil. Under How visitors will see it, you can check the wording before you save.",
+          "Press Add programme. It appears on the Radio page under You can listen.",
+        ],
+        note: "One-date programmes disappear from the website by themselves once they are over. Weekly programmes stay until you delete them.",
       },
       {
         title: "How do I move, zoom or rotate a photo?",

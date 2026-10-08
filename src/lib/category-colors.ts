@@ -49,4 +49,13 @@ export const categoryColor: Record<
     topBorder: "border-t-cat-teal",
     tint: "bg-cat-teal/5",
   },
+  raspberry: {
+    solid: "bg-cat-raspberry text-white",
+    soft: "bg-cat-raspberry/10 text-cat-raspberry",
+    text: "text-cat-raspberry",
+    border: "border-cat-raspberry",
+    dot: "bg-cat-raspberry",
+    topBorder: "border-t-cat-raspberry",
+    tint: "bg-cat-raspberry/5",
+  },
 };

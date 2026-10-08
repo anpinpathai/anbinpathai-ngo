@@ -19,7 +19,7 @@ Forgot the password? Ask the developer. They can set a new one in a minute.
 ## Add news (New post)
 It works like a Facebook post.
 1. Press **New post**.
-2. Choose which **section** the news is for. The sections are shown by their Tamil names: அன்பின்பாதை – சமூகப் பணிகள், பசுமைத் தாயகம், கலை & இலக்கியம், எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம், வாசிப்போம் சுவாசிப்போம்.
+2. Choose which **section** the news is for. The sections are shown by their Tamil names: அன்பின்பாதை – சமூகப் பணிகள், பசுமைத் தாயகம், கலை & இலக்கியம், எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம், “சிறுகதை மஞ்சரி” அனைத்துலக வாசகர் வட்டம், வாசிப்போம் சுவாசிப்போம்.
 3. Write the news in the big box, in Tamil. The first line becomes the title, so make it short and clear.
 4. Under **Add to your post** you can add:
    - **Photos**: pick as many as you like (up to 20). Use the arrows to change the order. The first photo is the cover picture.
@@ -40,7 +40,8 @@ The post appears on the website within a few seconds. A small note in the bar at
 - The red bin deletes the post and its photos for good. A window asks you to confirm first.
 
 ## Committee members (Committee)
-- **Add member**: type the name in Tamil (with திரு, திருமதி, செல்வி), choose the group, add a photo.
+- The page has these groups, in this order: Director, President, Secretary and Treasurer (shown together as நிர்வாகத் தலைமை), **Committee members** (நிர்வாகசபை உறுப்பினர்கள்), **Patrons** (போசகர்கள்), and **Members** (உறுப்பினர்கள், the ordinary members, always last). A group with nobody in it stays hidden on the website.
+- **Add member**: type the name in Tamil (with திரு, திருமதி, செல்வி), choose the group, add a photo. Use the **Add member** button inside a group to start with that group chosen.
 - **Edit**: change details or the photo. The role title is filled in from the group if you leave it empty.
 - Use the **← →** buttons on a card to move a person earlier or later inside their group.
 - The red bin removes a member (you are asked to confirm).
@@ -66,6 +67,22 @@ Once a stream address is saved, the radio appears in four places: a band on the 
 - To hide the radio for a while (for example, while the radio server is being fixed), switch off **Show the radio on the website** and save. The addresses are kept.
 - If the address is empty or does not start with `https://`, the radio is not shown.
 - If the radio server is down, visitors see a friendly message and a "try again" button.
+
+## Radio schedule (programme times)
+Shows visitors when your radio programmes are on, in a list on the Radio page right under **நீங்கள் கேட்கலாம்**.
+1. Open **Radio schedule** under Website pages (there is also a link on the Radio settings page).
+2. Press **Add programme**.
+3. Choose **On one date** (a single programme) or **Every week** (it repeats on the same day each week).
+4. Pick the date, or the day of the week, then the **start time** and, if you like, the **end time**.
+5. Type the **programme heading** in Tamil. The box on the right, **How visitors will see it**, shows the exact wording, so you can check it before you save.
+6. Press **Add programme**. It appears on the Radio page at once.
+
+- Times are Sri Lanka time. The page tells visitors so.
+- Programmes are listed with the soonest first, and the nearest one is marked **அடுத்தது** (next).
+- A programme with a single date disappears from the website by itself once it is over (if you gave no end time, about two hours after it starts). It stays in the admin under **Past programmes**, so you can delete it or copy its wording. Weekly programmes stay until you delete them.
+- To change a programme press **Edit**. To remove one press the red bin. You are asked to confirm first.
+- If the radio is switched off (or has no stream address), the whole Radio page is hidden, so the schedule is hidden too. The admin page reminds you of this.
+- The Radio page refreshes itself every few minutes, so a finished programme can stay for a few minutes after its time.
 
 ## Adjust a photo (move, zoom, rotate)
 - Next to the home banner and each committee photo there is an **Adjust** button. In a news post, each photo has a small crop button.

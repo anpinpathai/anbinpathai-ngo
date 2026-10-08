@@ -15,8 +15,15 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | President | தலைவர் | - | From client |
 | Secretary | செயலாளர் | - | From client |
 | Treasurer | பொருளாளர் | - | From client |
-| Members | உறுப்பினர்கள் | - | From client |
+| Radio programme schedule | நிகழ்ச்சி அட்டவணை | - | Written by developer, client to review |
+| Times are Sri Lanka time | நேரங்கள் இலங்கை நேரப்படி | - | Written by developer, client to review |
+| Next (programme) | அடுத்தது | - | Written by developer, client to review |
+| Weekly | வாராந்தம் | - | Written by developer, client to review |
+| Every Saturday | ஒவ்வொரு சனிக்கிழமையும் | - | Weekday names with கிழமை; developer, client to review |
+| Parts of the day in times | காலை (morning), நண்பகல் (noon), பிற்பகல் (afternoon), மாலை (evening), இரவு (night) | - | Used in "இரவு 7:00 மணி"; developer, client to review |
+| Committee members | நிர்வாகசபை உறுப்பினர்கள் | - | From client |
 | Patrons | போசகர்கள் | புரவலர்கள் | From client |
+| Members (ordinary, listed last) | உறுப்பினர்கள் | - | From client |
 | School | பாடசாலை | பள்ளி | From client |
 | Pre-school | முன்பள்ளி | - | From client |
 | Website | இணையத்தளம் | இணையதளம் | From client |

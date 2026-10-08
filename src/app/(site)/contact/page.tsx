@@ -53,7 +53,7 @@ export default async function ContactPage() {
                 )}
                 {address && (
                   <Row label={text.address}>
-                    <span className="whitespace-pre-line">{address}</span>
+                    <span className="whitespace-pre-line [overflow-wrap:anywhere]">{address}</span>
                     <a
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address.replace(/\n/g, ", "))}`}
                       target="_blank"

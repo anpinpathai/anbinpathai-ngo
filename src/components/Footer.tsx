@@ -82,6 +82,12 @@ export async function Footer() {
             </div>
             <p className="mt-2 max-w-xl text-sm leading-normal text-white/90">{t.footer.aboutText}</p>
             <p className="mt-2 text-sm font-semibold leading-normal text-gold">{t.footer.since}</p>
+            <p className="mt-1 text-sm leading-normal text-white/90">
+              {t.footer.registrationLabel}:{" "}
+              <span lang="en" className="font-semibold text-white [overflow-wrap:anywhere]">
+                {t.footer.registrationNumber}
+              </span>
+            </p>
           </div>
 
           <div>

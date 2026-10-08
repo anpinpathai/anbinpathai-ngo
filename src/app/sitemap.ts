@@ -12,6 +12,7 @@ const staticPaths = [
   "/activities/green",
   "/activities/arts",
   "/activities/students",
+  "/activities/circle",
   "/reading",
   "/donate",
   "/contact",

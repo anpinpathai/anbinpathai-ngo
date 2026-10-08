@@ -1,4 +1,4 @@
-export type ColorKey = "red" | "green" | "purple" | "blue" | "teal";
+export type ColorKey = "red" | "green" | "purple" | "blue" | "teal" | "raspberry";
 
 export type CategoryDef = {
   slug: string;
@@ -12,6 +12,7 @@ export const categories: readonly CategoryDef[] = [
   { slug: "green", name: "பசுமைத் தாயகம்", colorKey: "green", href: "/activities/green" },
   { slug: "arts", name: "கலை & இலக்கியம்", colorKey: "purple", href: "/activities/arts" },
   { slug: "students", name: "எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம்", colorKey: "teal", href: "/activities/students" },
+  { slug: "circle", name: "“சிறுகதை மஞ்சரி” அனைத்துலக வாசகர் வட்டம்", colorKey: "raspberry", href: "/activities/circle" },
   { slug: "reading", name: "வாசிப்போம் சுவாசிப்போம்", colorKey: "blue", href: "/reading" },
 ];
 
@@ -64,6 +65,26 @@ export const radio = {
     "வேறு பக்கங்களுக்குச் சென்றாலும் வானொலி தொடர்ந்து ஒலிக்கும்.",
     "நிறுத்த, நிறுத்து பொத்தானை அழுத்துங்கள்.",
   ],
+  // The programme schedule under "நீங்கள் கேட்கலாம்". Wording to be reviewed by the client (see docs/glossary-ta-LK.md).
+  schedule: {
+    title: "நிகழ்ச்சி அட்டவணை",
+    note: "நேரங்கள் இலங்கை நேரப்படி",
+    next: "அடுத்தது",
+    weekly: "வாராந்தம்",
+    everyWeek: (day: string) => `ஒவ்வொரு ${day}யும்`,
+    hour: "மணி",
+    weekdaysShort: ["ஞாயிறு", "திங்கள்", "செவ்வாய்", "புதன்", "வியாழன்", "வெள்ளி", "சனி"],
+    weekdaysLong: [
+      "ஞாயிற்றுக்கிழமை",
+      "திங்கட்கிழமை",
+      "செவ்வாய்க்கிழமை",
+      "புதன்கிழமை",
+      "வியாழக்கிழமை",
+      "வெள்ளிக்கிழமை",
+      "சனிக்கிழமை",
+    ],
+    parts: { morning: "காலை", noon: "நண்பகல்", afternoon: "பிற்பகல்", evening: "மாலை", night: "இரவு" },
+  },
 } as const;
 
 export const postFallbackTitles = {
@@ -265,8 +286,9 @@ export const roleGroups = [
   { key: "president", title: "தலைவர்", heading: "தலைவர்" },
   { key: "secretary", title: "செயலாளர்", heading: "செயலாளர்" },
   { key: "treasurer", title: "பொருளாளர்", heading: "பொருளாளர்" },
-  { key: "member", title: "உறுப்பினர்", heading: "உறுப்பினர்கள்" },
+  { key: "member", title: "நிர்வாகசபை உறுப்பினர்", heading: "நிர்வாகசபை உறுப்பினர்கள்" },
   { key: "patron", title: "போசகர்", heading: "போசகர்கள்" },
+  { key: "general", title: "உறுப்பினர்", heading: "உறுப்பினர்கள்" },
 ] as const;
 
 export const t = {
@@ -286,6 +308,8 @@ export const t = {
     aboutText:
       "அன்பின்பாதை எண்ணம்போல் வாழ்க்கை கலை இலக்கிய மன்றம் – திருகோணமலை சமூக, கலை, இலக்கிய மற்றும் கல்வி சார்ந்த செயற்பாடுகளை முன்னெடுத்து வரும் அமைப்பாகும்.",
     since: "2019 முதல் தொடரும் எமது பணிகள்",
+    registrationLabel: "பதிவு இலக்கம்",
+    registrationNumber: "EP/CUL/TIU/T&G/01/01/2025",
     linksTitle: "முக்கிய இணைப்புகள்",
     rights: "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
     contactTitle: "தொடர்புகளுக்கு",
@@ -310,6 +334,8 @@ export const t = {
       green: "பசுமையான நாளைக்காக… சிரமதானம் · இயற்கைப் பாதுகாப்பு · போதைக்கு எதிரான விழிப்புணர்வு",
       arts: "கவிதை · சிறுகதை · கட்டுரை · பேச்சு · நாடகம் · இலக்கிய உரையாடல்",
       students: "மாணவர்களின் திறமைகளை வெளிக்கொணருதல்",
+      // Built only from the client's own words (placeholder until the client gives wording for this circle).
+      circle: "சிறுகதை · இலக்கிய உரையாடல்",
       reading: "யூடியூப் வாசிப்பு முயற்சி",
     },
     aboutTitle: "எமது பயணம்",
@@ -323,7 +349,7 @@ export const t = {
       { name: "எண்ணம்போல் வாழ்க்கை மாணவர் மன்றம்", href: "/activities/students", colorKey: "teal" },
       { name: "வாசிப்போம் சுவாசிப்போம்", href: "/reading", colorKey: "blue" },
       { name: "பெண்மையைப் போற்றுவோம்", colorKey: "red" },
-      { name: "“சிறுகதை மஞ்சரி” அனைத்துலக வாசகர் வட்டம்", colorKey: "purple" },
+      { name: "“சிறுகதை மஞ்சரி” அனைத்துலக வாசகர் வட்டம்", href: "/activities/circle", colorKey: "raspberry" },
       { name: "பசுமைத் தாயகம்", href: "/activities/green", colorKey: "green" },
     ],
     donate: {

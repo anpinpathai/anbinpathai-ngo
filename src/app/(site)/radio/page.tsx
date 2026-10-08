@@ -3,15 +3,22 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { RadioIcon } from "@/components/radio/icons";
 import { RadioPlayer } from "@/components/radio/RadioPlayer";
+import { RadioSchedule } from "@/components/radio/RadioSchedule";
 import { radio } from "@/content/ta-LK";
 import { getRadioConfig } from "@/lib/radio";
+import { listForSite } from "@/lib/radio-schedule";
 import { getSettings } from "@/lib/settings";
 
 export const metadata: Metadata = { title: radio.name, description: radio.description };
 
+// The page is saved between visits. Re-making it every 5 minutes lets finished programmes drop off
+// and moves the "next" tag along, even when nobody has saved anything in the admin.
+export const revalidate = 300;
+
 export default async function RadioPage() {
   // Switched off, or no stream address yet: the page does not exist.
   if (!getRadioConfig(await getSettings())) notFound();
+  const programmes = await listForSite();
 
   return (
     <main>
@@ -46,6 +53,8 @@ export default async function RadioPage() {
             ))}
           </ul>
         </section>
+
+        <RadioSchedule programmes={programmes} />
 
         <section className="rounded-2xl bg-sand p-6 sm:p-8">
           <h2 className="text-xl text-brand">{radio.howTitle}</h2>

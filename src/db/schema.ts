@@ -1,5 +1,6 @@
 import {
   boolean,
+  date,
   index,
   integer,
   pgTable,
@@ -47,8 +48,9 @@ export const ROLE_GROUPS = [
   "president",
   "secretary",
   "treasurer",
-  "member",
+  "member", // நிர்வாகசபை உறுப்பினர்கள் (the committee members)
   "patron",
+  "general", // உறுப்பினர்கள் (ordinary members, shown last)
 ] as const;
 export type RoleGroup = (typeof ROLE_GROUPS)[number];
 
@@ -60,6 +62,22 @@ export const teamMembers = pgTable("team_members", {
   subtitle: text("subtitle"),
   photoKey: text("photo_key"),
   sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export const PROGRAMME_KINDS = ["once", "weekly"] as const;
+export type ProgrammeKind = (typeof PROGRAMME_KINDS)[number];
+
+// The radio programme schedule shown on the Radio page. Times are Sri Lanka time, written "HH:MM" (24 hour).
+// A "once" programme has a date; a "weekly" one has a weekday (0 = Sunday ... 6 = Saturday) and repeats every week.
+export const radioProgrammes = pgTable("radio_programmes", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  kind: text("kind").$type<ProgrammeKind>().notNull(),
+  onDate: date("on_date", { mode: "string" }),
+  weekday: integer("weekday"),
+  startTime: text("start_time").notNull(),
+  endTime: text("end_time"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const siteSettings = pgTable("site_settings", {
