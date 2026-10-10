@@ -51,8 +51,12 @@ Create these under the NGO's own email, with a password manager entry for each:
    5. Keep any existing email records (MX/TXT) that Cloudflare imported. The photo address (`media.…`) is created separately by the R2 Custom Domain step above.
 
 ## 6. Backups
-- GitHub repository → Settings → Secrets and variables → Actions: add `DATABASE_URL_UNPOOLED`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`.
-- Actions → "Weekly database backup" → **Run workflow** once and check a file appears in the bucket under `backups/`. The last 12 are kept.
+A database backup holds the admin login hash, drafts and all settings, so it must **never** be in the public photo bucket (everything in that bucket can be downloaded by anyone who knows the file name). Backups go to their own private bucket.
+1. Cloudflare → R2 → **Create bucket**, for example `anbinpathai-backups`. Leave **Public access** off: no `r2.dev` address and no custom domain on this bucket.
+2. R2 → **Manage API tokens** → create a token with **Object Read & Write** for **that backup bucket only**. Copy its Access Key ID and Secret Access Key.
+3. GitHub repository → Settings → Secrets and variables → Actions: add `DATABASE_URL_UNPOOLED`, `R2_ACCOUNT_ID`, `R2_BUCKET` (the photo bucket, used only so the script can refuse it), `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, and the new `R2_BACKUP_BUCKET`, `R2_BACKUP_ACCESS_KEY_ID`, `R2_BACKUP_SECRET_ACCESS_KEY`.
+4. Actions → "Weekly database backup" → **Run workflow** once and check a file appears in the backup bucket under `backups/`. The last 12 are kept. The script stops with a message if `R2_BACKUP_BUCKET` is missing or is the photo bucket.
+5. To restore from your own computer, add the same three `R2_BACKUP_*` values to `.env.local`, or download the file from the dashboard and run `npm run restore -- ./file.json.gz`.
 - Photo clean-up (every few months): `npm run cleanup:photos` shows unused photos, add `--delete` to remove them.
 
 ## 7. Radio (only if the NGO runs Pothigai Internet Radio)

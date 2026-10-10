@@ -5,7 +5,7 @@ import { sql } from "drizzle-orm";
 import { readFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { adminUsers, categories, posts, siteSettings, teamMembers } from "../db/schema";
-import { getObject } from "./lib/r2";
+import { backupStore } from "./lib/r2";
 
 config({ path: ".env.local", quiet: true });
 
@@ -21,7 +21,7 @@ function revive(rows: Row[], dateColumns: string[]) {
 }
 
 async function load(source: string): Promise<Backup> {
-  const bytes = source.startsWith("backups/") ? await getObject(source) : await readFile(source);
+  const bytes = source.startsWith("backups/") ? await backupStore.getObject(source) : await readFile(source);
   return JSON.parse(gunzipSync(Buffer.from(bytes)).toString("utf8")) as Backup;
 }
 

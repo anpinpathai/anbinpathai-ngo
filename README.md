@@ -21,7 +21,7 @@ npm run dev                    # http://localhost:3000   (admin: /admin)
 | Command | What it does |
 |---|---|
 | `npm run build` / `npm start` | Production build and server |
-| `npm run backup` | Save a database backup to R2 (`backups/`). Also runs weekly by GitHub Actions |
+| `npm run backup` | Save a database backup to the private backup bucket (`R2_BACKUP_BUCKET`). Also runs weekly by GitHub Actions |
 | `npm run restore -- <backup file>` | Dry run. Add `--yes` to really restore |
 | `npm run cleanup:photos` | Lists unused photos in R2. Add `--delete` to remove them |
 | `npm run admin:create` | Create or reset the admin password |

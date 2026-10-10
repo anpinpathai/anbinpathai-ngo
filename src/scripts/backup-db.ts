@@ -5,7 +5,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { gzipSync } from "node:zlib";
 import { adminUsers, categories, posts, siteSettings, teamMembers } from "../db/schema";
-import { deleteObject, listObjects, putObject } from "./lib/r2";
+import { backupStore } from "./lib/r2";
 
 config({ path: ".env.local", quiet: true });
 
@@ -43,12 +43,14 @@ async function main() {
     return;
   }
 
-  await putObject(`backups/${name}`, new Uint8Array(gz), "application/gzip");
+  // Goes to the private backup bucket only. This stops with a clear message if R2_BACKUP_BUCKET is missing or
+  // is the public photo bucket.
+  await backupStore.putObject(`backups/${name}`, new Uint8Array(gz), "application/gzip");
   console.log(`Uploaded backups/${name} (${gz.byteLength} bytes)`, counts);
 
-  const all = (await listObjects("backups/")).sort((a, b) => b.key.localeCompare(a.key));
+  const all = (await backupStore.listObjects("backups/")).sort((a, b) => b.key.localeCompare(a.key));
   for (const old of all.slice(KEEP)) {
-    await deleteObject(old.key);
+    await backupStore.deleteObject(old.key);
     console.log("Deleted old backup", old.key);
   }
   console.log(`Backups kept: ${Math.min(all.length, KEEP)}`);
