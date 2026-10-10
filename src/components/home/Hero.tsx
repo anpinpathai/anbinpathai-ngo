@@ -47,26 +47,26 @@ export function Hero({
           />
         </div>
 
-        <h1 className="mt-5 max-w-6xl text-2xl leading-snug text-white sm:text-3xl lg:text-4xl">
+        <h1 className="mt-5 max-w-6xl text-[1.4rem] leading-snug text-white sm:text-3xl lg:text-4xl">
           {t.siteLines.map((line) => (
             <span key={line} className="block">
               {line}
             </span>
           ))}
         </h1>
-        <p className="mt-4 inline-block rounded-full bg-gold px-5 py-1 text-lg font-semibold text-ink">{tagline}</p>
+        <p className="mt-4 inline-block rounded-full bg-gold px-4 py-1 text-base font-semibold text-ink sm:px-5 sm:text-lg">{tagline}</p>
 
-        <p className="mt-6 max-w-3xl font-heading text-2xl font-bold leading-snug sm:text-3xl">“{headline}”</p>
+        <p className="mt-6 max-w-3xl font-heading text-[1.3rem] font-bold leading-snug sm:text-3xl">“{headline}”</p>
         <p className="mt-3 max-w-2xl text-base text-white/90 sm:text-lg">{welcome}</p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button href={buttons.about.href} variant="light">
+        <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
+          <Button href={buttons.about.href} variant="light" className="w-full sm:w-auto">
             {buttons.about.label}
           </Button>
-          <Button href={buttons.activities.href} variant="outlineLight">
+          <Button href={buttons.activities.href} variant="outlineLight" className="w-full sm:w-auto">
             {buttons.activities.label}
           </Button>
-          <Button href={buttons.join.href} variant="donate">
+          <Button href={buttons.join.href} variant="donate" className="w-full sm:w-auto">
             {buttons.join.label}
           </Button>
         </div>

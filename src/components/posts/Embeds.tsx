@@ -23,7 +23,7 @@ export function YouTubeEmbed({ url }: { url: string }) {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 inline-block text-sm font-semibold text-brand underline-offset-4 hover:underline"
+        className="mt-1 inline-block py-2 text-sm font-semibold text-brand underline-offset-4 hover:underline"
       >
         {postText.watchOnYoutube}
       </a>
@@ -51,7 +51,7 @@ export function FacebookEmbed({ url }: { url: string }) {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 block text-center text-sm font-semibold text-brand underline-offset-4 hover:underline"
+        className="mt-1 block py-2 text-center text-sm font-semibold text-brand underline-offset-4 hover:underline"
       >
         {postText.viewOnFacebook}
       </a>

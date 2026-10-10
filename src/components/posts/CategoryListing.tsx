@@ -45,7 +45,7 @@ export async function CategoryListing({
         title={category.name}
         tint={color.tint}
         titleClass={color.text}
-        lead={content?.lead ? <p className="font-heading text-2xl font-bold">{content.lead}</p> : undefined}
+        lead={content?.lead ? <p className="font-heading text-xl font-bold sm:text-2xl">{content.lead}</p> : undefined}
         icon={
           <span
             className={`hidden h-12 w-12 shrink-0 place-items-center rounded-full min-[360px]:grid sm:h-16 sm:w-16 ${color.solid}`}
@@ -56,21 +56,21 @@ export async function CategoryListing({
       />
 
       {page === 1 && content && (
-        <section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6">
+        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 sm:pt-12">
           <ContentGroups groups={content.groups} dotClass={color.dot} />
         </section>
       )}
 
       {page === 1 && renderFeatured?.(posts)}
 
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <h2 className="mb-6 text-2xl text-brand">{postText.latestTitle}</h2>
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+        <h2 className="mb-5 text-xl text-brand sm:mb-6 sm:text-2xl">{postText.latestTitle}</h2>
         {posts.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-line bg-white/60 p-10 text-center text-muted">
             {postText.empty}
           </p>
         ) : (
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <li key={post.id}>
                 <PostCard post={post} />
@@ -82,7 +82,7 @@ export async function CategoryListing({
         {pages > 1 && (
           <nav className="mt-10 flex items-center justify-between gap-4" aria-label={category.name}>
             {page > 1 ? (
-              <Link href={pageHref(page - 1)} className={`font-semibold hover:underline ${color.text}`}>
+              <Link href={pageHref(page - 1)} className={`inline-block py-2 font-semibold hover:underline ${color.text}`}>
                 ← {postText.newer}
               </Link>
             ) : (
@@ -90,7 +90,7 @@ export async function CategoryListing({
             )}
             <span className="text-sm text-muted">{postText.pageOf(page, pages)}</span>
             {page < pages ? (
-              <Link href={pageHref(page + 1)} className={`font-semibold hover:underline ${color.text}`}>
+              <Link href={pageHref(page + 1)} className={`inline-block py-2 font-semibold hover:underline ${color.text}`}>
                 {postText.older} →
               </Link>
             ) : (

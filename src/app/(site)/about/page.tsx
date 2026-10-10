@@ -15,12 +15,12 @@ export default function AboutPage() {
     <main>
       <PageHeader title={text.title} />
 
-      <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr]">
+      <section className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 md:grid-cols-[1.4fr_1fr]">
         <div>
-          <h2 className="text-2xl text-brand sm:text-3xl">{home.aboutTitle}</h2>
-          <p className="mt-4 text-lg leading-loose">{home.aboutText}</p>
+          <h2 className="text-xl text-brand sm:text-3xl">{home.aboutTitle}</h2>
+          <p className="mt-4 text-base leading-[1.9] sm:text-lg sm:leading-loose">{home.aboutText}</p>
         </div>
-        <div className="rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-line">
+        <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-line sm:p-8">
           <div className="flex items-center justify-center gap-3">
             <Image
               src="/logos/logo-anbin.webp"
@@ -40,14 +40,14 @@ export default function AboutPage() {
             />
           </div>
           <p className="mt-5 text-sm font-semibold text-muted">{home.aimLabel}</p>
-          <p className="mt-1 font-heading text-2xl font-bold text-brand">“{text.aimQuote}”</p>
+          <p className="mt-1 font-heading text-xl font-bold text-brand sm:text-2xl">“{text.aimQuote}”</p>
         </div>
       </section>
 
       <section className="bg-sand">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-          <h2 className="text-2xl text-brand sm:text-3xl">{text.goalsTitle}</h2>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+          <h2 className="text-xl text-brand sm:text-3xl">{text.goalsTitle}</h2>
+          <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {text.goals.map((goal) => (
               <li key={goal} className="flex items-start gap-4 rounded-xl bg-white p-5 shadow-sm">
                 <span
@@ -65,14 +65,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <h2 className="text-2xl text-brand sm:text-3xl">{home.initiativesTitle}</h2>
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+        <h2 className="text-xl text-brand sm:text-3xl">{home.initiativesTitle}</h2>
         <div className="mt-8">
           <InitiativesGrid />
         </div>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Button href="/team">{text.teamButton}</Button>
-          <Button href="/contact" variant="outline">
+        <div className="mt-8 grid gap-3 sm:mt-10 sm:flex sm:flex-wrap">
+          <Button href="/team" className="w-full sm:w-auto">
+            {text.teamButton}
+          </Button>
+          <Button href="/contact" variant="outline" className="w-full sm:w-auto">
             {text.contactButton}
           </Button>
         </div>

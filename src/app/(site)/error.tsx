@@ -7,8 +7,8 @@ export default function SiteError({ reset }: { error: Error & { digest?: string 
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
-      <h1 className="text-3xl text-brand sm:text-4xl">{text.title}</h1>
-      <p className="mt-4 text-lg text-muted">{text.text}</p>
+      <h1 className="text-2xl text-brand sm:text-4xl">{text.title}</h1>
+      <p className="mt-4 text-base text-muted sm:text-lg">{text.text}</p>
       <button
         type="button"
         onClick={reset}

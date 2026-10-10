@@ -9,7 +9,7 @@ export function RadioSchedule({ programmes }: { programmes: SiteProgramme[] }) {
 
   return (
     <section aria-labelledby="schedule-title">
-      <h2 id="schedule-title" className="text-2xl text-brand">
+      <h2 id="schedule-title" className="text-xl text-brand sm:text-2xl">
         {text.title}
       </h2>
       <p className="mt-1 text-sm text-muted">{text.note}</p>

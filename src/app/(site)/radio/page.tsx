@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
+import { ShareButtons } from "@/components/posts/ShareButtons";
 import { RadioIcon } from "@/components/radio/icons";
 import { RadioPlayer } from "@/components/radio/RadioPlayer";
 import { RadioSchedule } from "@/components/radio/RadioSchedule";
@@ -32,26 +33,33 @@ export default async function RadioPage() {
         }
       />
 
-      <div className="mx-auto max-w-3xl space-y-8 px-4 py-12 sm:px-6">
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] p-6 text-white shadow-lg sm:p-10">
-          <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full bg-gold/25 blur-3xl" />
-          <div className="relative">
-            <RadioPlayer />
+      <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 sm:space-y-8 sm:px-6 sm:py-12">
+        <div>
+          <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] p-6 text-white shadow-lg sm:p-10">
+            <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full bg-gold/25 blur-3xl" />
+            <div className="relative">
+              <RadioPlayer />
+            </div>
+          </section>
+
+          {/* Share the radio: sends the name and the address of this page to Facebook, WhatsApp, or copies it. */}
+          <div className="mt-4 px-1">
+            <ShareButtons title={`${radio.name} – ${radio.listen}`} />
           </div>
-        </section>
+        </div>
 
         {/* The programme schedule comes first: what is on and when is what a visitor wants most. */}
         <RadioSchedule programmes={programmes} />
 
         <section>
-          <h2 className="text-2xl text-brand">{radio.hearTitle}</h2>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+          <h2 className="text-xl text-brand sm:text-2xl">{radio.hearTitle}</h2>
+          <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {radio.hear.map((item) => (
               <li key={item} className="flex min-w-0 items-center gap-4 rounded-2xl border border-line bg-white p-5">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold/25 text-brand">
                   <RadioIcon />
                 </span>
-                <span className="min-w-0 text-lg font-semibold [overflow-wrap:anywhere]">{item}</span>
+                <span className="min-w-0 text-base font-semibold [overflow-wrap:anywhere] sm:text-lg">{item}</span>
               </li>
             ))}
           </ul>

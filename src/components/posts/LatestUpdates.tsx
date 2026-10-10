@@ -7,8 +7,9 @@ import { categoryColor } from "@/lib/category-colors";
 import type { LatestTab } from "@/lib/post-types";
 import { PostCard } from "./PostCard";
 
+// A little smaller on a phone so "view all" has room beside the arrows; the "sm:" classes are the larger size.
 const arrowButton =
-  "grid h-11 w-11 place-items-center rounded-full border-2 border-brand bg-white text-xl font-bold text-brand transition-colors hover:bg-brand hover:text-white disabled:opacity-35 disabled:hover:bg-white disabled:hover:text-brand";
+  "grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-brand bg-white text-lg font-bold text-brand transition-colors hover:bg-brand hover:text-white disabled:opacity-35 disabled:hover:bg-white disabled:hover:text-brand sm:h-11 sm:w-11 sm:text-xl";
 
 export function LatestUpdates({ tabs }: { tabs: LatestTab[] }) {
   const [active, setActive] = useState(0);
@@ -87,16 +88,16 @@ export function LatestUpdates({ tabs }: { tabs: LatestTab[] }) {
   }
 
   return (
-    <section aria-labelledby="latest-title" className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+    <section aria-labelledby="latest-title" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h2 id="latest-title" className="text-2xl text-brand sm:text-3xl">
+        <h2 id="latest-title" className="text-xl text-brand sm:text-3xl">
           {postText.latestTitle}
         </h2>
         <button
           type="button"
           aria-pressed={autoPlay}
           onClick={() => setAutoPlay((v) => !v)}
-          className="text-sm font-semibold text-muted underline-offset-4 hover:text-brand hover:underline"
+          className="-my-2 py-2 text-sm font-semibold text-muted underline-offset-4 hover:text-brand hover:underline"
         >
           {autoPlay ? postText.pause : postText.play}
         </button>
@@ -162,8 +163,10 @@ export function LatestUpdates({ tabs }: { tabs: LatestTab[] }) {
               ))}
             </ul>
 
-            <div className="mt-3 flex items-center justify-between gap-4">
-              <div className="flex gap-2">
+            {/* One line on every screen: the arrows on the left and "view all" on the right. On a phone the link
+                is smaller, right-aligned, and may take two lines inside the space beside the arrows. */}
+            <div className="mt-3 flex items-center justify-between gap-3 sm:gap-4">
+              <div className="flex shrink-0 gap-2">
                 <button
                   type="button"
                   aria-label={postText.scrollPrev}
@@ -185,7 +188,10 @@ export function LatestUpdates({ tabs }: { tabs: LatestTab[] }) {
                   →
                 </button>
               </div>
-              <Link href={tab.href} className={`font-semibold underline-offset-4 hover:underline ${color.text}`}>
+              <Link
+                href={tab.href}
+                className={`min-w-0 text-right text-[0.78rem] font-semibold leading-snug underline-offset-4 hover:underline max-[374px]:text-[0.7rem] sm:text-base sm:leading-normal ${color.text}`}
+              >
                 {postText.viewAll} →
               </Link>
             </div>

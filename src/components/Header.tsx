@@ -149,7 +149,7 @@ export function Header({ showRadio = false }: { showRadio?: boolean }) {
             aria-controls="mobile-menu"
             aria-label={mobileOpen ? t.a11y.closeMenu : t.a11y.openMenu}
             onClick={() => setMobile({ path: pathname, open: !mobileOpen })}
-            className="grid h-10 w-10 place-items-center rounded-md border border-line text-brand xl:hidden"
+            className="grid h-11 w-11 place-items-center rounded-md border border-line text-brand xl:hidden"
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
               {mobileOpen ? (

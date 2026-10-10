@@ -35,7 +35,7 @@ export function RadioPlayer() {
           <Equalizer active={status === "playing"} />
           {radio.live}
         </p>
-        <p aria-live="polite" className="mt-1 text-lg font-semibold leading-snug text-white [overflow-wrap:anywhere]">
+        <p aria-live="polite" className="mt-1 text-base font-semibold leading-snug text-white [overflow-wrap:anywhere] sm:text-lg">
           {message}
         </p>
       </div>

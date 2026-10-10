@@ -5,7 +5,9 @@ export function PostBody({ text }: { text: string }) {
   if (paragraphs.length === 0) return null;
 
   return (
-    <div className="space-y-5 text-lg leading-loose">
+    // Body text, close to a news page like Virakesari: about 16px on a phone and 17px on a computer,
+    // 1.75 line spacing, left-aligned (ragged right edge, like Virakesari), and 1.5rem (about 28px) between paragraphs.
+    <div className="space-y-6 text-left text-[0.85rem] leading-[1.75] sm:text-[0.9rem]">
       {paragraphs.map((lines, i) => (
         <p key={i}>
           {lines.map((line, j) => (

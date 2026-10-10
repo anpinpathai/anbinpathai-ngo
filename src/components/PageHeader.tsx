@@ -19,9 +19,9 @@ export function PageHeader({
 }) {
   return (
     <section className={tint}>
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <nav aria-label={postText.home} className="text-sm text-muted">
-          <Link href="/" className="underline-offset-4 hover:underline">
+          <Link href="/" className="-my-1.5 inline-block py-1.5 underline-offset-4 hover:underline">
             {postText.home}
           </Link>
           <span aria-hidden="true"> › </span>
@@ -31,7 +31,7 @@ export function PageHeader({
           {icon}
           <h1 className={`min-w-0 text-2xl [overflow-wrap:anywhere] sm:text-3xl lg:text-4xl ${titleClass}`}>{title}</h1>
         </div>
-        {lead && <div className="mt-6 max-w-3xl text-lg">{lead}</div>}
+        {lead && <div className="mt-5 max-w-3xl text-base sm:mt-6 sm:text-lg">{lead}</div>}
       </div>
     </section>
   );

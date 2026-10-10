@@ -24,7 +24,7 @@ export function CopyButton({ value }: { value: string }) {
       type="button"
       onClick={copy}
       aria-live="polite"
-      className="inline-flex items-center gap-2 rounded-full border-2 border-brand px-4 py-1 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
+      className="inline-flex items-center gap-2 rounded-full border-2 border-brand px-4 py-2 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
     >
       <CopyIcon done={copied} />
       <span lang="en">{copied ? pages.donate.copied : pages.donate.copy}</span>

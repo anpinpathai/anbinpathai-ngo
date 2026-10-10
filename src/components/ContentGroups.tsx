@@ -2,7 +2,7 @@ import type { ContentGroup } from "@/content/ta-LK";
 
 export function ContentGroups({ groups, dotClass }: { groups: readonly ContentGroup[]; dotClass: string }) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {groups.map((group, index) => (
         <section key={index} className="rounded-2xl border border-line bg-white p-6">
           {group.title && <h2 className="text-xl text-ink">{group.title}</h2>}

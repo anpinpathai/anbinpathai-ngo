@@ -64,6 +64,7 @@ The radio itself runs on its own small server (AzuraCast). The website only need
 
 Once a stream address is saved, the radio appears in four places: a band on the Home page, its own **Radio** page, a round radio button next to Donate in the top bar (in the phone menu on phones), and a link in the footer. When a visitor presses play, a small player stays at the bottom of the screen and keeps playing while they open other pages. They stop it with the stop button.
 
+- Visitors can share the radio with anyone: right under the player on the Radio page there is a share row (**Facebook**, **WhatsApp**, **Copy link**). It shares the name of the radio and the address of the Radio page.
 - To hide the radio for a while (for example, while the radio server is being fixed), switch off **Show the radio on the website** and save. The addresses are kept.
 - If the address is empty or does not start with `https://`, the radio is not shown.
 - If the radio server is down, visitors see a friendly message and a "try again" button.

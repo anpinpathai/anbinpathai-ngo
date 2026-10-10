@@ -24,16 +24,16 @@ export default async function DonatePage() {
     <main>
       <PageHeader title={text.title} lead={<p>{text.intro}</p>} tint="bg-gold/15" />
 
-      <div className="mx-auto max-w-3xl space-y-8 px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-3xl space-y-6 px-4 py-8 sm:space-y-8 sm:px-6 sm:py-12">
         <section className="rounded-2xl border border-line bg-white p-6 sm:p-8">
-          <h2 className="text-2xl text-brand">{text.bankTitle}</h2>
+          <h2 className="text-xl text-brand sm:text-2xl">{text.bankTitle}</h2>
           {hasBank ? (
             <dl className="mt-6 divide-y divide-line">
               {rows.map((row) => (
                 <div key={row.label} className="flex flex-wrap items-center justify-between gap-3 py-4">
-                  <div>
+                  <div className="min-w-0">
                     <dt className="text-sm text-muted">{row.label}</dt>
-                    <dd className="text-xl font-semibold">{row.value}</dd>
+                    <dd className="text-lg font-semibold [overflow-wrap:anywhere] sm:text-xl">{row.value}</dd>
                   </div>
                   {row.copy && row.value && <CopyButton value={row.value} />}
                 </div>

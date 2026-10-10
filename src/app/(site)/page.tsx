@@ -35,8 +35,8 @@ export default async function Home() {
 
       {getRadioConfig(s) && <RadioSection />}
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <h2 className="text-2xl text-brand sm:text-3xl">{home.activitiesTitle}</h2>
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+        <h2 className="text-xl text-brand sm:text-3xl">{home.activitiesTitle}</h2>
         {/* Five cards: 3 + 2 on a wide screen (the last row is centred), never four with one left alone. */}
         <ul className="mt-8 flex flex-wrap justify-center gap-6">
           {categories.map((c) => {
@@ -61,10 +61,10 @@ export default async function Home() {
       </section>
 
       <section className="bg-sand">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1.4fr_1fr]">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-16 md:grid-cols-[1.4fr_1fr]">
           <div>
-            <h2 className="text-2xl text-brand sm:text-3xl">{home.aboutTitle}</h2>
-            <p className="mt-4 text-lg">{home.aboutText}</p>
+            <h2 className="text-xl text-brand sm:text-3xl">{home.aboutTitle}</h2>
+            <p className="mt-4 text-base sm:text-lg">{home.aboutText}</p>
             <div className="mt-6">
               <Button href={home.buttons.about.href}>{home.learnMore}</Button>
             </div>
@@ -89,20 +89,20 @@ export default async function Home() {
               />
             </div>
             <p className="mt-5 text-sm font-semibold text-muted">{home.aimLabel}</p>
-            <p className="mt-1 font-heading text-2xl font-bold text-brand">{s.site_tagline?.trim() || t.tagline}</p>
+            <p className="mt-1 font-heading text-xl font-bold text-brand sm:text-2xl">{s.site_tagline?.trim() || t.tagline}</p>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <h2 className="text-2xl text-brand sm:text-3xl">{home.initiativesTitle}</h2>
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+        <h2 className="text-xl text-brand sm:text-3xl">{home.initiativesTitle}</h2>
         <div className="mt-8">
           <InitiativesGrid />
         </div>
       </section>
 
       {/* A rounded card on the cream page (not a full-width dark band), so it never runs into the dark footer below. */}
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] text-white shadow-xl ring-1 ring-brand-dark/10">
           <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 -z-10 h-64 w-64 rounded-full bg-gold/20 blur-3xl" />
           <div className="flex flex-col items-start gap-6 px-6 py-9 sm:flex-row sm:items-center sm:justify-between sm:px-10">
@@ -114,7 +114,7 @@ export default async function Home() {
                 <CategoryIcon slug="social" className="h-7 w-7" />
               </span>
               <div className="max-w-2xl">
-                <h2 className="text-2xl text-white sm:text-3xl">{home.donate.title}</h2>
+                <h2 className="text-xl text-white sm:text-3xl">{home.donate.title}</h2>
                 <p className="mt-2 text-white/85">{home.donate.text}</p>
               </div>
             </div>

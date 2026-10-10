@@ -6,7 +6,7 @@ import { RadioPlayer } from "@/components/radio/RadioPlayer";
 // from the full-width banner above it. Only shown when the radio is set up in Settings.
 export function RadioSection() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
       <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark via-brand to-[#4a1d8f] text-white shadow-xl ring-1 ring-brand-dark/10">
         {/* Faint radio waves and a gold glow behind the content */}
         <svg
@@ -24,7 +24,7 @@ export function RadioSection() {
         </svg>
         <div aria-hidden="true" className="pointer-events-none absolute -left-16 -top-16 -z-10 h-64 w-64 rounded-full bg-gold/20 blur-3xl" />
 
-        <div className="grid items-center gap-8 px-6 py-10 sm:px-10 md:grid-cols-[1.25fr_1fr]">
+        <div className="grid grid-cols-1 items-center gap-6 px-5 py-8 sm:gap-8 sm:px-10 sm:py-10 md:grid-cols-[1.25fr_1fr]">
           <div>
             <p className="inline-flex items-center gap-2.5 rounded-full bg-gold px-4 py-0.5 text-sm font-semibold text-ink">
               <span aria-hidden="true" className="relative flex h-2.5 w-2.5">
@@ -33,11 +33,11 @@ export function RadioSection() {
               </span>
               {radio.live}
             </p>
-            <h2 className="mt-4 text-2xl text-white sm:text-3xl">{radio.name}</h2>
-            <p className="mt-3 max-w-xl text-lg text-white/90">{radio.description}</p>
+            <h2 className="mt-4 text-xl text-white sm:text-3xl">{radio.name}</h2>
+            <p className="mt-3 max-w-xl text-base text-white/90 sm:text-lg">{radio.description}</p>
             <Link
               href={radio.href}
-              className="mt-5 inline-block font-semibold text-gold underline-offset-4 hover:underline"
+              className="-my-1 mt-4 inline-block py-2 font-semibold text-gold underline-offset-4 hover:underline"
             >
               {radio.openPage} →
             </Link>

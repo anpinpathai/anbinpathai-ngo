@@ -10,12 +10,12 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="py-4">
       <dt className="text-sm text-muted">{label}</dt>
-      <dd className="mt-1 text-lg font-semibold">{children}</dd>
+      <dd className="mt-1 text-base font-semibold [overflow-wrap:anywhere] sm:text-lg">{children}</dd>
     </div>
   );
 }
 
-const linkClass = "text-brand underline-offset-4 hover:underline";
+const linkClass = "inline-block py-1 text-brand underline-offset-4 hover:underline";
 
 export default async function ContactPage() {
   const s = await getSettings();
@@ -32,7 +32,7 @@ export default async function ContactPage() {
     <main>
       <PageHeader title={text.title} lead={<p>{text.intro}</p>} />
 
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_1fr]">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-8 sm:gap-10 sm:px-6 sm:py-12 lg:grid-cols-[1.2fr_1fr]">
         <div className="space-y-8">
           <section className="rounded-2xl border border-line bg-white p-6 sm:p-8">
             {hasDetails ? (
@@ -77,7 +77,7 @@ export default async function ContactPage() {
                     href={facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border-2 border-brand px-4 py-1.5 text-sm font-semibold text-brand hover:bg-brand hover:text-white"
+                    className="rounded-full border-2 border-brand px-4 py-2 text-sm font-semibold text-brand hover:bg-brand hover:text-white"
                   >
                     {t.footer.facebook}
                   </a>
@@ -87,7 +87,7 @@ export default async function ContactPage() {
                     href={youtube}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border-2 border-brand px-4 py-1.5 text-sm font-semibold text-brand hover:bg-brand hover:text-white"
+                    className="rounded-full border-2 border-brand px-4 py-2 text-sm font-semibold text-brand hover:bg-brand hover:text-white"
                   >
                     {t.footer.youtube}
                   </a>

@@ -20,7 +20,7 @@ export default async function TeamPage() {
     <main>
       <PageHeader title={text.title} crumb={text.title} />
 
-      <div className="mx-auto max-w-7xl space-y-14 px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-7xl space-y-10 px-4 py-8 sm:space-y-14 sm:px-6 sm:py-12">
         {members.length === 0 && (
           <p className="rounded-2xl border border-dashed border-line bg-white/60 p-10 text-center text-muted">
             {text.empty}
@@ -29,8 +29,8 @@ export default async function TeamPage() {
 
         {leadership.length > 0 && (
           <section>
-            <h2 className="text-2xl text-brand sm:text-3xl">{text.leadershipTitle}</h2>
-            <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <h2 className="text-xl text-brand sm:text-3xl">{text.leadershipTitle}</h2>
+            <ul className="mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
               {leadership.map((m) => (
                 <li key={m.id} className="min-w-0">
                   <TeamCard member={m} large />
@@ -45,8 +45,8 @@ export default async function TeamPage() {
           if (list.length === 0) return null;
           return (
             <section key={group.key}>
-              <h2 className="text-2xl text-brand sm:text-3xl">{group.heading}</h2>
-              <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <h2 className="text-xl text-brand sm:text-3xl">{group.heading}</h2>
+              <ul className="mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
                 {list.map((m) => (
                   <li key={m.id} className="min-w-0">
                     <TeamCard member={m} />

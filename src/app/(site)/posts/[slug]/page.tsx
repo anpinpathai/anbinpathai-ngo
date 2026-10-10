@@ -61,14 +61,14 @@ export default async function PostPage(props: PageProps<"/posts/[slug]">) {
 
   return (
     <main>
-      <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+      <article className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-10">
         <nav aria-label={postText.home} className="text-sm text-muted">
-          <Link href="/" className="underline-offset-4 hover:underline">
+          <Link href="/" className="-my-1.5 inline-block py-1.5 underline-offset-4 hover:underline">
             {postText.home}
           </Link>
           <span aria-hidden="true"> › </span>
           {meta ? (
-            <Link href={meta.href} className="underline-offset-4 hover:underline">
+            <Link href={meta.href} className="-my-1.5 inline-block py-1.5 underline-offset-4 hover:underline">
               {post.categoryName}
             </Link>
           ) : (
@@ -81,16 +81,18 @@ export default async function PostPage(props: PageProps<"/posts/[slug]">) {
           <time className="text-sm text-muted">{formatDateTa(post.publishedAt ?? post.createdAt)}</time>
         </div>
 
-        <h1 className="mt-4 text-3xl sm:text-4xl">{post.title}</h1>
+        {/* Headline, close to a news page like Virakesari: about 20px on a phone and 28px on a computer. */}
+        <h1 className="mt-4 text-[1.06rem] leading-[1.5] sm:text-[1.48rem] sm:leading-[1.45]">{post.title}</h1>
 
-        {rest && (
+        {/* Photos come first, straight after the headline, then the text, like a news page. */}
+        {photos.length > 0 && (
           <div className="mt-6">
-            <PostBody text={rest} />
+            <PhotoGallery photos={photos} />
           </div>
         )}
-        {photos.length > 0 && (
-          <div className="mt-8">
-            <PhotoGallery photos={photos} />
+        {rest && (
+          <div className={photos.length > 0 ? "mt-8" : "mt-6"}>
+            <PostBody text={rest} />
           </div>
         )}
         {post.youtubeUrl && (
@@ -111,9 +113,9 @@ export default async function PostPage(props: PageProps<"/posts/[slug]">) {
 
       {related.length > 0 && (
         <section className="bg-sand">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-            <h2 className="text-2xl text-brand">{postText.related}</h2>
-            <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+            <h2 className="text-xl text-brand sm:text-2xl">{postText.related}</h2>
+            <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p) => (
                 <li key={p.id}>
                   <PostCard post={p} />
