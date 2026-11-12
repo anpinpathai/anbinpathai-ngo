@@ -32,3 +32,4 @@ npm run dev                    # http://localhost:3000   (admin: /admin)
 - `src/content/admin-en.ts` – English admin wording
 - `src/app/(site)` – public pages · `src/app/admin` – admin panel
 - `docs/admin-guide.md` – guide for the staff · `docs/launch-checklist.md` – going live and handover
+- `docs/environments.md` – live, staging and your computer (separate databases and photo buckets, the safety catch, how to test before going live)

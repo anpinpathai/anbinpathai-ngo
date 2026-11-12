@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Baloo_Thambi_2, Mukta_Malar } from "next/font/google";
+import { StagingBanner } from "@/components/StagingBanner";
 import { t } from "@/content/ta-LK";
+import { isStaging } from "@/lib/site-env";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -32,6 +34,8 @@ export const metadata: Metadata = {
     images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image" },
+  // The test copy of the website asks search engines to ignore every page.
+  ...(isStaging() ? { robots: { index: false, follow: false } } : {}),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -40,7 +44,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="ta-LK"
       className={`${bodyFont.variable} ${headingFont.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {isStaging() && <StagingBanner />}
+        {children}
+      </body>
     </html>
   );
 }

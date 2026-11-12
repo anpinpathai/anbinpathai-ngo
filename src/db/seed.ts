@@ -2,6 +2,7 @@ import { config } from "dotenv";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { categories as categoryDefs } from "../content/ta-LK";
+import { guardOrExit } from "../scripts/lib/guard";
 import { categories, siteSettings, teamMembers } from "./schema";
 
 config({ path: ".env.local" });
@@ -10,6 +11,7 @@ const url = process.env.DATABASE_URL_UNPOOLED;
 if (!url) {
   throw new Error("DATABASE_URL_UNPOOLED is not set in .env.local");
 }
+guardOrExit("db:seed");
 
 const db = drizzle(neon(url));
 

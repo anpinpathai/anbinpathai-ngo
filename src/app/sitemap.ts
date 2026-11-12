@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { listSitemapPosts } from "@/lib/public-posts";
 import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
+import { isStaging } from "@/lib/site-env";
 import { siteUrl } from "@/lib/site-url";
 
 const staticPaths = [
@@ -19,6 +20,9 @@ const staticPaths = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // The test copy of the website lists nothing for search engines.
+  if (isStaging()) return [];
+
   const base = siteUrl();
   const [posts, settings] = await Promise.all([listSitemapPosts(), getSettings()]);
   const paths = getRadioConfig(settings) ? [...staticPaths, "/radio"] : staticPaths;

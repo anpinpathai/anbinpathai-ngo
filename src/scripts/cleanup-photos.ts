@@ -1,15 +1,19 @@
 import { config } from "dotenv";
 import { neon } from "@neondatabase/serverless";
+import { guardOrExit } from "./lib/guard";
 import { deleteObject, listObjects } from "./lib/r2";
 
 config({ path: ".env.local", quiet: true });
 
 async function main() {
+  const apply = process.argv.includes("--delete");
+  // Deleting compares the photos in the bucket with the posts in the database, so both must belong together.
+  if (apply) guardOrExit("cleanup:photos --delete", { database: true, bucket: true });
+
   const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL_UNPOOLED is not set.");
   const sql = neon(url);
 
-  const apply = process.argv.includes("--delete");
   const ageIndex = process.argv.indexOf("--min-age-hours");
   const minAgeHours = ageIndex >= 0 ? Number(process.argv[ageIndex + 1]) : 24;
   if (!Number.isFinite(minAgeHours) || minAgeHours < 0) throw new Error("--min-age-hours must be a number.");

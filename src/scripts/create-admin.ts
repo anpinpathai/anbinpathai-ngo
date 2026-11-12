@@ -3,6 +3,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { adminUsers } from "../db/schema";
 import { hashPassword } from "../lib/password";
+import { guardOrExit } from "./lib/guard";
 
 config({ path: ".env.local" });
 
@@ -48,6 +49,8 @@ function ask(question: string, hidden: boolean): Promise<string> {
 }
 
 async function main() {
+  guardOrExit("admin:create");
+
   const username = (process.env.ADMIN_USERNAME ?? (await ask("Admin username: ", false))).trim().toLowerCase();
   if (!/^[a-z0-9_.-]{3,50}$/.test(username)) {
     throw new Error("Username must be 3-50 characters: lowercase letters, digits, dot, dash or underscore.");

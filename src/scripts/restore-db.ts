@@ -5,6 +5,7 @@ import { sql } from "drizzle-orm";
 import { readFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { adminUsers, categories, posts, siteSettings, teamMembers } from "../db/schema";
+import { guardOrExit } from "./lib/guard";
 import { backupStore } from "./lib/r2";
 
 config({ path: ".env.local", quiet: true });
@@ -41,6 +42,8 @@ async function main() {
     console.log("Dry run only. Add --yes to replace the live database content with this backup.");
     return;
   }
+
+  guardOrExit("restore");
 
   const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL_UNPOOLED is not set.");

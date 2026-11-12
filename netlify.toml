@@ -6,8 +6,9 @@
 [build.environment]
   NODE_VERSION = "22"
   # Netlify's secret scanner stops a build when a secret's value appears in the output. R2_PUBLIC_URL is the
-  # public web address of the photos, written into the pages on purpose, so it is not a secret.
-  SECRETS_SCAN_OMIT_KEYS = "R2_PUBLIC_URL"
+  # public web address of the photos, written into the pages on purpose, so it is not a secret. SITE_ENV is
+  # only the word "staging" on the test copy of the website, which appears in the code, so it is not a secret either.
+  SECRETS_SCAN_OMIT_KEYS = "R2_PUBLIC_URL,SITE_ENV"
 
 # Netlify's own address for this site always exists and cannot be removed, so it forwards to the real
 # domain. Visitors and search engines then only ever see https://anpinpathai.org.

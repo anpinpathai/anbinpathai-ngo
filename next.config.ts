@@ -64,8 +64,14 @@ const nextConfig: NextConfig = {
         ? [{ key: "Content-Security-Policy", value: contentSecurityPolicy() }]
         : [];
 
+    // The test copy of the website (SITE_ENV=staging in Netlify) tells search engines to skip every page.
+    const hideFromSearch =
+      process.env.SITE_ENV === "staging"
+        ? [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }]
+        : [];
+
     return [
-      { source: "/:path*", headers: [...securityHeaders, ...policy] },
+      { source: "/:path*", headers: [...securityHeaders, ...policy, ...hideFromSearch] },
       {
         // The admin panel and its API are never saved by a browser or a shared cache.
         source: "/admin/:path*",
