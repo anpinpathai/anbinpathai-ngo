@@ -657,7 +657,7 @@ export const admin = {
           "Add photos, a YouTube video, a Facebook link or an older date if you need them.",
           "Press Post to publish it at once, or Save as draft to keep it hidden for now.",
         ],
-        note: "The post appears on the website within a few seconds.",
+        note: "The post appears on the website within a few seconds. One post can hold up to 60,000 characters, about 6,600 Tamil words.",
       },
       {
         title: "How do I change, hide or delete a post?",
@@ -710,6 +710,63 @@ export const admin = {
         note: "One-date programmes disappear from the website by themselves once they are over. Weekly programmes stay until you delete them.",
       },
       {
+        title: "How do I put the Registry of writers and artists on the website?",
+        steps: [
+          "Open Registry page text under Registry in the menu (press the name Registry if the group is closed).",
+          "Switch on Show the Registry on the website and press Save changes. Until you do, visitors cannot see the Registry at all.",
+          "Keep Accept new registrations switched on so people can register. Switch it off to stop new registrations for a while. People who are already approved stay on the website.",
+          "Under Words on the Registry pages you can change the headings and the messages visitors read. Each box already holds the standard words, so you can change them in place. Press Use the standard wording again to get them back.",
+          "Press See this page on the website to check how it looks.",
+        ],
+        note: "Once it is on, the Registry also appears in the website menu under எங்களைப் பற்றி (About us).",
+      },
+      {
+        title: "How do I choose the questions people answer?",
+        steps: [
+          "Open Form questions under Registry in the menu.",
+          "The questions are in numbered tabs, one tab for each group. Press a tab to see its questions.",
+          "Each question has switches: On the form (show or hide it), Required, Who can see it (Public, Private, or Person chooses, where the person decides with a tick box) and Search filter (lets visitors narrow the list by that answer).",
+          "Press Edit on a question to reword it or to change its choices. Press the arrows to move it up or down.",
+          "Press Add a question to add your own. You can delete a question you added. The standard questions can only be switched off.",
+        ],
+        note: "Write the questions in Tamil. Only Public questions are shown on a person's page, and only Public questions can be a search filter. Changes show on the registration form at once.",
+      },
+      {
+        title: "How do I check and approve a new registration?",
+        steps: [
+          "Open Submissions under Registry in the menu. New registrations wait in the Waiting tab.",
+          "Press Open on a person. The card at the top shows who it is and has the decision buttons. Below it are the tabs Answers, Reviewer notes, Note and agreement and History.",
+          "Read the answers. To correct one, change it and press Save changes at the bottom.",
+          "Press Approve and publish. The person gets a registry number (for example AP-ART-00001) and appears on the website.",
+          "Not ready yet? Press Ask for an update or Reject and write a reason that only you can see. Press Hide from the website to take an approved person off the website for a while.",
+          "The red bin, Delete this entry, removes a person for good. You are asked to confirm first.",
+        ],
+        note: "Nobody is shown on the website until you approve them, and only the answers marked Public (or shared by the person) are shown.",
+      },
+      {
+        title: "How do I add a person myself?",
+        steps: [
+          "Open Submissions and press the gold Add a person button.",
+          "Fill in the form step by step. Use Next and Previous, or the numbers at the top, to move around. A step with a missing required answer stops you with a red message.",
+          "On the last step, tick Publish on the website now to show the person at once. Leave it off to keep the person in the Waiting tab until you approve.",
+          "Press Add this person.",
+        ],
+        note: "This is for people who cannot use the website themselves. You can add their photo too.",
+      },
+      {
+        title: "How do I ask someone else to look at a registration?",
+        steps: [
+          "Open Reviewers under Registry and press Add a reviewer. Write the name, press Make one for me (or type a password of at least 8 characters) and choose how many days the link works.",
+          "Leave Reviewer can see private details switched off unless the reviewer really needs the email, the phone and other private answers. Switched off, the reviewer sees only what the public would see.",
+          "Press Add this reviewer. A window shows the link and the password, each with a Copy button.",
+          "Open Submissions, tick the people and press Send for review. Choose one or more reviewers and press Send.",
+          "Send the link and the password to the reviewer yourself, in two separate messages. A reviewer keeps the same link and password, so next time they only open the link again.",
+          "To see a link and password again, open Reviewers and press Link and password on the reviewer's card.",
+          "When a reviewer answers Looks good or Needs a fix, you see it on the person's Reviewer notes tab. To stop a reviewer, press Cancel the link.",
+        ],
+        note: "A reviewer can correct a wrong answer and give an opinion, but only you can approve.",
+      },
+      {
         title: "How do I move, zoom or rotate a photo?",
         steps: [
           "Press Adjust next to a photo. In a news post, press the small crop button on the photo.",
@@ -726,6 +783,15 @@ export const admin = {
           "Use JPG, PNG or WebP photos.",
           "For the home banner, choose a wide landscape photo that is not very bright.",
           "For committee members, a clear head-and-shoulders photo looks best.",
+        ],
+      },
+      {
+        title: "How do I use the menu?",
+        steps: [
+          "On a computer the menu is on the left. On a phone, press the ☰ button at the top left to open it.",
+          "Press the name of a group (Content, Registry or Website pages) to open or close it. The menu remembers how you left it.",
+          "On a computer, press the « button at the top of the menu to shrink it to small icons, and the » button to open it fully again. Hold the pointer over an icon to see its name.",
+          "View website, Help and Log out are at the bottom of the menu.",
         ],
       },
       {
