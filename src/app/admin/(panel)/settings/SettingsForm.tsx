@@ -7,8 +7,73 @@ import { SaveBar } from "@/components/admin/SaveBar";
 import { useUnsavedChanges } from "@/components/admin/UnsavedChanges";
 import { card } from "@/components/admin/ui";
 import { useToast } from "@/components/toast/ToastProvider";
-import { admin, settingSections } from "@/content/admin-en";
+import { admin, settingSections, type SettingField } from "@/content/admin-en";
+import { sameWords } from "@/lib/same-words";
 import { saveSettingsAction, type SettingsState } from "./actions";
+
+// A box for words that starts with the standard wording, so the admin sees exactly what visitors see now.
+function WordsField({
+  id,
+  field,
+  standard,
+  initial,
+  error,
+  onEdited,
+}: {
+  id: string;
+  field: SettingField;
+  standard: string;
+  initial: string;
+  error?: string;
+  onEdited: () => void;
+}) {
+  const [text, setText] = useState(initial);
+  const isStandard = sameWords(text, standard);
+  // A box is as tall as its standard wording needs (about 90 letters to a line), so short words do not sit in a big empty box.
+  const rows = Math.min(8, Math.max(2, standard.split("\n").reduce((lines, line) => lines + Math.max(1, Math.ceil(line.length / 90)), 0) + 1));
+  const common = {
+    id,
+    name: field.key,
+    value: text,
+    lang: field.lang,
+    maxLength: field.maxLength,
+    "aria-invalid": Boolean(error),
+    "aria-describedby": describedBy(id, field.help, error),
+    className: inputClass(error),
+  };
+
+  return (
+    <Field
+      id={id}
+      label={field.label}
+      help={field.help}
+      error={error}
+      // On the label's line: a tag while the words are the standard ones, and a button to go back to them once changed.
+      aside={
+        isStandard ? (
+          <span className="rounded-full bg-sand px-2.5 py-0.5 text-xs font-semibold text-muted">Standard wording</span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              setText(standard);
+              onEdited();
+            }}
+            className="rounded-full border border-brand/30 bg-white px-2.5 py-0.5 text-xs font-semibold text-brand transition-colors hover:bg-sand/60"
+          >
+            Use the standard wording again
+          </button>
+        )
+      }
+    >
+      {field.type === "textarea" ? (
+        <textarea {...common} rows={rows} onChange={(e) => setText(e.target.value)} />
+      ) : (
+        <input {...common} type="text" onChange={(e) => setText(e.target.value)} />
+      )}
+    </Field>
+  );
+}
 
 export function SettingsForm({
   section: slug,
@@ -51,6 +116,7 @@ export function SettingsForm({
                 {group.title}
               </h2>
             )}
+            {group.intro && <p className={`mb-5 text-muted ${section.groups.length > 1 ? "-mt-2" : ""}`}>{group.intro}</p>}
             <div className="space-y-6">
               {group.fields.map((field) => {
                 const id = `field-${field.key}`;
@@ -82,7 +148,7 @@ export function SettingsForm({
                         type="checkbox"
                         name={field.key}
                         value="1"
-                        defaultChecked={value !== "0"}
+                        defaultChecked={field.defaultOff ? value === "1" : value !== "0"}
                         className="peer sr-only"
                       />
                       <input type="hidden" name={field.key} value="0" />
@@ -95,6 +161,20 @@ export function SettingsForm({
                         {field.help && <span className="block text-sm text-muted">{field.help}</span>}
                       </span>
                     </label>
+                  );
+                }
+
+                if (field.standard !== undefined && (field.type === "text" || field.type === "textarea")) {
+                  return (
+                    <WordsField
+                      key={field.key}
+                      id={id}
+                      field={field}
+                      standard={field.standard}
+                      initial={value || field.standard}
+                      error={error}
+                      onEdited={markEdited}
+                    />
                   );
                 }
 

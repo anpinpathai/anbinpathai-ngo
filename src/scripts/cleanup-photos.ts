@@ -23,7 +23,13 @@ async function main() {
     sql`select photo_key as key from team_members where photo_key is not null`,
     sql`select value as key from site_settings where key = 'home_banner' and value <> ''`,
   ]);
-  const referenced = new Set([...galleries, ...members, ...settings].map((r) => r.key as string));
+  // The photos of the Registry of writers and artists. Before the registry's tables exist there are none; any other
+  // problem must stop the clean-up, never be ignored, or a registry photo could be deleted by mistake.
+  const registry = await sql`select photo_key as key from directory_entries where photo_key is not null`.catch((err) => {
+    if ((err as { code?: string }).code === "42P01") return [];
+    throw err;
+  });
+  const referenced = new Set([...galleries, ...members, ...settings, ...registry].map((r) => r.key as string));
 
   const stored = await listObjects("uploads/");
   const cutoff = Date.now() - minAgeHours * 3600 * 1000;

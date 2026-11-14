@@ -30,8 +30,15 @@ export default async function SettingsSectionPage(props: PageProps<"/admin/setti
         title={section.title}
         description={section.description}
         icon={section.icon}
+        // A page without a subtitle has room for its button beside the title, at the heading's right edge.
+        stackActions={!section.description}
         actions={
-          <Link href={section.previewHref} target="_blank" rel="noopener noreferrer" className={button.secondary}>
+          <Link
+            href={section.previewHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${button.secondary} ${section.description ? "" : "max-sm:w-full"}`}
+          >
             <Icon name="externalLink" className="h-5 w-5" />
             {admin.settings.seeOnSite}
           </Link>

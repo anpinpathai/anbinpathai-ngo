@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { postText, t } from "@/content/ta-LK";
+import { directoryEnabled } from "@/lib/directory/text";
 import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
 import { ToastProvider } from "./toast/ToastProvider";
@@ -8,7 +9,8 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 export async function SiteShell({ children }: { children: ReactNode }) {
-  const radio = getRadioConfig(await getSettings());
+  const settings = await getSettings();
+  const radio = getRadioConfig(settings);
 
   const shell = (
     <div className="flex min-h-screen flex-col">
@@ -18,7 +20,7 @@ export async function SiteShell({ children }: { children: ReactNode }) {
       >
         {t.a11y.skipToContent}
       </a>
-      <Header showRadio={Boolean(radio)} />
+      <Header showRadio={Boolean(radio)} showDirectory={directoryEnabled(settings)} />
       <div id="content" className="flex-1">
         {children}
       </div>

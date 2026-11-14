@@ -13,12 +13,15 @@ export function DeleteButton({
   label,
   title,
   confirmMessage,
+  size = "small",
 }: {
   action: (formData: FormData) => void | Promise<void>;
   id: number;
   label: string;
   title: string;
   confirmMessage: string;
+  // "icon" is the same square size as the other icon buttons (for a row of buttons that must line up).
+  size?: "small" | "icon";
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
 
@@ -29,7 +32,7 @@ export function DeleteButton({
         onClick={() => dialog.current?.showModal()}
         aria-label={label}
         title={label}
-        className={button.smallDanger}
+        className={size === "icon" ? button.iconDanger : button.smallDanger}
       >
         <Icon name="trash" className="h-4 w-4" />
       </button>

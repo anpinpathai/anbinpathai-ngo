@@ -32,4 +32,5 @@ npm run dev                    # http://localhost:3000   (admin: /admin)
 - `src/content/admin-en.ts` – English admin wording
 - `src/app/(site)` – public pages · `src/app/admin` – admin panel
 - `docs/admin-guide.md` – guide for the staff · `docs/launch-checklist.md` – going live and handover
+- `src/lib/directory/` and `src/components/directory/` – the Registry of writers and artists (logic and form); its pages are `src/app/(site)/directory` and `src/app/admin/(panel)/directory`
 - `docs/environments.md` – live, staging and your computer (separate databases and photo buckets, the safety catch, how to test before going live)

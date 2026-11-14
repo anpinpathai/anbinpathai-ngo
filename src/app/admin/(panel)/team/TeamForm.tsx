@@ -81,7 +81,7 @@ export function TeamForm({
               onChange={(e) => setRoleGroup(e.target.value)}
               aria-invalid={Boolean(errors.roleGroup)}
               aria-describedby={describedBy("roleGroup", undefined, errors.roleGroup)}
-              className={inputClass(errors.roleGroup)}
+              className={`${inputClass(errors.roleGroup)} select-arrow`}
             >
               {roleGroups.map((g) => (
                 <option key={g.key} value={g.key}>
