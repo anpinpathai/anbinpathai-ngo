@@ -242,6 +242,33 @@ const icons = {
       <polygon points="22 2 15 22 11 13 2 9 22 2" />
     </>
   ),
+  copy: (
+    <>
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </>
+  ),
+  key: <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </>
+  ),
+  chevronLeft: <polyline points="15 18 9 12 15 6" />,
+  chevronUp: <polyline points="18 15 12 9 6 15" />,
+  chevronsLeft: (
+    <>
+      <polyline points="11 17 6 12 11 7" />
+      <polyline points="18 17 13 12 18 7" />
+    </>
+  ),
+  chevronsRight: (
+    <>
+      <polyline points="13 17 18 12 13 7" />
+      <polyline points="6 17 11 12 6 7" />
+    </>
+  ),
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof icons;

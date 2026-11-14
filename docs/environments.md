@@ -80,3 +80,18 @@ Remove-Item Env:DATABASE_URL_UNPOOLED
 `R2_ACCOUNT_ID` is the same for both. Make every variable available to Builds, Functions and Runtime.
 
 4. Deploy the `staging` branch and check: the address opens, the yellow STAGING strip shows, `/robots.txt` says `Disallow: /`, and the live site still works.
+
+## The Registry of writers and artists: going live for the first time
+
+The Registry (`/directory`, the admin group **Registry**) adds four new tables to the database (`directory_fields`, `directory_entries`, `directory_reviews`, `directory_activity`, in `drizzle/0007_*.sql`), and a second, small file `drizzle/0008_*.sql` adds two empty columns to `directory_reviews` (the locked copies of a reviewer's link and password, so the admin can look at them again). Both files only add things; nothing that exists is changed. It is hidden on the website until the admin switches it on, so deploying the code shows nothing new to visitors.
+
+The locked copies are made with a key built from `SESSION_SECRET`. If that secret is ever changed, the admin can no longer see an old reviewer's link and password on the Reviewers page (the link and the password themselves still work, and reviewers only have to type the password again): to see them again, press **Edit** on the reviewer and give a new password.
+
+The order for the live site:
+1. Test everything on staging first. The staging database already has the tables.
+2. Take a backup (GitHub → Actions → Weekly database backup → Run workflow).
+3. Add the tables and the two columns to the **live** database, on purpose (see "Changing the database structure" above; both `0007` and `0008` must run), **before** the new code goes live.
+4. Merge the branch into `master` and press Sync fork. Netlify builds the live site.
+5. When you are ready to announce it: Admin → Registry page text → switch on **Show the Registry on the website** → Save.
+
+New text is written to the database the first time the Registry is used: the standard questions of the form appear in **Registry → Form questions** (and are never overwritten after that).

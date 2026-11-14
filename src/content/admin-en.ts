@@ -1,5 +1,5 @@
 import type { IconName } from "@/components/admin/Icon";
-import { categories } from "@/content/ta-LK";
+import { categories, directory } from "@/content/ta-LK";
 
 export type SettingFieldType =
   | "text"
@@ -19,14 +19,20 @@ export type SettingField = {
   type: SettingFieldType;
   maxLength: number;
   lang?: string;
+  // For a switch: when it has never been saved, show it as OFF (the normal start is ON).
+  defaultOff?: boolean;
+  // For words: the standard wording the website uses until the admin writes their own. The box starts with it, so
+  // the admin sees exactly what visitors see. Saving it unchanged stores nothing, so it keeps following the standard.
+  standard?: string;
 };
 
-export type SettingGroup = { title: string; fields: readonly SettingField[] };
+export type SettingGroup = { title: string; intro?: string; fields: readonly SettingField[] };
 
 export type SettingSection = {
   slug: string;
   title: string;
-  description: string;
+  // The line under the title. Leave it out where the title says enough.
+  description?: string;
   icon: IconName;
   previewHref: string;
   groups: readonly SettingGroup[];
@@ -154,6 +160,113 @@ const radioGroup: SettingGroup = {
   ],
 };
 
+
+const directoryShowGroup: SettingGroup = {
+  title: "Show and accept",
+  fields: [
+    {
+      key: "directory_enabled",
+      label: "Show the Registry on the website",
+      type: "toggle",
+      maxLength: 1,
+      defaultOff: true,
+    },
+    {
+      key: "directory_open",
+      label: "Accept new registrations",
+      type: "toggle",
+      maxLength: 1,
+    },
+  ],
+};
+
+const directoryWordsGroup: SettingGroup = {
+  title: "Words on the Registry pages",
+  fields: [
+    {
+      key: "directory_title",
+      label: "Registry heading",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+      standard: directory.title,
+    },
+    {
+      key: "directory_lead",
+      label: "Introduction on the list page",
+      type: "textarea",
+      maxLength: 600,
+      lang: "ta",
+      standard: directory.listLead,
+    },
+    {
+      key: "directory_register_title",
+      label: "Heading of the registration form",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+      standard: directory.registerTitle,
+    },
+    {
+      key: "directory_register_lead",
+      label: "Introduction above the registration form",
+      type: "textarea",
+      maxLength: 800,
+      lang: "ta",
+      standard: directory.registerLead,
+    },
+    {
+      key: "directory_why_title",
+      label: "Heading of the reasons to join",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+      standard: directory.whyTitle,
+    },
+    {
+      key: "directory_why",
+      label: "Reasons to join",
+      help: "One reason on each line.",
+      type: "textarea",
+      maxLength: 1200,
+      lang: "ta",
+      standard: directory.why.join("\n"),
+    },
+    {
+      key: "directory_privacy",
+      label: "Privacy note",
+      type: "textarea",
+      maxLength: 800,
+      lang: "ta",
+      standard: directory.privacy,
+    },
+    {
+      key: "directory_consent",
+      label: "Agreement the person must tick",
+      type: "textarea",
+      maxLength: 900,
+      lang: "ta",
+      standard: directory.consent,
+    },
+    {
+      key: "directory_thanks",
+      label: "Message after they register",
+      type: "textarea",
+      maxLength: 600,
+      lang: "ta",
+      standard: directory.thanks,
+    },
+    {
+      key: "directory_closed",
+      label: "Message when registrations are closed",
+      type: "textarea",
+      maxLength: 500,
+      lang: "ta",
+      standard: directory.closed,
+    },
+  ],
+};
+
 export const settingSections: readonly SettingSection[] = [
   {
     slug: "home",
@@ -187,6 +300,13 @@ export const settingSections: readonly SettingSection[] = [
     icon: "radio",
     previewHref: "/radio",
     groups: [radioGroup],
+  },
+  {
+    slug: "directory",
+    title: "Registry page",
+    icon: "users",
+    previewHref: "/directory",
+    groups: [directoryShowGroup, directoryWordsGroup],
   },
 ];
 
@@ -241,6 +361,10 @@ export const admin = {
     menu: "Open menu",
     closeMenu: "Close menu",
     signedInAs: "Signed in as",
+    collapseMenu: "Collapse menu",
+    expandMenu: "Expand menu",
+    openGroup: "Open this group",
+    closeGroup: "Close this group",
   },
   dashboard: {
     greeting: { morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening" },
@@ -369,7 +493,7 @@ export const admin = {
     },
     errors: {
       text: "Write something, or add a photo, video or link.",
-      textTooLong: (max: number) => `A post can have up to ${max} characters.`,
+      textTooLong: (max: number) => `A post can have up to ${max.toLocaleString("en-US")} characters.`,
       category: "Choose a category before posting.",
       youtube: "Enter a valid YouTube video link (https://youtube.com/watch?v=… or https://youtu.be/…).",
       facebook: "Enter a valid Facebook link (https://facebook.com/…).",
@@ -538,7 +662,7 @@ export const admin = {
       {
         title: "How do I change, hide or delete a post?",
         steps: [
-          "Open Posts in the menu.",
+          "Open Posts under Content in the menu (press the name Content if the group is closed).",
           "Press Edit on the post, change what you need, then press Save changes.",
           "Press Unpublish to hide a post from visitors without losing it. Press Publish to show it again.",
           "Press the red bin to delete a post for good. You will be asked to confirm first.",
@@ -547,7 +671,7 @@ export const admin = {
       {
         title: "How do I add or change committee members?",
         steps: [
-          "Open Committee in the menu.",
+          "Open Committee under Content in the menu (press the name Content if the group is closed).",
           "Press Add member. Type the name in Tamil, choose the group and add a photo.",
           "To change someone, press Edit on their card.",
           "Use the arrow buttons on a card to move a person earlier or later inside their group.",

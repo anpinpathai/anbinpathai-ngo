@@ -7,7 +7,8 @@ export default function robots(): MetadataRoute.Robots {
   if (isStaging()) return { rules: [{ userAgent: "*", disallow: "/" }] };
 
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] }],
+    // The reviewer pages are private links, so search engines must never list them.
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/", "/directory/review"] }],
     sitemap: `${siteUrl()}/sitemap.xml`,
   };
 }

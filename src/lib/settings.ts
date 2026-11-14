@@ -4,6 +4,7 @@ import { cache } from "react";
 import { db } from "@/db";
 import { siteSettings } from "@/db/schema";
 import { admin, settingGroups, type SettingField } from "@/content/admin-en";
+import { sameWords } from "@/lib/same-words";
 import { isValidKey } from "@/lib/storage";
 import { FACEBOOK_HOSTS, isHttpsUrl, isHttpsUrlOnHosts, YOUTUBE_HOSTS } from "@/lib/urls";
 
@@ -27,11 +28,17 @@ export function validateSettings(input: SettingsValues, fields: readonly Setting
 
     // A switch is either "0" (off) or "1" (on). Not saved yet counts as on.
     if (field.type === "toggle") {
-      values[field.key] = value === "0" ? "0" : "1";
+      values[field.key] = field.defaultOff ? (value === "1" ? "1" : "0") : value === "0" ? "0" : "1";
       continue;
     }
 
     if (!value) continue;
+
+    // Words that are exactly the standard wording are not stored, so they keep following the standard wording.
+    if (field.standard !== undefined && sameWords(value, field.standard)) {
+      values[field.key] = "";
+      continue;
+    }
 
     if (value.length > field.maxLength) {
       errors[field.key] = admin.settings.tooLong(field.maxLength);

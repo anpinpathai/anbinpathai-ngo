@@ -14,6 +14,7 @@ import { t, type ColorKey } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { MAX_GALLERY_PHOTOS } from "@/lib/limits";
 import type { PostFormValues } from "@/lib/post-form";
+import { MAX_POST_TEXT } from "@/lib/post-text";
 import { fetchStoredImage, uploadBlob, uploadErrorMessage, uploadImage } from "@/lib/upload-client";
 import { savePostAction, type PostFormState } from "./actions";
 
@@ -294,7 +295,7 @@ export function PostComposer({
             defaultValue={values.text}
             placeholder={text.placeholder}
             aria-invalid={Boolean(errors.text)}
-            maxLength={10000}
+            maxLength={MAX_POST_TEXT}
             onInput={grow}
             className="mt-3 min-h-44 w-full resize-none border-0 bg-transparent text-lg leading-relaxed text-ink placeholder:text-muted/70 focus:outline-none"
           />
