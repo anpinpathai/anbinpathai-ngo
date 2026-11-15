@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { donate, nav, radio, t } from "@/content/ta-LK";
+import { directory, donate, nav, radio, t } from "@/content/ta-LK";
+import { directoryEnabled } from "@/lib/directory/text";
 import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
 import { ColorStripe } from "./ColorStripe";
@@ -64,9 +65,10 @@ export async function Footer() {
   const hasContact = Boolean(phone || email || address);
   const hasSocial = Boolean(facebook || youtube);
 
-  const links = nav.flatMap((item) =>
-    item.children ? item.children : item.href ? [{ label: item.label, href: item.href }] : [],
-  );
+  const links = nav
+    .flatMap((item) => (item.children ? item.children : item.href ? [{ label: item.label, href: item.href }] : []))
+    // The Registry of writers and artists comes right after "நிர்வாகசபை", the same place as in the menu, once it is switched on.
+    .flatMap((link) => (directoryEnabled(s) && link.href === "/team" ? [link, { label: directory.navLabel, href: directory.href }] : [link]));
   if (getRadioConfig(s)) links.push({ label: radio.name, href: radio.href });
   links.push(donate);
 

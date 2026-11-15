@@ -718,7 +718,7 @@ export const admin = {
           "Under Words on the Registry pages you can change the headings and the messages visitors read. Each box already holds the standard words, so you can change them in place. Press Use the standard wording again to get them back.",
           "Press See this page on the website to check how it looks.",
         ],
-        note: "Once it is on, the Registry also appears in the website menu under எங்களைப் பற்றி (About us).",
+        note: "Once it is on, the Registry appears in the website menu under எங்களைப் பற்றி (About us), as a white button at the top of the home page, and in the links at the bottom of every page.",
       },
       {
         title: "How do I choose the questions people answer?",

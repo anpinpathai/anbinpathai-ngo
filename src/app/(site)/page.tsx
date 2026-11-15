@@ -8,6 +8,7 @@ import { RadioSection } from "@/components/home/RadioSection";
 import { LatestUpdates } from "@/components/posts/LatestUpdates";
 import { categories, donate, t } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
+import { directoryEnabled } from "@/lib/directory/text";
 import { getLatestTabs } from "@/lib/public-posts";
 import { getRadioConfig } from "@/lib/radio";
 import { getSettings } from "@/lib/settings";
@@ -29,6 +30,7 @@ export default async function Home() {
         tagline={s.site_tagline?.trim() || t.tagline}
         headline={s.home_headline?.trim() || home.headline}
         welcome={s.home_welcome?.trim() || home.welcome}
+        showDirectory={directoryEnabled(s)}
       />
 
       {tabs.some((tab) => tab.posts.length > 0) && <LatestUpdates tabs={tabs} />}

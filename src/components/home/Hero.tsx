@@ -1,17 +1,20 @@
 import Image from "next/image";
 import { Button } from "@/components/Button";
-import { t } from "@/content/ta-LK";
+import { directory, t } from "@/content/ta-LK";
 
 export function Hero({
   bannerUrl,
   tagline,
   headline,
   welcome,
+  showDirectory = false,
 }: {
   bannerUrl: string | null;
   tagline: string;
   headline: string;
   welcome: string;
+  // The button of the Registry of writers and artists. It is there only once the admin has switched the Registry on.
+  showDirectory?: boolean;
 }) {
   const { buttons } = t.home;
 
@@ -66,6 +69,12 @@ export function Hero({
           <Button href={buttons.activities.href} variant="outlineLight" className="w-full sm:w-auto">
             {buttons.activities.label}
           </Button>
+          {/* White, like the first button, so the gold one stays the only gold. It opens the Registry page, which explains it and has the register button. */}
+          {showDirectory && (
+            <Button href={directory.href} variant="light" className="w-full sm:w-auto">
+              {directory.navLabel}
+            </Button>
+          )}
           <Button href={buttons.join.href} variant="donate" className="w-full sm:w-auto">
             {buttons.join.label}
           </Button>
