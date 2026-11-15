@@ -1,5 +1,6 @@
 import "server-only";
 import { RESIDENCE_ABROAD, RESIDENCE_LK, type DirectoryFieldRow } from "./config";
+import { formatDate } from "./dates";
 import { entryToValues, type EntryRow } from "./entries";
 import { isPublicField } from "./public";
 import type { ReviewRow, Verdict } from "./reviews";
@@ -44,6 +45,7 @@ export function answerList(entry: EntryRow, fields: readonly DirectoryFieldRow[]
     const raw = values[field.key];
     let value = Array.isArray(raw) ? raw.join(", ") : (raw ?? "");
     if (field.key === "residence") value = value === RESIDENCE_LK ? FORM_UI_TA.residenceLk : value === RESIDENCE_ABROAD ? FORM_UI_TA.residenceAbroad : value;
+    if (field.type === "date" && value) value = formatDate(value);
     if (!value) continue;
     rows.push({ key: field.key, label: field.label, value });
   }

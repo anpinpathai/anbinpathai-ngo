@@ -5,6 +5,7 @@ import { directoryEntries } from "@/db/schema";
 import { publicUrl } from "@/lib/storage";
 import { isHttpsUrl } from "@/lib/urls";
 import { ALWAYS_PUBLIC_KEYS, RESIDENCE_ABROAD, RESIDENCE_LK, type DirectoryFieldRow } from "./config";
+import { formatDate } from "./dates";
 import type { EntryRow } from "./entries";
 import { buildFilterOptions, type FilterOptions } from "./filter-options";
 
@@ -159,7 +160,8 @@ export async function getPublicProfile(code: string, fields: readonly DirectoryF
     } else if (field.type === "url") {
       if (isHttpsUrl(raw)) items.push({ key: field.key, label: field.label, kind: "link", value: raw });
     } else {
-      items.push({ key: field.key, label: field.label, kind: "text", value: raw });
+      // A date is saved as 1985-03-21 and shown as 21 மார்ச் 1985.
+      items.push({ key: field.key, label: field.label, kind: "text", value: field.type === "date" ? formatDate(raw) : raw });
     }
   }
 

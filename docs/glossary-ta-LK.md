@@ -106,6 +106,8 @@ All of this wording was written by the developer in Sri Lankan Tamil. The client
 | Native district in Sri Lanka | இலங்கையில் பூர்வீக மாவட்டம் | - | Developer, client to review |
 | Another country | வேறு நாடு | - | Developer, client to review |
 | Pen name / Occupation / Photo | புனைபெயர் / தற்போதைய தொழில் / புகைப்படம் | - | Developer, client to review |
+| Date of birth (question; it has no help text, the calendar box explains itself) | பிறந்த திகதி | - | "திகதி" is the Sri Lankan word for date; client to confirm |
+| Error under a date box: "Choose a real date." | சரியான திகதியைத் தெரிவு செய்யுங்கள். | - | Developer, client to review |
 | Fields of arts and literature (23 choices) | கவிஞர், சிறுகதை எழுத்தாளர், நாவலாசிரியர், கட்டுரையாளர், நாடகக் கலைஞர், பாடலாசிரியர், இசைக் கலைஞர், பாடகர், ஓவியர், சிற்பி, நாட்டுப்புறக் கலைஞர், கூத்துக் கலைஞர், வில்லுப்பாட்டுக் கலைஞர், ஆய்வாளர், இலக்கிய விமர்சகர், மொழிபெயர்ப்பாளர், ஊடகவியலாளர், நூல் வெளியீட்டாளர், ஆவணப்படக் கலைஞர், புகைப்படக் கலைஞர், கலை இலக்கிய அமைப்பாளர், கலை இலக்கிய ஆர்வலர், ஏனையவை | - | From the client's plan; spelling to be checked |
 | Year started / Number of books / Book titles / Awards / Organisations / Achievements | கலைப்பணியை ஆரம்பித்த ஆண்டு / வெளியிட்ட நூல்களின் எண்ணிக்கை / நூல்களின் பெயர்கள் / பெற்ற விருதுகள் / அங்கம் வகிக்கும் அமைப்புகள் / முக்கிய சாதனைகள் | - | Developer, client to review |
 | About yourself (100 to 300 words) | சுய அறிமுகம் | - | Developer, client to review |

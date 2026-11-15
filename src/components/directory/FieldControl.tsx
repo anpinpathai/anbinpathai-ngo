@@ -32,6 +32,9 @@ export function FieldControl({
   const aria = { "aria-invalid": Boolean(error), "aria-describedby": describedBy };
 
   switch (field.type) {
+    case "date":
+      // The browser's own calendar (on a phone, the phone's date picker). It sends "1985-03-21"; the server checks the date.
+      return <input id={id} name={field.key} type="date" min="1900-01-01" defaultValue={text} {...aria} className={inputClass(error)} />;
     case "textarea":
     case "links":
       return (
