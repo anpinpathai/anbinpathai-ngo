@@ -92,6 +92,7 @@ export const TYPE_LABEL_EN: Record<DirectoryFieldType, string> = {
   text: "Short answer",
   textarea: "Long answer",
   number: "Number",
+  date: "Date",
   select: "Pick one from a list",
   multiselect: "Pick many from a list",
   url: "Web link",
@@ -138,6 +139,8 @@ export const DEFAULT_FIELDS: readonly DefaultField[] = [
   { key: "pen_name", label: "புனைபெயர்", help: "புனைபெயர் இருந்தால் மட்டும் எழுதுங்கள்.", type: "text", options: [], section: "basic", required: false, onForm: true, visibility: "public", filterable: false },
   { key: "photo", label: "புகைப்படம்", help: "உங்கள் தெளிவான புகைப்படம் ஒன்றைச் சேர்க்கலாம்.", type: "photo", options: [], section: "basic", required: false, onForm: true, visibility: "public", filterable: false },
   { key: "occupation", label: "தற்போதைய தொழில்", help: "", type: "text", options: [], section: "basic", required: false, onForm: true, visibility: "applicant", filterable: false },
+  // Private (only the admin sees it) and optional. A date box with a calendar; it must be a real date and not in the future.
+  { key: "date_of_birth", label: "பிறந்த திகதி", help: "", type: "date", options: [], section: "basic", required: false, onForm: true, visibility: "private", filterable: false },
   // Where they live
   { key: "residence", label: "தற்போது நீங்கள் வசிப்பது", help: "", type: "select", options: [], section: "location", required: true, onForm: true, visibility: "public", filterable: true },
   { key: "country", label: "நாடு", help: "", type: "text", options: [], section: "location", required: true, onForm: true, visibility: "public", filterable: true },

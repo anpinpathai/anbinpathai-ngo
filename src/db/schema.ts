@@ -111,6 +111,7 @@ export const DIRECTORY_FIELD_TYPES = [
   "text",
   "textarea",
   "number",
+  "date",
   "select",
   "multiselect",
   "url",

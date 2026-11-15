@@ -9,6 +9,7 @@ import {
   type DirectoryFieldRow,
   type EntryValues,
 } from "./config";
+import { normalizeDate } from "./dates";
 import { SRI_LANKA_DISTRICTS, dsDivisionsOf } from "./places";
 
 // Who is filling in the form. On the public form the questions marked "required" must be answered; the admin and
@@ -32,6 +33,7 @@ export type Messages = {
   youtube: string;
   links: (n: number) => string;
   number: string;
+  date: string;
   choice: string;
   residence: string;
   country: string;
@@ -52,6 +54,7 @@ export const MESSAGES_TA: Messages = {
   youtube: "இது YouTube இணைப்பாக இருக்க வேண்டும் (https://www.youtube.com/…).",
   links: (n) => `ஒவ்வொரு வரியிலும் https:// என்று தொடங்கும் ஒரு இணைப்பு மட்டும்; அதிகபட்சம் ${n} இணைப்புகள்.`,
   number: "சரியான எண்ணை எழுதுங்கள்.",
+  date: "சரியான திகதியைத் தெரிவு செய்யுங்கள்.",
   choice: "பட்டியலில் உள்ள ஒன்றைத் தெரிவு செய்யுங்கள்.",
   residence: "நீங்கள் வசிப்பது இலங்கையிலா அல்லது வேறு நாட்டிலா என்பதைத் தெரிவு செய்யுங்கள்.",
   country: "நாட்டைத் தெரிவு செய்யுங்கள் அல்லது எழுதுங்கள்.",
@@ -72,6 +75,7 @@ export const MESSAGES_EN: Messages = {
   youtube: "This must be a YouTube link (https://www.youtube.com/…).",
   links: (n) => `One link per line, each starting with https:// (at most ${n} links).`,
   number: "Enter a valid number.",
+  date: "Choose a real date.",
   choice: "Pick one of the choices in the list.",
   residence: "Choose whether they live in Sri Lanka or in another country.",
   country: "Choose or write the country.",
@@ -182,6 +186,13 @@ export function validateEntry(
       case "number": {
         const problem = validateNumber(field.key, text, msg);
         if (problem) errors[field.key] = problem;
+        break;
+      }
+      case "date": {
+        // Saved as "1985-03-21". A date of birth can never be in the future.
+        const date = normalizeDate(text, { notInFuture: field.key === "date_of_birth" });
+        if (!date) errors[field.key] = msg.date;
+        else values[field.key] = date;
         break;
       }
       case "select":

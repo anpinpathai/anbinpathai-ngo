@@ -103,7 +103,8 @@ A free registry where Tamil writers and artists, in Sri Lanka and abroad, regist
 - **Who can see it:** *Public* is shown on the person's page. *Private* is only for you (email and phone are private to begin with). *Person chooses* adds a "show this publicly" tick box next to the question, so the person decides.
 - **Search filter** lets visitors narrow the list by that answer (for example country, district, field). Only public questions can be filters, so a private answer can never be found by searching.
 - Press **Edit** on a question to reword it, change its help text, or change the choices of a list. Use the arrows to move a question up or down.
-- Press **Add a question** to add your own (short answer, long answer, number, a list to pick from, a web link and so on). You can delete the questions you added; the standard ones can only be switched off.
+- Press **Add a question** to add your own (short answer, long answer, number, date, a list to pick from, a web link and so on). You can delete the questions you added; the standard ones can only be switched off.
+- **Date of birth** is one of the standard questions (in **Basic details**). It is a **Date** question: a box with a calendar (on a phone, the phone's own date picker), and a date that does not exist (such as 31 February), is before 1900 or is in the future is refused. It starts as **Private** (only you, and a reviewer you allow to see private details) and **not required**. It is shown on the website only if you switch it to Public or to "Person chooses", and then as, for example, 21 மார்ச், 1985.
 - Changes show on the registration form and on the public pages at once, including for people who are already approved.
 
 **Check and approve (Submissions).**

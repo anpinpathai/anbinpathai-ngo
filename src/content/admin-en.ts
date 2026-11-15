@@ -729,7 +729,7 @@ export const admin = {
           "Press Edit on a question to reword it or to change its choices. Press the arrows to move it up or down.",
           "Press Add a question to add your own. You can delete a question you added. The standard questions can only be switched off.",
         ],
-        note: "Write the questions in Tamil. Only Public questions are shown on a person's page, and only Public questions can be a search filter. Changes show on the registration form at once.",
+        note: "Write the questions in Tamil. Only Public questions are shown on a person's page, and only Public questions can be a search filter. Changes show on the registration form at once. Date of birth is already there as a Date question: only you see it, and it is not required.",
       },
       {
         title: "How do I check and approve a new registration?",
