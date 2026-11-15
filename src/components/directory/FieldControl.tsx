@@ -5,6 +5,32 @@ import type { FormUi } from "@/lib/directory/ui-text";
 import { inputClass } from "./FieldShell";
 import { PhotoInput } from "./PhotoInput";
 
+// The date box. Phones draw their own date boxes, and the iPhone one can come out wider than the card it sits in (it can
+// ignore the padding and the border when it works out its width). So the box you see (border, round corners, white
+// background, focus ring) is a plain wrapper, and the date input inside has no border and no padding of its own: there is
+// then nothing for a phone to get wrong, and whatever a phone does, the box stays inside the card. It looks like the
+// other answer boxes (same height, border, corners, colours).
+function DateInput({ id, name, value, error, describedBy }: { id: string; name: string; value: string; error?: string; describedBy?: string }) {
+  return (
+    <div
+      className={`mt-1.5 flex w-full min-w-0 items-center overflow-hidden rounded-xl border bg-white px-4 py-3 text-base text-ink transition-colors focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/25 ${
+        error ? "border-red-600" : "border-line"
+      }`}
+    >
+      <input
+        id={id}
+        name={name}
+        type="date"
+        min="1900-01-01"
+        defaultValue={value}
+        aria-invalid={Boolean(error)}
+        aria-describedby={describedBy}
+        className="m-0 block h-[1.5em] w-full min-w-0 max-w-full appearance-none border-0 bg-transparent p-0 text-base text-ink outline-none"
+      />
+    </div>
+  );
+}
+
 // The answer box of one question, whatever its kind (short answer, long answer, list, tick boxes, photo ...).
 export function FieldControl({
   field,
@@ -34,7 +60,7 @@ export function FieldControl({
   switch (field.type) {
     case "date":
       // The browser's own calendar (on a phone, the phone's date picker). It sends "1985-03-21"; the server checks the date.
-      return <input id={id} name={field.key} type="date" min="1900-01-01" defaultValue={text} {...aria} className={inputClass(error)} />;
+      return <DateInput id={id} name={field.key} value={text} error={error} describedBy={describedBy} />;
     case "textarea":
     case "links":
       return (
