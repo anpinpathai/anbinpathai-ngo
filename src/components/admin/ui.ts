@@ -16,6 +16,9 @@ export const button = {
   smallDanger:
     "inline-flex items-center justify-center rounded-lg border border-line bg-white p-2 text-red-700 transition-colors hover:border-red-200 hover:bg-red-50",
   icon: "grid h-9 w-9 place-items-center rounded-lg border border-line bg-white text-brand transition-colors hover:bg-sand/60 disabled:opacity-40",
+  // The red bin, the same size as `icon`, for a row of small buttons that must line up.
+  iconDanger:
+    "grid h-9 w-9 place-items-center rounded-lg border border-line bg-white text-red-700 transition-colors hover:border-red-200 hover:bg-red-50",
 } as const;
 
 export const card = "rounded-2xl border border-line/80 bg-white shadow-sm";

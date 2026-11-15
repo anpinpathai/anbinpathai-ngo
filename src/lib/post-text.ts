@@ -1,4 +1,6 @@
-export const MAX_POST_TEXT = 10_000;
+// The most characters one post can hold: the text box and the server check both use this number.
+// A Tamil word takes about 9 characters with its space (measured on the site's own posts), so this is about 6,600 Tamil words.
+export const MAX_POST_TEXT = 60_000;
 
 export function normalizePostText(raw: string) {
   return raw

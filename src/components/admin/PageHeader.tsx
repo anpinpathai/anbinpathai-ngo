@@ -8,19 +8,22 @@ export function PageHeader({
   icon,
   back,
   actions,
+  stackActions = false,
 }: {
   title: string;
   description?: string;
   icon?: IconName;
   back?: { href: string; label: string };
   actions?: ReactNode;
+  // On a phone, give the buttons the whole row (so they can each be full width) instead of sharing the title's row.
+  stackActions?: boolean;
 }) {
   return (
     <header className="mb-6">
       {back && (
         <Link
           href={back.href}
-          className="mb-3 inline-flex items-center gap-1.5 text-sm font-semibold text-muted transition-colors hover:text-brand"
+          className="-my-2 mb-1 inline-flex items-center gap-1.5 py-2 text-sm font-semibold text-muted transition-colors hover:text-brand"
         >
           <Icon name="arrowLeft" className="h-4 w-4" />
           {back.label}
@@ -38,7 +41,9 @@ export function PageHeader({
             {description && <p className="mt-1 text-muted">{description}</p>}
           </div>
         </div>
-        {actions && <div className="flex flex-wrap items-center gap-3">{actions}</div>}
+        {actions && (
+          <div className={`flex flex-wrap items-center gap-3 ${stackActions ? "max-sm:w-full sm:ml-auto sm:justify-end" : ""}`}>{actions}</div>
+        )}
       </div>
     </header>
   );

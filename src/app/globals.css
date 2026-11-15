@@ -88,6 +88,18 @@
   line-height: 1.8;
 }
 
+/* A drop-down list with our own arrow. The browser's own arrow is small and sits tight against the edge; this one has
+   the same room on the right as the text has on the left, and the text never runs under it. */
+.select-arrow {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5f58' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.1rem 1.1rem;
+  padding-right: 2.75rem;
+  text-overflow: ellipsis;
+}
+
 /* Toast notices slide in a little and fade in. */
 @keyframes toast-in {
   from {
@@ -140,6 +152,20 @@
   animation-delay: -0.15s;
 }
 
+/* Registry list: a thin gold bar slides along the top of the search box while the list is being updated. */
+@keyframes dir-bar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+
+.dir-bar {
+  animation: dir-bar 1s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -152,5 +178,10 @@
 
   .toast-in {
     animation: none;
+  }
+
+  .dir-bar {
+    animation: none;
+    width: 100%;
   }
 }

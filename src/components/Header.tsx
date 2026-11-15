@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { donate, nav, radio, t, type NavItem } from "@/content/ta-LK";
+import { directory, donate, nav, radio, t, type NavItem } from "@/content/ta-LK";
 import { categoryColor } from "@/lib/category-colors";
 import { Button } from "./Button";
 import { ColorStripe } from "./ColorStripe";
@@ -25,14 +25,23 @@ function Chevron({ open }: { open: boolean }) {
   );
 }
 
-export function Header({ showRadio = false }: { showRadio?: boolean }) {
+export function Header({ showRadio = false, showDirectory = false }: { showRadio?: boolean; showDirectory?: boolean }) {
   const pathname = usePathname();
+
+  // The Registry of writers and artists sits in the "எங்களைப் பற்றி" menu, after "நிர்வாகசபை", once it is switched on.
+  const navItems: readonly NavItem[] = showDirectory
+    ? nav.map((item) =>
+        item.children?.some((c) => c.href === "/team")
+          ? { ...item, children: [...item.children, { label: directory.navLabel, href: directory.href }] }
+          : item,
+      )
+    : nav;
 
   // The phone menu lists the radio just before "Contact". On wide screens there is no room for a sixth
   // word in the menu, so the radio is a round button beside Donate instead (see below).
   const mobileItems: readonly NavItem[] = showRadio
-    ? [...nav.slice(0, -1), { label: radio.navLabel, href: radio.href }, ...nav.slice(-1)]
-    : nav;
+    ? [...navItems.slice(0, -1), { label: radio.navLabel, href: radio.href }, ...navItems.slice(-1)]
+    : navItems;
   const navRef = useRef<HTMLElement>(null);
 
   const [menu, setMenu] = useState<{ path: string; key: string | null }>({ path: pathname, key: null });
@@ -76,7 +85,7 @@ export function Header({ showRadio = false }: { showRadio?: boolean }) {
         <SiteLogo compact />
 
         <nav ref={navRef} aria-label={t.a11y.mainNav} className="hidden items-center xl:flex">
-          {nav.map((item) =>
+          {navItems.map((item) =>
             item.children ? (
               <div key={item.label} className="relative">
                 <button

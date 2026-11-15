@@ -88,3 +88,49 @@ All website wording is kept in one file: `src/content/ta-LK.ts`.
 | Radio is not available | வானொலி இப்போது கிடைக்கவில்லை. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும். | - | Please confirm |
 | Radio page: "You can listen to" | நீங்கள் கேட்கலாம் · எமது கலை இலக்கிய செயற்பாடுகளின் ஒலிவடிவம் · தமிழிசைப் பாடல்கள் | - | Please confirm |
 | Radio page: "How to listen?" and its 3 steps | எவ்வாறு கேட்பது? · மேலே உள்ள இயக்கு பொத்தானை அழுத்துங்கள். · வேறு பக்கங்களுக்குச் சென்றாலும் வானொலி தொடர்ந்து ஒலிக்கும். · நிறுத்த, நிறுத்து பொத்தானை அழுத்துங்கள். | - | Please confirm (written by me) |
+
+## Registry of writers and artists (படைப்பாளிகள் பதிவகம்)
+All of this wording was written by the developer in Sri Lankan Tamil. The client should check it, and **someone from Trincomalee must check the spelling of the place names** (see `src/lib/directory/places.ts`).
+
+| Meaning | Word used on the site | Tamil Nadu word we avoid | Source |
+|---|---|---|---|
+| Registry of writers and artists (menu and heading) | படைப்பாளிகள் பதிவகம் | - | Developer, client to review |
+| Register for free | இலவசமாகப் பதிவு செய்க | - | Developer, client to review |
+| Why join? | ஏன் இணைய வேண்டும்? | - | Developer, client to review |
+| Registry number | பதிவு எண் | - | Developer, client to review |
+| Where you live now | தற்போது நீங்கள் வசிப்பது | - | Developer, client to review |
+| Country / District | நாடு / மாவட்டம் | - | Developer, client to review |
+| Divisional Secretariat division | பிரதேச செயலாளர் பிரிவு | - | Sri Lankan official term; client to confirm |
+| Grama Niladhari (village officer) division | கிராம அலுவலர் பிரிவு | - | Sri Lankan official term; client to confirm |
+| Postal code | தபால் குறியீட்டு இலக்கம் | அஞ்சல் குறியீடு | Sri Lankan usage "தபால்"; client to confirm |
+| Native district in Sri Lanka | இலங்கையில் பூர்வீக மாவட்டம் | - | Developer, client to review |
+| Another country | வேறு நாடு | - | Developer, client to review |
+| Pen name / Occupation / Photo | புனைபெயர் / தற்போதைய தொழில் / புகைப்படம் | - | Developer, client to review |
+| Date of birth (question; it has no help text, the calendar box explains itself) | பிறந்த திகதி | - | "திகதி" is the Sri Lankan word for date; client to confirm |
+| Error under a date box: "Choose a real date." | சரியான திகதியைத் தெரிவு செய்யுங்கள். | - | Developer, client to review |
+| Fields of arts and literature (23 choices) | கவிஞர், சிறுகதை எழுத்தாளர், நாவலாசிரியர், கட்டுரையாளர், நாடகக் கலைஞர், பாடலாசிரியர், இசைக் கலைஞர், பாடகர், ஓவியர், சிற்பி, நாட்டுப்புறக் கலைஞர், கூத்துக் கலைஞர், வில்லுப்பாட்டுக் கலைஞர், ஆய்வாளர், இலக்கிய விமர்சகர், மொழிபெயர்ப்பாளர், ஊடகவியலாளர், நூல் வெளியீட்டாளர், ஆவணப்படக் கலைஞர், புகைப்படக் கலைஞர், கலை இலக்கிய அமைப்பாளர், கலை இலக்கிய ஆர்வலர், ஏனையவை | - | From the client's plan; spelling to be checked |
+| Year started / Number of books / Book titles / Awards / Organisations / Achievements | கலைப்பணியை ஆரம்பித்த ஆண்டு / வெளியிட்ட நூல்களின் எண்ணிக்கை / நூல்களின் பெயர்கள் / பெற்ற விருதுகள் / அங்கம் வகிக்கும் அமைப்புகள் / முக்கிய சாதனைகள் | - | Developer, client to review |
+| About yourself (100 to 300 words) | சுய அறிமுகம் | - | Developer, client to review |
+| Links to your works / Video or audio links / Website | படைப்புகளின் இணைப்புகள் / காணொளி / ஒலி இணைப்புகள் / இணையத்தளம் | - | Developer, client to review |
+| Email / Phone / Other social websites | மின்னஞ்சல் / தொலைபேசி / பிற சமூக வலைத்தளங்கள் | - | Developer, client to review |
+| "Show this publicly" tick | இதைப் பொதுவில் காட்டலாம் | - | Developer, client to review |
+| "Only the admin sees this" | நிர்வாகம் மட்டுமே பார்க்கும் | - | Developer, client to review |
+| Agreement the person ticks | நான் வழங்கிய தகவல்கள் உண்மையானவை என உறுதிப்படுத்துகிறேன். … | - | Please have the full sentence checked (also by a lawyer) |
+| Privacy note beside the form | உங்கள் மின்னஞ்சல், தொலைபேசி போன்ற தனிப்பட்ட தகவல்கள் இணையத்தளத்தில் காட்டப்படமாட்டாது… | - | Please confirm |
+| Thank-you message after registering | நன்றி! உங்கள் பதிவு எமக்குக் கிடைத்தது… | - | Please confirm |
+| Reviewer page (heading, welcome, "looks good", "needs a fix") | பதிவுகளைப் பார்வையிடல் · வணக்கம் … · சரியாக உள்ளது · திருத்தம் தேவை | - | Developer, client to review |
+| Reviewer page: progress ("2 of 3 done"), tabs "To look at" / "Done" | 3 பதிவுகளில் 2 முடிந்தன · பார்க்க வேண்டியவை · முடிந்தவை | - | Developer, client to review |
+| Reviewer page: small labels (to look at / you: looks good / you: needs a fix / admin has decided) | பார்க்க வேண்டும் · நீங்கள்: சரியாக உள்ளது · நீங்கள்: திருத்தம் தேவை · நிர்வாகம் முடிவெடுத்தது | - | Developer, client to review |
+| Reviewer page: nothing left / nothing done yet / nobody with this name | பார்க்க வேண்டிய பதிவுகள் எதுவும் இல்லை. நன்றி! · இன்னும் எதுவும் முடியவில்லை. · இந்தப் பெயரில் யாரும் இல்லை. | - | Developer, client to review |
+| Reviewer page of one person: back to the list / previous person / next person | பட்டியலுக்குத் திரும்புக · முந்தையவர் · அடுத்தவர் | - | Developer, client to review |
+| Reviewer page: help under "Correct the answers" and "Your recommendation" | தவறு இருந்தால் இங்கே திருத்தி, “மாற்றங்களைச் சேமிக்க” என்பதை அழுத்துங்கள். · இந்தப் பதிவு சரியா என்பது குறித்த உங்கள் கருத்தை நிர்வாகத்திற்குத் தெரிவியுங்கள். | - | Developer, client to review |
+| Reviewer page: steps of the answers ("Steps of the answers" / "Step" / "Something to correct here" / "There are unsaved changes") | பதில்களின் பகுதிகள் · படி · இங்கே ஒரு திருத்தம் தேவை · சேமிக்கப்படாத மாற்றங்கள் உள்ளன | - | Developer, client to review |
+| Reviewer page: show / hide the password | கடவுச்சொல்லைக் காட்டு · கடவுச்சொல்லை மறை | - | Developer, client to review |
+| List page: "N people" (number of writers shown) | N படைப்பாளிகள் | - | Developer, client to review |
+| List page: "Search by name" (search box) | பெயரைத் தேடுக | - | Developer, client to review |
+| List page: "Where they live" (the switch: everyone / Sri Lanka / abroad) | வசிக்கும் இடம் (எல்லோரும் / இலங்கை / வெளிநாடு) | - | Developer, client to review |
+| List page: "Filters" (phone button) / "Searching…" / "Clear everything" | வடிகட்டிகள் / தேடுகிறது… / எல்லாவற்றையும் நீக்குக | - | Developer, client to review |
+| List page: "Name: …" (chip) / "Remove" | பெயர்: … / நீக்குக | - | Developer, client to review |
+| Registration form: "Previous" / "Next" / "Send the registration" / "Sending…" | முந்தையது / அடுத்தது / பதிவை அனுப்புக / அனுப்புகிறது… | - | Developer, client to review |
+| Registration form: "Steps of the registration" / "Step" (for screen readers) | பதிவின் படிகள் / படி | - | Developer, client to review |
+| Registration form: "This question needs an answer" | இந்தக் கேள்விக்குப் பதில் தேவை. | - | Developer, client to review |

@@ -1,5 +1,5 @@
 import type { IconName } from "@/components/admin/Icon";
-import { categories } from "@/content/ta-LK";
+import { categories, directory } from "@/content/ta-LK";
 
 export type SettingFieldType =
   | "text"
@@ -19,14 +19,20 @@ export type SettingField = {
   type: SettingFieldType;
   maxLength: number;
   lang?: string;
+  // For a switch: when it has never been saved, show it as OFF (the normal start is ON).
+  defaultOff?: boolean;
+  // For words: the standard wording the website uses until the admin writes their own. The box starts with it, so
+  // the admin sees exactly what visitors see. Saving it unchanged stores nothing, so it keeps following the standard.
+  standard?: string;
 };
 
-export type SettingGroup = { title: string; fields: readonly SettingField[] };
+export type SettingGroup = { title: string; intro?: string; fields: readonly SettingField[] };
 
 export type SettingSection = {
   slug: string;
   title: string;
-  description: string;
+  // The line under the title. Leave it out where the title says enough.
+  description?: string;
   icon: IconName;
   previewHref: string;
   groups: readonly SettingGroup[];
@@ -154,6 +160,113 @@ const radioGroup: SettingGroup = {
   ],
 };
 
+
+const directoryShowGroup: SettingGroup = {
+  title: "Show and accept",
+  fields: [
+    {
+      key: "directory_enabled",
+      label: "Show the Registry on the website",
+      type: "toggle",
+      maxLength: 1,
+      defaultOff: true,
+    },
+    {
+      key: "directory_open",
+      label: "Accept new registrations",
+      type: "toggle",
+      maxLength: 1,
+    },
+  ],
+};
+
+const directoryWordsGroup: SettingGroup = {
+  title: "Words on the Registry pages",
+  fields: [
+    {
+      key: "directory_title",
+      label: "Registry heading",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+      standard: directory.title,
+    },
+    {
+      key: "directory_lead",
+      label: "Introduction on the list page",
+      type: "textarea",
+      maxLength: 600,
+      lang: "ta",
+      standard: directory.listLead,
+    },
+    {
+      key: "directory_register_title",
+      label: "Heading of the registration form",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+      standard: directory.registerTitle,
+    },
+    {
+      key: "directory_register_lead",
+      label: "Introduction above the registration form",
+      type: "textarea",
+      maxLength: 800,
+      lang: "ta",
+      standard: directory.registerLead,
+    },
+    {
+      key: "directory_why_title",
+      label: "Heading of the reasons to join",
+      type: "text",
+      maxLength: 120,
+      lang: "ta",
+      standard: directory.whyTitle,
+    },
+    {
+      key: "directory_why",
+      label: "Reasons to join",
+      help: "One reason on each line.",
+      type: "textarea",
+      maxLength: 1200,
+      lang: "ta",
+      standard: directory.why.join("\n"),
+    },
+    {
+      key: "directory_privacy",
+      label: "Privacy note",
+      type: "textarea",
+      maxLength: 800,
+      lang: "ta",
+      standard: directory.privacy,
+    },
+    {
+      key: "directory_consent",
+      label: "Agreement the person must tick",
+      type: "textarea",
+      maxLength: 900,
+      lang: "ta",
+      standard: directory.consent,
+    },
+    {
+      key: "directory_thanks",
+      label: "Message after they register",
+      type: "textarea",
+      maxLength: 600,
+      lang: "ta",
+      standard: directory.thanks,
+    },
+    {
+      key: "directory_closed",
+      label: "Message when registrations are closed",
+      type: "textarea",
+      maxLength: 500,
+      lang: "ta",
+      standard: directory.closed,
+    },
+  ],
+};
+
 export const settingSections: readonly SettingSection[] = [
   {
     slug: "home",
@@ -187,6 +300,13 @@ export const settingSections: readonly SettingSection[] = [
     icon: "radio",
     previewHref: "/radio",
     groups: [radioGroup],
+  },
+  {
+    slug: "directory",
+    title: "Registry page",
+    icon: "users",
+    previewHref: "/directory",
+    groups: [directoryShowGroup, directoryWordsGroup],
   },
 ];
 
@@ -241,6 +361,10 @@ export const admin = {
     menu: "Open menu",
     closeMenu: "Close menu",
     signedInAs: "Signed in as",
+    collapseMenu: "Collapse menu",
+    expandMenu: "Expand menu",
+    openGroup: "Open this group",
+    closeGroup: "Close this group",
   },
   dashboard: {
     greeting: { morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening" },
@@ -369,7 +493,7 @@ export const admin = {
     },
     errors: {
       text: "Write something, or add a photo, video or link.",
-      textTooLong: (max: number) => `A post can have up to ${max} characters.`,
+      textTooLong: (max: number) => `A post can have up to ${max.toLocaleString("en-US")} characters.`,
       category: "Choose a category before posting.",
       youtube: "Enter a valid YouTube video link (https://youtube.com/watch?v=… or https://youtu.be/…).",
       facebook: "Enter a valid Facebook link (https://facebook.com/…).",
@@ -533,12 +657,12 @@ export const admin = {
           "Add photos, a YouTube video, a Facebook link or an older date if you need them.",
           "Press Post to publish it at once, or Save as draft to keep it hidden for now.",
         ],
-        note: "The post appears on the website within a few seconds.",
+        note: "The post appears on the website within a few seconds. One post can hold up to 60,000 characters, about 6,600 Tamil words.",
       },
       {
         title: "How do I change, hide or delete a post?",
         steps: [
-          "Open Posts in the menu.",
+          "Open Posts under Content in the menu (press the name Content if the group is closed).",
           "Press Edit on the post, change what you need, then press Save changes.",
           "Press Unpublish to hide a post from visitors without losing it. Press Publish to show it again.",
           "Press the red bin to delete a post for good. You will be asked to confirm first.",
@@ -547,7 +671,7 @@ export const admin = {
       {
         title: "How do I add or change committee members?",
         steps: [
-          "Open Committee in the menu.",
+          "Open Committee under Content in the menu (press the name Content if the group is closed).",
           "Press Add member. Type the name in Tamil, choose the group and add a photo.",
           "To change someone, press Edit on their card.",
           "Use the arrow buttons on a card to move a person earlier or later inside their group.",
@@ -586,6 +710,63 @@ export const admin = {
         note: "One-date programmes disappear from the website by themselves once they are over. Weekly programmes stay until you delete them.",
       },
       {
+        title: "How do I put the Registry of writers and artists on the website?",
+        steps: [
+          "Open Registry page text under Registry in the menu (press the name Registry if the group is closed).",
+          "Switch on Show the Registry on the website and press Save changes. Until you do, visitors cannot see the Registry at all.",
+          "Keep Accept new registrations switched on so people can register. Switch it off to stop new registrations for a while. People who are already approved stay on the website.",
+          "Under Words on the Registry pages you can change the headings and the messages visitors read. Each box already holds the standard words, so you can change them in place. Press Use the standard wording again to get them back.",
+          "Press See this page on the website to check how it looks.",
+        ],
+        note: "Once it is on, the Registry also appears in the website menu under எங்களைப் பற்றி (About us).",
+      },
+      {
+        title: "How do I choose the questions people answer?",
+        steps: [
+          "Open Form questions under Registry in the menu.",
+          "The questions are in numbered tabs, one tab for each group. Press a tab to see its questions.",
+          "Each question has switches: On the form (show or hide it), Required, Who can see it (Public, Private, or Person chooses, where the person decides with a tick box) and Search filter (lets visitors narrow the list by that answer).",
+          "Press Edit on a question to reword it or to change its choices. Press the arrows to move it up or down.",
+          "Press Add a question to add your own. You can delete a question you added. The standard questions can only be switched off.",
+        ],
+        note: "Write the questions in Tamil. Only Public questions are shown on a person's page, and only Public questions can be a search filter. Changes show on the registration form at once. Date of birth is already there as a Date question: only you see it, and it is not required.",
+      },
+      {
+        title: "How do I check and approve a new registration?",
+        steps: [
+          "Open Submissions under Registry in the menu. New registrations wait in the Waiting tab.",
+          "Press Open on a person. The card at the top shows who it is and has the decision buttons. Below it are the tabs Answers, Reviewer notes, Note and agreement and History.",
+          "Read the answers. To correct one, change it and press Save changes at the bottom.",
+          "Press Approve and publish. The person gets a registry number (for example AP-ART-00001) and appears on the website.",
+          "Not ready yet? Press Ask for an update or Reject and write a reason that only you can see. Press Hide from the website to take an approved person off the website for a while.",
+          "The red bin, Delete this entry, removes a person for good. You are asked to confirm first.",
+        ],
+        note: "Nobody is shown on the website until you approve them, and only the answers marked Public (or shared by the person) are shown.",
+      },
+      {
+        title: "How do I add a person myself?",
+        steps: [
+          "Open Submissions and press the gold Add a person button.",
+          "Fill in the form step by step. Use Next and Previous, or the numbers at the top, to move around. A step with a missing required answer stops you with a red message.",
+          "On the last step, tick Publish on the website now to show the person at once. Leave it off to keep the person in the Waiting tab until you approve.",
+          "Press Add this person.",
+        ],
+        note: "This is for people who cannot use the website themselves. You can add their photo too.",
+      },
+      {
+        title: "How do I ask someone else to look at a registration?",
+        steps: [
+          "Open Reviewers under Registry and press Add a reviewer. Write the name, press Make one for me (or type a password of at least 8 characters) and choose how many days the link works.",
+          "Leave Reviewer can see private details switched off unless the reviewer really needs the email, the phone and other private answers. Switched off, the reviewer sees only what the public would see.",
+          "Press Add this reviewer. A window shows the link and the password, each with a Copy button.",
+          "Open Submissions, tick the people and press Send for review. Choose one or more reviewers and press Send.",
+          "Send the link and the password to the reviewer yourself, in two separate messages. A reviewer keeps the same link and password, so next time they only open the link again.",
+          "To see a link and password again, open Reviewers and press Link and password on the reviewer's card.",
+          "When a reviewer answers Looks good or Needs a fix, you see it on the person's Reviewer notes tab. To stop a reviewer, press Cancel the link.",
+        ],
+        note: "A reviewer can correct a wrong answer and give an opinion, but only you can approve.",
+      },
+      {
         title: "How do I move, zoom or rotate a photo?",
         steps: [
           "Press Adjust next to a photo. In a news post, press the small crop button on the photo.",
@@ -602,6 +783,15 @@ export const admin = {
           "Use JPG, PNG or WebP photos.",
           "For the home banner, choose a wide landscape photo that is not very bright.",
           "For committee members, a clear head-and-shoulders photo looks best.",
+        ],
+      },
+      {
+        title: "How do I use the menu?",
+        steps: [
+          "On a computer the menu is on the left. On a phone, press the ☰ button at the top left to open it.",
+          "Press the name of a group (Content, Registry or Website pages) to open or close it. The menu remembers how you left it.",
+          "On a computer, press the « button at the top of the menu to shrink it to small icons, and the » button to open it fully again. Hold the pointer over an icon to see its name.",
+          "View website, Help and Log out are at the bottom of the menu.",
         ],
       },
       {

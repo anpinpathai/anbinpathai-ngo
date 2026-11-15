@@ -8,19 +8,31 @@ export function Field({
   label,
   help,
   error,
+  aside,
   children,
 }: {
   id: string;
   label: string;
   help?: string;
   error?: string;
+  // A small tag or button at the right end of the label's line.
+  aside?: ReactNode;
   children: ReactNode;
 }) {
   return (
     <div>
-      <label htmlFor={id} className="font-semibold text-ink">
-        {label}
-      </label>
+      {aside ? (
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+          <label htmlFor={id} className="font-semibold text-ink">
+            {label}
+          </label>
+          {aside}
+        </div>
+      ) : (
+        <label htmlFor={id} className="font-semibold text-ink">
+          {label}
+        </label>
+      )}
       {help && (
         <p id={`${id}-help`} className="text-sm text-muted [overflow-wrap:anywhere]">
           {help}
